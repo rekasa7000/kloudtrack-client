@@ -18,4 +18,5 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+console.log("test");
 export default axiosInstance;
