@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as RootRouteImport } from './routes/_root/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthLoginImport } from './routes/_auth/login'
+import { Route as RootDashboardRouteImport } from './routes/_root/dashboard/route'
 import { Route as RootUsersIndexImport } from './routes/_root/users/index'
 import { Route as RootTenantsIndexImport } from './routes/_root/tenants/index'
 import { Route as RootStationsIndexImport } from './routes/_root/stations/index'
@@ -23,6 +24,8 @@ import { Route as RootMonitoringIndexImport } from './routes/_root/monitoring/in
 import { Route as RootDashboardIndexImport } from './routes/_root/dashboard/index'
 import { Route as RootConfigurationIndexImport } from './routes/_root/configuration/index'
 import { Route as RootAuditLogsIndexImport } from './routes/_root/audit-logs/index'
+import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
+import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
 
 // Create/Update Routes
 
@@ -41,6 +44,12 @@ const AuthLoginRoute = AuthLoginImport.update({
   id: '/_auth/login',
   path: '/login',
   getParentRoute: () => rootRoute,
+} as any)
+
+const RootDashboardRouteRoute = RootDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => RootRouteRoute,
 } as any)
 
 const RootUsersIndexRoute = RootUsersIndexImport.update({
@@ -80,9 +89,9 @@ const RootMonitoringIndexRoute = RootMonitoringIndexImport.update({
 } as any)
 
 const RootDashboardIndexRoute = RootDashboardIndexImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => RootRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => RootDashboardRouteRoute,
 } as any)
 
 const RootConfigurationIndexRoute = RootConfigurationIndexImport.update({
@@ -95,6 +104,18 @@ const RootAuditLogsIndexRoute = RootAuditLogsIndexImport.update({
   id: '/audit-logs/',
   path: '/audit-logs/',
   getParentRoute: () => RootRouteRoute,
+} as any)
+
+const RootDashboardMapRoute = RootDashboardMapImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => RootDashboardRouteRoute,
+} as any)
+
+const RootDashboardDataAnalysisRoute = RootDashboardDataAnalysisImport.update({
+  id: '/data-analysis',
+  path: '/data-analysis',
+  getParentRoute: () => RootDashboardRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -115,12 +136,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootRouteImport
       parentRoute: typeof rootRoute
     }
+    '/_root/dashboard': {
+      id: '/_root/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof RootDashboardRouteImport
+      parentRoute: typeof RootRouteImport
+    }
     '/_auth/login': {
       id: '/_auth/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof rootRoute
+    }
+    '/_root/dashboard/data-analysis': {
+      id: '/_root/dashboard/data-analysis'
+      path: '/data-analysis'
+      fullPath: '/dashboard/data-analysis'
+      preLoaderRoute: typeof RootDashboardDataAnalysisImport
+      parentRoute: typeof RootDashboardRouteImport
+    }
+    '/_root/dashboard/map': {
+      id: '/_root/dashboard/map'
+      path: '/map'
+      fullPath: '/dashboard/map'
+      preLoaderRoute: typeof RootDashboardMapImport
+      parentRoute: typeof RootDashboardRouteImport
     }
     '/_root/audit-logs/': {
       id: '/_root/audit-logs/'
@@ -138,10 +180,10 @@ declare module '@tanstack/react-router' {
     }
     '/_root/dashboard/': {
       id: '/_root/dashboard/'
-      path: '/dashboard'
-      fullPath: '/dashboard'
+      path: '/'
+      fullPath: '/dashboard/'
       preLoaderRoute: typeof RootDashboardIndexImport
-      parentRoute: typeof RootRouteImport
+      parentRoute: typeof RootDashboardRouteImport
     }
     '/_root/monitoring/': {
       id: '/_root/monitoring/'
@@ -190,10 +232,25 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface RootDashboardRouteRouteChildren {
+  RootDashboardDataAnalysisRoute: typeof RootDashboardDataAnalysisRoute
+  RootDashboardMapRoute: typeof RootDashboardMapRoute
+  RootDashboardIndexRoute: typeof RootDashboardIndexRoute
+}
+
+const RootDashboardRouteRouteChildren: RootDashboardRouteRouteChildren = {
+  RootDashboardDataAnalysisRoute: RootDashboardDataAnalysisRoute,
+  RootDashboardMapRoute: RootDashboardMapRoute,
+  RootDashboardIndexRoute: RootDashboardIndexRoute,
+}
+
+const RootDashboardRouteRouteWithChildren =
+  RootDashboardRouteRoute._addFileChildren(RootDashboardRouteRouteChildren)
+
 interface RootRouteRouteChildren {
+  RootDashboardRouteRoute: typeof RootDashboardRouteRouteWithChildren
   RootAuditLogsIndexRoute: typeof RootAuditLogsIndexRoute
   RootConfigurationIndexRoute: typeof RootConfigurationIndexRoute
-  RootDashboardIndexRoute: typeof RootDashboardIndexRoute
   RootMonitoringIndexRoute: typeof RootMonitoringIndexRoute
   RootOrganizationIndexRoute: typeof RootOrganizationIndexRoute
   RootProfileIndexRoute: typeof RootProfileIndexRoute
@@ -203,9 +260,9 @@ interface RootRouteRouteChildren {
 }
 
 const RootRouteRouteChildren: RootRouteRouteChildren = {
+  RootDashboardRouteRoute: RootDashboardRouteRouteWithChildren,
   RootAuditLogsIndexRoute: RootAuditLogsIndexRoute,
   RootConfigurationIndexRoute: RootConfigurationIndexRoute,
-  RootDashboardIndexRoute: RootDashboardIndexRoute,
   RootMonitoringIndexRoute: RootMonitoringIndexRoute,
   RootOrganizationIndexRoute: RootOrganizationIndexRoute,
   RootProfileIndexRoute: RootProfileIndexRoute,
@@ -221,10 +278,13 @@ const RootRouteRouteWithChildren = RootRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof RootRouteRouteWithChildren
+  '/dashboard': typeof RootDashboardRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
+  '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
+  '/dashboard/map': typeof RootDashboardMapRoute
   '/audit-logs': typeof RootAuditLogsIndexRoute
   '/configuration': typeof RootConfigurationIndexRoute
-  '/dashboard': typeof RootDashboardIndexRoute
+  '/dashboard/': typeof RootDashboardIndexRoute
   '/monitoring': typeof RootMonitoringIndexRoute
   '/organization': typeof RootOrganizationIndexRoute
   '/profile': typeof RootProfileIndexRoute
@@ -237,6 +297,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof RootRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
+  '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
+  '/dashboard/map': typeof RootDashboardMapRoute
   '/audit-logs': typeof RootAuditLogsIndexRoute
   '/configuration': typeof RootConfigurationIndexRoute
   '/dashboard': typeof RootDashboardIndexRoute
@@ -252,7 +314,10 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_root': typeof RootRouteRouteWithChildren
+  '/_root/dashboard': typeof RootDashboardRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
+  '/_root/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
+  '/_root/dashboard/map': typeof RootDashboardMapRoute
   '/_root/audit-logs/': typeof RootAuditLogsIndexRoute
   '/_root/configuration/': typeof RootConfigurationIndexRoute
   '/_root/dashboard/': typeof RootDashboardIndexRoute
@@ -269,10 +334,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
+    | '/dashboard'
     | '/login'
+    | '/dashboard/data-analysis'
+    | '/dashboard/map'
     | '/audit-logs'
     | '/configuration'
-    | '/dashboard'
+    | '/dashboard/'
     | '/monitoring'
     | '/organization'
     | '/profile'
@@ -284,6 +352,8 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/login'
+    | '/dashboard/data-analysis'
+    | '/dashboard/map'
     | '/audit-logs'
     | '/configuration'
     | '/dashboard'
@@ -297,7 +367,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_root'
+    | '/_root/dashboard'
     | '/_auth/login'
+    | '/_root/dashboard/data-analysis'
+    | '/_root/dashboard/map'
     | '/_root/audit-logs/'
     | '/_root/configuration/'
     | '/_root/dashboard/'
@@ -343,9 +416,9 @@ export const routeTree = rootRoute
     "/_root": {
       "filePath": "_root/route.tsx",
       "children": [
+        "/_root/dashboard",
         "/_root/audit-logs/",
         "/_root/configuration/",
-        "/_root/dashboard/",
         "/_root/monitoring/",
         "/_root/organization/",
         "/_root/profile/",
@@ -354,8 +427,25 @@ export const routeTree = rootRoute
         "/_root/users/"
       ]
     },
+    "/_root/dashboard": {
+      "filePath": "_root/dashboard/route.tsx",
+      "parent": "/_root",
+      "children": [
+        "/_root/dashboard/data-analysis",
+        "/_root/dashboard/map",
+        "/_root/dashboard/"
+      ]
+    },
     "/_auth/login": {
       "filePath": "_auth/login.tsx"
+    },
+    "/_root/dashboard/data-analysis": {
+      "filePath": "_root/dashboard/data-analysis.tsx",
+      "parent": "/_root/dashboard"
+    },
+    "/_root/dashboard/map": {
+      "filePath": "_root/dashboard/map.tsx",
+      "parent": "/_root/dashboard"
     },
     "/_root/audit-logs/": {
       "filePath": "_root/audit-logs/index.tsx",
@@ -367,7 +457,7 @@ export const routeTree = rootRoute
     },
     "/_root/dashboard/": {
       "filePath": "_root/dashboard/index.tsx",
-      "parent": "/_root"
+      "parent": "/_root/dashboard"
     },
     "/_root/monitoring/": {
       "filePath": "_root/monitoring/index.tsx",
