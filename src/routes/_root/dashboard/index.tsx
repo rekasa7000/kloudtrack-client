@@ -1,4 +1,6 @@
+import DashboardCardView from "@/components/dashboard/dashboard-card-view";
 import { createFileRoute } from "@tanstack/react-router";
+import React from "react";
 
 export const Route = createFileRoute("/_root/dashboard/")({
   component: Index,
@@ -6,8 +8,8 @@ export const Route = createFileRoute("/_root/dashboard/")({
 
 function Index() {
   return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-    </div>
+    <React.Fragment>
+      <DashboardCardView />
+    </React.Fragment>
   );
 }

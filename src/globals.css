@@ -1,7 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* later  */
+  --font-inter: "Inter", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --color-main: #fbd008;
+
+  /*
+  usage
+  - button bg color
+  - Header text color
+  */
+  --color-secondary: #545454;
+
+  /*
+  use muted color for borders and backdrops 
+  from shadcn - bg-muted border-muted
+  */
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
