@@ -17,7 +17,7 @@ const DashboardTabs = (): ReactNode => {
           <Link
             to={tab.url}
             key={index}
-            className={`w-fit text-nowrap px-11 py-2 text-sm rounded-md ${
+            className={`w-fit text-nowrap px-11 py-2 text-sm rounded-md transition-all ease-in-out ${
               matchRoute({ to: tab.url }) ||
               (tab.url === "/dashboard" &&
                 !matchRoute({ to: "/dashboard/data-analysis" }) &&

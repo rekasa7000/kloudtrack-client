@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_root/dashboard")({
 function RouteComponent() {
   return (
     <main className="flex flex-col items-center w-full min-h-screen">
-      <div className="flex flex-col w-full px-1.5">
+      <div className="flex flex-col w-full">
         <h1 className="text-2xl font-bold font-inter text-[#545454]">
           Dashboard
         </h1>
@@ -19,7 +19,9 @@ function RouteComponent() {
         <DashboardTabs />
       </div>
 
-      <Outlet />
+      <div className="flex flex-col items-center w-full mt-2">
+        <Outlet />
+      </div>
     </main>
   );
 }

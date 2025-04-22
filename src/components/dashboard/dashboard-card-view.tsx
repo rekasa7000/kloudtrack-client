@@ -1,61 +1,14 @@
 import dynamic_image from "@/assets/sunny.jpg";
 import test_image from "@/assets/testimage.png";
-import { Input } from "../ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { CreditCardIcon, ListFilter, Search } from "lucide-react";
 
 const DashboardCardView = () => {
   return (
-    <div className="w-full min-h-svh mt-5">
-      <div className="py-3 w-full flex item-center justify-between">
-        <div className="w-lg flex justify-start items-center gap-2.5 justify-self-start">
-          <div className="w-full relative ">
-            <Search className="w-4 h-4 absolute top-2.5 left-4" />
-            <Input className="pl-10 rounded-lg py-2" placeholder="Search...." />
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="w-fit inline-flex gap-2 items-center text-nowrap px-5 py-2 text-sm rounded-md border border-[#D4D4D4] bg-white">
-              <ListFilter className="w-4 h-4" />
-              <span>Filter</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Billing</DropdownMenuItem>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuItem>Subscription</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="w-fit inline-flex gap-2 items-center text-nowrap px-5 py-2 text-sm rounded-md border border-[#D4D4D4] bg-white">
-              <CreditCardIcon className="w-4 h-4" />
-              <span>Card View</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem defaultValue={"Card View"}>
-                Card View
-              </DropdownMenuItem>
-              <DropdownMenuItem>Table View</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
+    <main className="w-full min-h-svh mt-1">
       <div className="w-full min-h-[550px] h-full inline-flex flex-col justify-start items-start gap-2.5">
         <div className="w-full flex flex-col justify-start items-start gap-5">
           <div className="self-stretch p-3.5 bg-white rounded-[10px] outline-1 outline-offset-[-1px] outline-[#D4D4D4] inline-flex justify-start items-start gap-2.5 overflow-hidden">
             {/* iamge of the station location  */}
-            <div className="max-w-[455px] h-full rounded-lg">
+            <div className="max-w-[455px] h-full rounded-lg pointer-events-none">
               <img
                 src={test_image}
                 alt="Station Location"
@@ -115,7 +68,7 @@ const DashboardCardView = () => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
