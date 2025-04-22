@@ -35,6 +35,13 @@ import {
   DialogDescription,
   DialogFooter,
 } from "./ui/dialog";
+import { useTheme } from "./theme-provider";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 // Menu items.
 const sidebar_items = [
@@ -71,19 +78,12 @@ const sidebar_items = [
 ];
 
 export const AppSidebar = (): ReactNode => {
-  const [toggleTheme, setToggleTheme] = useState("light");
-
-  // d p ayos wahaha
-  const handleToggleTheme = () => {
-    const newTheme = toggleTheme === "light" ? "dark" : "light";
-    setToggleTheme(newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
-  };
+  const { setTheme } = useTheme();
 
   return (
     <Sidebar>
       {/* ayaw mag white ewan kung baket */}
-      <SidebarHeader className="bg-white pb-5 pt-3.5 px-3 w-full flex-row items-center justify-between">
+      <SidebarHeader className="bg-white dark:bg-black pb-5 pt-3.5 px-3 w-full flex-row items-center justify-between">
         <div>
           <h1 className="text-lg font-medium">
             Kloud
@@ -91,18 +91,31 @@ export const AppSidebar = (): ReactNode => {
           </h1>
           <p className="text-xs text-[#B7B7B7]">Version 2.0.0</p>
         </div>
-        <Button
-          className="bg-white border-none hover:bg-white shadow-none"
-          onClick={handleToggleTheme}
-        >
-          {toggleTheme === "light" ? (
-            <Moon className="text-black" />
-          ) : (
-            <Sun className="text-black" />
-          )}
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              size="icon"
+              className="bg-transparent shadow-none hover:bg-transparent"
+            >
+              <Sun className="h-[1.2rem] w-[1.2rem] text-black  rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.2rem] text-white w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center" sideOffset={2}>
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              Dark
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("system")}>
+              System
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarHeader>
-      <SidebarContent className="bg-white">
+      <SidebarContent className="bg-white  dark:bg-black ">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="gap-2.5">
@@ -131,9 +144,9 @@ export const AppSidebar = (): ReactNode => {
       </SidebarContent>
 
       {/* panget pa tong implementation | its either gawa ng 1 component or magkahiwalay a component pero for now et o na muna */}
-      <SidebarFooter className="bg-white">
+      <SidebarFooter className="bg-white  dark:bg-black ">
         <Dialog>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <Button
               className="bg-white flex w-full justify-start text-xs text-black border hover:bg-muted border-[#EFEFEF] transition-all ease-in-out
         "
@@ -165,7 +178,7 @@ export const AppSidebar = (): ReactNode => {
           </DialogContent>
         </Dialog>
         <Dialog>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <Button
               className="bg-white flex w-full justify-start text-xs text-black border hover:bg-muted border-[#EFEFEF] transition-all ease-in-out
         "
