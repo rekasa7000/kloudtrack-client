@@ -551,7 +551,7 @@ const DashboardTable = () => {
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-center font-medium py-4  "
+                    className="text-center font-inter font-medium py-4  "
                   >
                     {header.isPlaceholder
                       ? null
@@ -575,7 +575,7 @@ const DashboardTable = () => {
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className="text-center font-light py-4 "
+                    className="text-center font-light py-4 font-montserrat "
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
@@ -599,6 +599,7 @@ const DashboardTable = () => {
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            className="font-inter"
           >
             <ChevronLeft />
             Previous
@@ -608,12 +609,13 @@ const DashboardTable = () => {
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            className="font-inter"
           >
             Next <ChevronRight />
           </Button>
         </div>
         <div className="mr-1">
-          <span className="font-medium text-sm">
+          <span className="font-medium font-montserrat text-sm">
             {" "}
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}

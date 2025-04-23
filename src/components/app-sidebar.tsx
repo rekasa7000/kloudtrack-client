@@ -83,13 +83,15 @@ export const AppSidebar = (): ReactNode => {
   return (
     <Sidebar>
       {/* ayaw mag white ewan kung baket */}
-      <SidebarHeader className="bg-white dark:bg-black pb-5 pt-3.5 px-3 w-full flex-row items-center justify-between">
+      <SidebarHeader className="bg-white dark:bg-stone-800 pb-5 pt-3.5 px-3 w-full flex-row items-center justify-between">
         <div>
-          <h1 className="text-lg font-medium">
+          <h1 className="text-lg font-medium font-inter">
             Kloud
-            <span className="text-[#FBD008]">Track</span>
+            <span className="text-main font-inter">Track</span>
           </h1>
-          <p className="text-xs text-[#B7B7B7]">Version 2.0.0</p>
+          <p className="text-xs text-[#B7B7B7] font-montserrat">
+            Version 2.0.0
+          </p>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -115,7 +117,7 @@ export const AppSidebar = (): ReactNode => {
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarHeader>
-      <SidebarContent className="bg-white  dark:bg-black ">
+      <SidebarContent className="bg-white  dark:bg-stone-800 ">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="gap-2.5">
@@ -128,8 +130,10 @@ export const AppSidebar = (): ReactNode => {
                   >
                     <Link
                       to={item.url}
-                      className="border border-[#EFEFEF] [&.active]:border-b-2 [&.active]:border-b-[#FBD008]
-                      [&.active]:text-[#FBD008] [&.active]:bg-transparent [&.active]:font-semibold [&.active]:rounded-md transition-all ease-in-out
+                      className="border font-inter  border-[#EFEFEF] [&.active]:border-b-2 transition-all ease-in-out  dark:bg-stone-700 dark:text-white dark:hover:bg-stone-600 dark:border-stone-700
+                      [&.active]:border-b-main
+                      [&.active]:text-main [&.active]:bg-transparent [&.active]:font-semibold [&.active]:rounded-md 
+                      [&.active]:dark:bg-stone-600 
                       "
                     >
                       <item.icon />
@@ -144,13 +148,10 @@ export const AppSidebar = (): ReactNode => {
       </SidebarContent>
 
       {/* panget pa tong implementation | its either gawa ng 1 component or magkahiwalay a component pero for now et o na muna */}
-      <SidebarFooter className="bg-white  dark:bg-black ">
+      <SidebarFooter className="bg-white  dark:bg-stone-800 ">
         <Dialog>
           <DialogTrigger asChild>
-            <Button
-              className="bg-white flex w-full justify-start text-xs text-black border hover:bg-muted border-[#EFEFEF] transition-all ease-in-out
-        "
-            >
+            <Button className="font-inter bg-white flex w-full justify-start text-xs text-black border hover:bg-muted border-[#EFEFEF] transition-all ease-in-out dark:border-none dark:bg-stone-700 dark:text-white dark:hover:bg-stone-600">
               <Bug />
               Report
             </Button>
@@ -180,7 +181,7 @@ export const AppSidebar = (): ReactNode => {
         <Dialog>
           <DialogTrigger asChild>
             <Button
-              className="bg-white flex w-full justify-start text-xs text-black border hover:bg-muted border-[#EFEFEF] transition-all ease-in-out
+              className=" font-inter bg-white flex w-full justify-start text-xs text-black border hover:bg-muted border-[#EFEFEF] transition-all ease-in-out  dark:border-none dark:bg-stone-700 dark:text-white dark:hover:bg-stone-600
         "
             >
               <LogOut />

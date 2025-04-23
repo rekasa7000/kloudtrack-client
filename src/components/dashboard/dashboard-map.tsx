@@ -30,11 +30,11 @@ const DashboardMap = () => {
 
   return (
     <main className="w-full min-h-screen flex justify-start items-start mt-1  p-2.5">
-      <div
+      {/* <div
         id="map-container"
         className="w-full h-full bg-white rounded-lg shadow-md"
         ref={mapContainerRef}
-      ></div>
+      ></div> */}
     </main>
   );
 };

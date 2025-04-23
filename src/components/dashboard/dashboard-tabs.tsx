@@ -17,12 +17,12 @@ const DashboardTabs = (): ReactNode => {
           <Link
             to={tab.url}
             key={index}
-            className={`w-fit text-nowrap px-11 py-2 text-sm rounded-md transition-all ease-in-out ${
+            className={`w-fit text-nowrap px-11 py-2 text-sm rounded-md transition-all font-inter ease-in-out ${
               matchRoute({ to: tab.url }) ||
               (tab.url === "/dashboard" &&
                 !matchRoute({ to: "/dashboard/data-analysis" }) &&
                 !matchRoute({ to: "/dashboard/map" }))
-                ? " [&.active]:bg-white border [&.active]:border-[#FBD008]"
+                ? " [&.active]:bg-white border [&.active]:border-[#FBD008] [&.active]:font-semibold"
                 : ""
             }`}
           >
