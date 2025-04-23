@@ -26,29 +26,26 @@ const DashboardCardView = () => {
                   loading="lazy"
                 />
                 <div className="w-96 px-2.5 inline-flex  flex-col z-10 justify-center items-start gap-1.5">
-                  <div className="w-72 justify-start text-white text-2xl font-semibold font-['Montserrat']">
+                  <div className="w-72 justify-start text-white text-2xl font-semibold font-inter">
                     Glenn Station (Demo)
                   </div>
                   <div className="w-96 h-0 outline-1 outline-offset-[-0.50px] outline-stone-300"></div>
-                  <div className="justify-start text-white text-lg font-medium font-['Inter']">
+                  <div className="justify-start text-white text-lg font-medium font-montserrat">
                     Automated Weather Station
                   </div>
-                  <div className="justify-start text-white text-base font-normal font-['Inter']">
+                  <div className="justify-start text-white text-base font-normal font-montserrat">
                     San Jose, Balanga, Bataan
                   </div>
-                  <div className="justify-start text-white text-sm font-normal font-['Inter']">
+                  <div className="justify-start text-white text-sm font-normal font-montserrat">
                     14.67220593938318, 120.5294173964012
                   </div>
                 </div>
                 <div className="right-10 bottom-10 z-10 absolute">
-                  <span className="text-white text-5xl font-extrabold font-['Inter']">
+                  <span className="text-white text-5xl font-bold font-montserrat">
                     40{" "}
                   </span>
-                  <span className="text-white text-4xl font-normal font-['Inter']">
+                  <span className="text-white text-4xl font-medium font-montserrat">
                     °C
-                  </span>
-                  <span className="text-white text-5xl font-extrabold font-['Inter']">
-                    {" "}
                   </span>
                 </div>
               </div>

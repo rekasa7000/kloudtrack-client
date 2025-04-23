@@ -31,12 +31,15 @@ function Index() {
         <div className="w-lg flex justify-start items-center gap-2.5 justify-self-start">
           <div className="w-full relative ">
             <Search className="w-4 h-4 absolute top-2.5 left-4" />
-            <Input className="pl-10 rounded-lg py-2" placeholder="Search...." />
+            <Input
+              className="pl-10 rounded-lg py-2 font-inter"
+              placeholder="Search...."
+            />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger className="w-fit inline-flex gap-2 items-center text-nowrap px-5 py-2 text-sm rounded-md border border-[#D4D4D4] bg-white">
               <ListFilter className="w-4 h-4" />
-              <span>Filter</span>
+              <span className="font-inter font-medium">Filter</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -52,12 +55,12 @@ function Index() {
           {view === "Card View" ? (
             <DropdownMenuTrigger className="w-fit inline-flex gap-2 items-center text-nowrap px-5 py-2 text-sm rounded-md border border-[#D4D4D4] bg-white">
               <CreditCardIcon className="w-4 h-4" />
-              <span>Card View</span>
+              <span className="font-inter font-medium">Card View</span>
             </DropdownMenuTrigger>
           ) : (
             <DropdownMenuTrigger className="w-fit inline-flex gap-2 items-center text-nowrap px-5 py-2 text-sm rounded-md border border-[#D4D4D4] bg-white">
               <Table className="w-4 h-4" />
-              <span>Table View</span>
+              <span className="font-inter font-medium">Table View</span>
             </DropdownMenuTrigger>
           )}
 
