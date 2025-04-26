@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"); /* Added Poppins */
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -10,6 +11,7 @@
   /* later  */
   --font-inter: "Inter", sans-serif;
   --font-montserrat: "Montserrat", sans-serif;
+  --font-poppins: "Poppins", sans-serif; /* Added Poppins to theme */
   --color-main: #fbd008;
 
   /*
