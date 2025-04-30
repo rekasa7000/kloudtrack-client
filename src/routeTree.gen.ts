@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as RootRouteImport } from './routes/_root/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthLoginImport } from './routes/_auth/login'
+import { Route as RootTenantsRouteImport } from './routes/_root/tenants/route'
 import { Route as RootDashboardRouteImport } from './routes/_root/dashboard/route'
 import { Route as RootUsersIndexImport } from './routes/_root/users/index'
 import { Route as RootTenantsIndexImport } from './routes/_root/tenants/index'
@@ -24,6 +25,7 @@ import { Route as RootMonitoringIndexImport } from './routes/_root/monitoring/in
 import { Route as RootDashboardIndexImport } from './routes/_root/dashboard/index'
 import { Route as RootConfigurationIndexImport } from './routes/_root/configuration/index'
 import { Route as RootAuditLogsIndexImport } from './routes/_root/audit-logs/index'
+import { Route as RootTenantsAddTenantImport } from './routes/_root/tenants/add-tenant'
 import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
 import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
 
@@ -46,6 +48,12 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const RootTenantsRouteRoute = RootTenantsRouteImport.update({
+  id: '/tenants',
+  path: '/tenants',
+  getParentRoute: () => RootRouteRoute,
+} as any)
+
 const RootDashboardRouteRoute = RootDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -59,9 +67,9 @@ const RootUsersIndexRoute = RootUsersIndexImport.update({
 } as any)
 
 const RootTenantsIndexRoute = RootTenantsIndexImport.update({
-  id: '/tenants/',
-  path: '/tenants/',
-  getParentRoute: () => RootRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => RootTenantsRouteRoute,
 } as any)
 
 const RootStationsIndexRoute = RootStationsIndexImport.update({
@@ -106,6 +114,12 @@ const RootAuditLogsIndexRoute = RootAuditLogsIndexImport.update({
   getParentRoute: () => RootRouteRoute,
 } as any)
 
+const RootTenantsAddTenantRoute = RootTenantsAddTenantImport.update({
+  id: '/add-tenant',
+  path: '/add-tenant',
+  getParentRoute: () => RootTenantsRouteRoute,
+} as any)
+
 const RootDashboardMapRoute = RootDashboardMapImport.update({
   id: '/map',
   path: '/map',
@@ -143,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootDashboardRouteImport
       parentRoute: typeof RootRouteImport
     }
+    '/_root/tenants': {
+      id: '/_root/tenants'
+      path: '/tenants'
+      fullPath: '/tenants'
+      preLoaderRoute: typeof RootTenantsRouteImport
+      parentRoute: typeof RootRouteImport
+    }
     '/_auth/login': {
       id: '/_auth/login'
       path: '/login'
@@ -163,6 +184,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/map'
       preLoaderRoute: typeof RootDashboardMapImport
       parentRoute: typeof RootDashboardRouteImport
+    }
+    '/_root/tenants/add-tenant': {
+      id: '/_root/tenants/add-tenant'
+      path: '/add-tenant'
+      fullPath: '/tenants/add-tenant'
+      preLoaderRoute: typeof RootTenantsAddTenantImport
+      parentRoute: typeof RootTenantsRouteImport
     }
     '/_root/audit-logs/': {
       id: '/_root/audit-logs/'
@@ -215,10 +243,10 @@ declare module '@tanstack/react-router' {
     }
     '/_root/tenants/': {
       id: '/_root/tenants/'
-      path: '/tenants'
-      fullPath: '/tenants'
+      path: '/'
+      fullPath: '/tenants/'
       preLoaderRoute: typeof RootTenantsIndexImport
-      parentRoute: typeof RootRouteImport
+      parentRoute: typeof RootTenantsRouteImport
     }
     '/_root/users/': {
       id: '/_root/users/'
@@ -247,27 +275,40 @@ const RootDashboardRouteRouteChildren: RootDashboardRouteRouteChildren = {
 const RootDashboardRouteRouteWithChildren =
   RootDashboardRouteRoute._addFileChildren(RootDashboardRouteRouteChildren)
 
+interface RootTenantsRouteRouteChildren {
+  RootTenantsAddTenantRoute: typeof RootTenantsAddTenantRoute
+  RootTenantsIndexRoute: typeof RootTenantsIndexRoute
+}
+
+const RootTenantsRouteRouteChildren: RootTenantsRouteRouteChildren = {
+  RootTenantsAddTenantRoute: RootTenantsAddTenantRoute,
+  RootTenantsIndexRoute: RootTenantsIndexRoute,
+}
+
+const RootTenantsRouteRouteWithChildren =
+  RootTenantsRouteRoute._addFileChildren(RootTenantsRouteRouteChildren)
+
 interface RootRouteRouteChildren {
   RootDashboardRouteRoute: typeof RootDashboardRouteRouteWithChildren
+  RootTenantsRouteRoute: typeof RootTenantsRouteRouteWithChildren
   RootAuditLogsIndexRoute: typeof RootAuditLogsIndexRoute
   RootConfigurationIndexRoute: typeof RootConfigurationIndexRoute
   RootMonitoringIndexRoute: typeof RootMonitoringIndexRoute
   RootOrganizationIndexRoute: typeof RootOrganizationIndexRoute
   RootProfileIndexRoute: typeof RootProfileIndexRoute
   RootStationsIndexRoute: typeof RootStationsIndexRoute
-  RootTenantsIndexRoute: typeof RootTenantsIndexRoute
   RootUsersIndexRoute: typeof RootUsersIndexRoute
 }
 
 const RootRouteRouteChildren: RootRouteRouteChildren = {
   RootDashboardRouteRoute: RootDashboardRouteRouteWithChildren,
+  RootTenantsRouteRoute: RootTenantsRouteRouteWithChildren,
   RootAuditLogsIndexRoute: RootAuditLogsIndexRoute,
   RootConfigurationIndexRoute: RootConfigurationIndexRoute,
   RootMonitoringIndexRoute: RootMonitoringIndexRoute,
   RootOrganizationIndexRoute: RootOrganizationIndexRoute,
   RootProfileIndexRoute: RootProfileIndexRoute,
   RootStationsIndexRoute: RootStationsIndexRoute,
-  RootTenantsIndexRoute: RootTenantsIndexRoute,
   RootUsersIndexRoute: RootUsersIndexRoute,
 }
 
@@ -279,9 +320,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof RootRouteRouteWithChildren
   '/dashboard': typeof RootDashboardRouteRouteWithChildren
+  '/tenants': typeof RootTenantsRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
+  '/tenants/add-tenant': typeof RootTenantsAddTenantRoute
   '/audit-logs': typeof RootAuditLogsIndexRoute
   '/configuration': typeof RootConfigurationIndexRoute
   '/dashboard/': typeof RootDashboardIndexRoute
@@ -289,7 +332,7 @@ export interface FileRoutesByFullPath {
   '/organization': typeof RootOrganizationIndexRoute
   '/profile': typeof RootProfileIndexRoute
   '/stations': typeof RootStationsIndexRoute
-  '/tenants': typeof RootTenantsIndexRoute
+  '/tenants/': typeof RootTenantsIndexRoute
   '/users': typeof RootUsersIndexRoute
 }
 
@@ -299,6 +342,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
+  '/tenants/add-tenant': typeof RootTenantsAddTenantRoute
   '/audit-logs': typeof RootAuditLogsIndexRoute
   '/configuration': typeof RootConfigurationIndexRoute
   '/dashboard': typeof RootDashboardIndexRoute
@@ -315,9 +359,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_root': typeof RootRouteRouteWithChildren
   '/_root/dashboard': typeof RootDashboardRouteRouteWithChildren
+  '/_root/tenants': typeof RootTenantsRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
   '/_root/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/_root/dashboard/map': typeof RootDashboardMapRoute
+  '/_root/tenants/add-tenant': typeof RootTenantsAddTenantRoute
   '/_root/audit-logs/': typeof RootAuditLogsIndexRoute
   '/_root/configuration/': typeof RootConfigurationIndexRoute
   '/_root/dashboard/': typeof RootDashboardIndexRoute
@@ -335,9 +381,11 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/dashboard'
+    | '/tenants'
     | '/login'
     | '/dashboard/data-analysis'
     | '/dashboard/map'
+    | '/tenants/add-tenant'
     | '/audit-logs'
     | '/configuration'
     | '/dashboard/'
@@ -345,7 +393,7 @@ export interface FileRouteTypes {
     | '/organization'
     | '/profile'
     | '/stations'
-    | '/tenants'
+    | '/tenants/'
     | '/users'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -354,6 +402,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard/data-analysis'
     | '/dashboard/map'
+    | '/tenants/add-tenant'
     | '/audit-logs'
     | '/configuration'
     | '/dashboard'
@@ -368,9 +417,11 @@ export interface FileRouteTypes {
     | '/'
     | '/_root'
     | '/_root/dashboard'
+    | '/_root/tenants'
     | '/_auth/login'
     | '/_root/dashboard/data-analysis'
     | '/_root/dashboard/map'
+    | '/_root/tenants/add-tenant'
     | '/_root/audit-logs/'
     | '/_root/configuration/'
     | '/_root/dashboard/'
@@ -417,13 +468,13 @@ export const routeTree = rootRoute
       "filePath": "_root/route.tsx",
       "children": [
         "/_root/dashboard",
+        "/_root/tenants",
         "/_root/audit-logs/",
         "/_root/configuration/",
         "/_root/monitoring/",
         "/_root/organization/",
         "/_root/profile/",
         "/_root/stations/",
-        "/_root/tenants/",
         "/_root/users/"
       ]
     },
@@ -436,6 +487,14 @@ export const routeTree = rootRoute
         "/_root/dashboard/"
       ]
     },
+    "/_root/tenants": {
+      "filePath": "_root/tenants/route.tsx",
+      "parent": "/_root",
+      "children": [
+        "/_root/tenants/add-tenant",
+        "/_root/tenants/"
+      ]
+    },
     "/_auth/login": {
       "filePath": "_auth/login.tsx"
     },
@@ -446,6 +505,10 @@ export const routeTree = rootRoute
     "/_root/dashboard/map": {
       "filePath": "_root/dashboard/map.tsx",
       "parent": "/_root/dashboard"
+    },
+    "/_root/tenants/add-tenant": {
+      "filePath": "_root/tenants/add-tenant.tsx",
+      "parent": "/_root/tenants"
     },
     "/_root/audit-logs/": {
       "filePath": "_root/audit-logs/index.tsx",
@@ -477,7 +540,7 @@ export const routeTree = rootRoute
     },
     "/_root/tenants/": {
       "filePath": "_root/tenants/index.tsx",
-      "parent": "/_root"
+      "parent": "/_root/tenants"
     },
     "/_root/users/": {
       "filePath": "_root/users/index.tsx",
