@@ -2,6 +2,7 @@ import { User } from "lucide-react";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Separator } from "../ui/separator";
+import { Tenant } from "@/types/tenant";
 
 const items = [
   {
@@ -74,7 +75,7 @@ const items = [
   },
 ];
 
-const TenantDetails = () => {
+const TenantDetails = ({ tenant }: { tenant: Tenant }) => {
   const status = false;
 
   return (
@@ -91,10 +92,10 @@ const TenantDetails = () => {
           </Avatar>
           <div className="flex flex-col items-start">
             <p className="text-lg font-bold font-inter text-c_secondary">
-              KloudTech here{" "}
+              {tenant?.tenantName}
             </p>
             <span className="text-xs text-main font-montserrat">
-              UID:23129412038sdas2094dda
+              UID: {tenant?.id}
             </span>
           </div>
         </div>
@@ -110,12 +111,7 @@ const TenantDetails = () => {
 
       <div className="flex flex-col gap-2 w-full h-full bg-white rounded-lg">
         <div className="flex items-center justify-between w-full h-auto border border-muted p-6  rounded-lg">
-          <p className="text-base font-montserrat">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia
-            repellendus maiores ratione, molestias veritatis, voluptatum, nihil
-            error deserunt maxime minima perferendis eos. Sed porro voluptatum
-            quis natus enim animi illum.
-          </p>
+          <p className="text-base font-montserrat">{tenant?.description}</p>
         </div>
         <div className="flex flex-col items-center gap-2 justify-between w-full h-auto border border-muted p-6  rounded-lg">
           <span className="font-inter">create at...</span>
