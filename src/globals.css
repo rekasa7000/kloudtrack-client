@@ -11,7 +11,18 @@
   --font-inter: "Inter", sans-serif;
   --font-montserrat: "Montserrat", sans-serif;
   --color-main: #fbd008;
-  --color-c_secondary: #545454;
+  --color-gray: #545454;
+
+  /*
+  usage
+  - button bg color
+  - Header text color
+  */
+
+  /*
+  use muted color for borders and backdrops 
+  from shadcn - bg-muted border-muted
+  */
 }
 
 * {
@@ -130,7 +141,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
   }
 }
 
