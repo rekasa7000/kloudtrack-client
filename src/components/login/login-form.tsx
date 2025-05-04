@@ -8,8 +8,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeClosed } from "lucide-react";
+import {
+  ArrowRight,
+  Eye,
+  EyeClosed,
+  LockKeyholeIcon,
+  User2Icon,
+} from "lucide-react";
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 
 export function LoginForm({
   className,
@@ -24,22 +31,21 @@ export function LoginForm({
       className={cn("flex flex-col gap-3 items-center", className)}
       {...props}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
         <img
           src="src/assets/logo.jpg"
           alt="Kloudtrack Logo"
-          className="h-8 w-8"
+          className="h-10 w-10"
         />
-        <h1 className="text-2xl font-semibold text-black font-montserrat">
+        <h1 className="text-3xl font-semibold text-black font-inter">
           <span className="text-gray">Kloud</span>
           <span className="text-main">Track</span>
         </h1>
       </div>
-      <p className="text-xs uppercase text-black tracking-wide font-medium">
+      <p className="text-xs uppercase text-black tracking-wide font-light font-montserrat">
         Your Official Weather Monitoring Hub
       </p>
 
-      {/* Form */}
       <CardHeader className="hidden">
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
@@ -50,70 +56,72 @@ export function LoginForm({
         <form>
           <div className="flex flex-col gap-3">
             <div className="grid gap-2">
-              <Label htmlFor="username" className="text-gray-700 w-[380px]">
+              <Label
+                htmlFor="username"
+                className="sr-only text-gray-700 w-[380px]"
+              >
                 Username
               </Label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <img src="src/assets/user-round.png" alt="User Icon" />
+                  <User2Icon className="w-5 h-5 text-c_secondary" />
                 </span>
                 <Input
                   id="username"
                   type="text"
                   placeholder="Username"
                   required
-                  className="pl-10 border-gray-300 text-gray-700 placeholder-gray-400 w-[380px]"
+                  className="pl-10 py-6 rounded-lg border-gray-300 text-gray-700 placeholder-gray-400 w-full"
                 />
               </div>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="password" className="text-gray-700 w-[380px]">
+              <Label
+                htmlFor="password"
+                className="sr-only text-gray-700 w-[380px]"
+              >
                 Password
               </Label>
               <div className="relative">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                  <img src="src/assets/lock-keyhole.png" alt="Keyhole Icon" />
+                  <LockKeyholeIcon className="w-5 h-5 text-c_secondary" />
                 </span>
                 <Input
                   id="password"
                   type={isPasswordVisible ? "text" : "password"}
                   placeholder="Password"
                   required
-                  className="pl-10 pr-10 border-gray-300 text-gray-700 placeholder-gray-400 w-[380px]"
+                  className="pl-10 pr-10 py-6 rounded-lg border-gray-300 text-gray-700 placeholder-gray-400 w-[380px]"
                 />
                 <Button
                   type="button"
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 bg-transparent border-none p-0 m-0 appearance-none focus:outline-none hover:bg-transparent"
+                  className="absolute inset-y-1.5 right-0 flex items-center pr-4 bg-transparent border-none appearance-none focus:outline-none hover:bg-transparent shadow-none"
                   onClick={togglePasswordVisibility}
                 >
                   {isPasswordVisible ? (
-                    <EyeClosed className="text-black dark:text-white" />
+                    <EyeClosed className="text-c_secondary dark:text-white w-5 h-5 " />
                   ) : (
-                    <Eye className="text-black dark:text-white" />
+                    <Eye className="text-c_secondary dark:text-white h-5 w-5" />
                   )}
                 </Button>
               </div>
             </div>
             <Button
               type="submit"
-              className="w-full bg-[#545454] hover:bg-[gray]/90 text-white"
+              className="w-full bg-c_secondary rounded-lg py-6 font-inter font-medium hover:bg-muted-foreground  text-white"
             >
-              Login <span className="ml-2">→</span>
+              <span>Login</span>
+              <ArrowRight className="w-5 h-5" />
             </Button>
           </div>
         </form>
       </CardContent>
 
-      {/* Error Message Link */}
-      <p className="text-sm px-3 py-1 font-semibold w-[380px] text-center">
+      <p className="text-sm px-3 py-1 font-light w-full font-montserrat text-center">
         <span className="text-gray-500">Oops, wrong page? </span>
-        <a
-          href="#"
-          className="underline font-semibold"
-          style={{ color: "var(--color-main)" }}
-        >
+        <Link to="/" className="underline font-medium text-main">
           Visit our website
-        </a>
+        </Link>
       </p>
     </div>
   );
