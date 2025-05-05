@@ -25,7 +25,6 @@ import {
 import { ReactNode } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { Button } from "./ui/button";
-import { useState } from "react";
 import {
   Dialog,
   DialogHeader,
@@ -81,7 +80,7 @@ export const AppSidebar = (): ReactNode => {
   const { setTheme } = useTheme();
 
   return (
-    <Sidebar>
+    <Sidebar className="pl-2">
       {/* ayaw mag white ewan kung baket */}
       <SidebarHeader className="bg-white dark:bg-stone-800 pb-5 pt-3.5 px-3 w-full flex-row items-center justify-between">
         <div>
