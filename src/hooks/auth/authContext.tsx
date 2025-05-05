@@ -1,13 +1,12 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { getAuthToken, setAuthToken, removeAuthToken } from '@/utils/cookies';
-
+import axiosInstance from '@/api/axiosInstance';
 
 type User = {
   email: string;
   firstName?: string;
   lastName?: string;
-
 };
 
 interface AuthContextType {
@@ -16,11 +15,6 @@ interface AuthContextType {
   login: (credentials: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
 }
-
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
-});
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -33,40 +27,44 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const token = getAuthToken();
       if (token) {
         try {
-          const response = await api.get('users/validate-token', {
+          const response = await axiosInstance.get<User>('users/validate-token', {
             headers: { Authorization: `Bearer ${token}` },
           });
-          setUser(response.data); 
+          setUser(response.data);
         } catch (error) {
-          console.error('Token validation error:', error);
+          console.error('Token validation failed:', error);
           removeAuthToken();
           setUser(null);
         }
       }
       setLoading(false);
     };
+
     validateToken();
   }, []);
 
   const login = async (credentials: { email: string; password: string }) => {
     try {
-      const response = await api.post('users/login', credentials);
+      const response = await axiosInstance.post<{ token: string } & User>(
+        'users/login',
+        credentials
+      );
       const { token, ...userData } = response.data;
       setAuthToken(token);
-      setUser(userData); 
+      setUser(userData);
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login failed:', error);
       throw error;
     }
   };
 
   const logout = async () => {
     try {
-      await api.post('users/logout');
+      await axiosInstance.post('users/logout');
       removeAuthToken();
       setUser(null);
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error('Logout failed:', error);
       throw error;
     }
   };
@@ -85,3 +83,6 @@ const useAuth = (): AuthContextType => {
 };
 
 export { AuthProvider, useAuth };
+
+
+
