@@ -129,13 +129,20 @@ function RouteComponent() {
 
       <section className="relative z-10 px-6 py-20">
         <div className="max-w-7xl mx-auto text-center">
+          <video
+            src="https://videos.pexels.com/video-files/9354232/9354232-hd_1080_1920_28fps.mp4"
+            className="absolute top-0 left-0 z-0 block w-full h-[100%] object-cover"
+            autoPlay={true}
+            loop={true}
+            poster="https://images.pexels.com/videos/9354232/pexels-photo-9354232.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;h=1200&amp;w=630"
+          ></video>
           <div className={`transition-all duration-1000 "opacity-0 translate-y-10`}>
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight text-white">
               Disaster Preparedness
               <br />
               <span className={accentClasses}>Starts Here</span>
             </h1>
-            <p className={`text-xl md:text-2xl mb-12 max-w-3xl mx-auto ${secondaryClasses}`}>
+            <p className={`text-xl md:text-2xl mb-12 max-w-3xl mx-auto text-white`}>
               Empowering Communities with Hyper-Localized Weather Monitoring and Decision Support Tools
             </p>
 
@@ -168,7 +175,7 @@ function RouteComponent() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`p-8 rounded-2xl border transition-all duration-300 hover:scale-105 group ${cardClasses}`}
+                className={`p-8 rounded-2xl border opacity-90 transition-all duration-300 ${secondaryClasses} hover:scale-105 group ${cardClasses}`}
               >
                 <div className={`mb-6 ${accentClasses} group-hover:scale-110 transition-transform`}>{feature.icon}</div>
                 <h3 className="text-xl font-bold mb-4">{feature.title}</h3>
