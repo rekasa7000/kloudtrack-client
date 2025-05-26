@@ -108,8 +108,8 @@ function RouteComponent() {
             <a href="#products" className={`hover:${accentClasses} transition-colors`}>
               Products
             </a>
-            <a href="#pricing" className={`hover:${accentClasses} transition-colors`}>
-              Pricing
+            <a href="#learn" className={`hover:${accentClasses} transition-colors`}>
+              Learn More
             </a>
           </div>
 
@@ -179,7 +179,7 @@ function RouteComponent() {
         </div>
       </section>
 
-      <section id="otherServices" className="relative z-10 px-6 py-20">
+      <section id="products" className="relative z-10 px-6 py-20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-bold mb-6">
@@ -210,7 +210,7 @@ function RouteComponent() {
         </div>
       </section>
 
-      <section className="relative z-10 px-6 py-20">
+      <section className="relative z-10 px-6 py-20" id="learn">
         <div className="max-w-4xl mx-auto text-center">
           <div className={`p-12 rounded-3xl border ${cardClasses}`}>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
