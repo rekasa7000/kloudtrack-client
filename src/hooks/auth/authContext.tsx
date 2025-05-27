@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import { getAuthToken, setAuthToken, removeAuthToken } from '@/utils/cookies';
-import axiosInstance from '@/api/axiosInstance';
+import React, { createContext, useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { getAuthToken, setAuthToken, removeAuthToken } from "@/utils/cookies";
+import axiosInstance from "@/api/client/axiosInstance";
 
 type User = {
   email: string;
@@ -27,12 +27,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const token = getAuthToken();
       if (token) {
         try {
-          const response = await axiosInstance.get<User>('users/validate-token', {
+          const response = await axiosInstance.get<User>("users/validate-token", {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(response.data);
         } catch (error) {
-          console.error('Token validation failed:', error);
+          console.error("Token validation failed:", error);
           removeAuthToken();
           setUser(null);
         }
@@ -45,44 +45,34 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (credentials: { email: string; password: string }) => {
     try {
-      const response = await axiosInstance.post<{ token: string } & User>(
-        'users/login',
-        credentials
-      );
+      const response = await axiosInstance.post<{ token: string } & User>("users/login", credentials);
       const { token, ...userData } = response.data;
       setAuthToken(token);
       setUser(userData);
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       throw error;
     }
   };
 
   const logout = async () => {
     try {
-      await axiosInstance.post('users/logout');
+      await axiosInstance.post("users/logout");
       removeAuthToken();
       setUser(null);
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
       throw error;
     }
   };
 
-  return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, loading, login, logout }}>{children}</AuthContext.Provider>;
 };
 
 const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within an AuthProvider');
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
 };
 
 export { AuthProvider, useAuth };
-
-
-
