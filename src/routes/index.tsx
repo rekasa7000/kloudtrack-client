@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Cloud, Zap } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -95,6 +96,25 @@ function RouteComponent() {
   return (
     <>
       <div className="w-full h-screen overflow-hidden relative" ref={containerRef}>
+        <video
+          src="https://videos.pexels.com/video-files/9354232/9354232-hd_1080_1920_28fps.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute top-0 left-0 z-0 block w-full h-[100%] object-cover"
+          poster="https://images.pexels.com/videos/9354232/pexels-photo-9354232.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;h=1200&amp;w=630"
+        ></video>
+        <Link to="/login">
+          <Button
+            className={`absolute top-5 right-5 block z-10 px-3 h-12 duration-300 ease-in-out text-center cursor-pointer ${
+              progressPercentage >= 50 ? "bg-c_secondary hover:bg-gray-500 " : "bg-main hover:bg-amber-400 text-black"
+            }`}
+          >
+            Go to dashboard
+          </Button>
+        </Link>
+
         <div
           ref={textRef}
           className="text-[60rem] leading-none font-bold whitespace-nowrap transition-transform duration-100 ease-out font-montserrat"
@@ -102,12 +122,12 @@ function RouteComponent() {
             transform: `translateX(-${scrollPosition}px)`,
           }}
         >
-          <span className="text-c_secondary">Kloud</span>
+          <span className="text-c_secondary ">Kloud</span>
           <span className="text-main">track</span>
         </div>
       </div>
       <div className="fixed bottom-4 left-4 right-4 z-20">
-        <div className="bg-white/20 rounded-full h-2 backdrop-blur-sm">
+        <div className=" rounded-full h-2">
           <div
             className={`rounded-full h-2 transition-all duration-100 ${
               progressPercentage >= 50 ? "bg-c_secondary" : "bg-main"
