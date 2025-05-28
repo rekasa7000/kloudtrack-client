@@ -3,7 +3,7 @@ import { ThemeProvider } from "./components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
-import { AuthProvider, useAuth } from "./hooks/auth/use-auth";
+import { AuthProvider, useAuth } from "./hooks/use-auth";
 
 const queryClient = new QueryClient();
 

@@ -7,19 +7,23 @@ import { ArrowRight, Eye, EyeClosed, LockKeyholeIcon, User2Icon } from "lucide-r
 import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { FieldInfo } from "@/utils/field-info";
-import { useLogin } from "@/hooks/mutations/useAuthMutations";
+import { useAuth } from "@/hooks/use-auth";
+import { useNavigate } from "@tanstack/react-router";
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { mutateAsync: signInAccount } = useLogin();
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
     onSubmit: async ({ value }) => {
-      const data = await signInAccount(value);
-      console.log(data);
+      await login(value);
+      setTimeout(() => {
+        navigate({ to: "/dashboard" });
+      }, 50);
     },
   });
 
@@ -152,6 +156,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                 );
               }}
             />
+
             <form.Subscribe
               selector={(state) => [state.canSubmit, state.isSubmitting]}
               children={([canSubmit, isSubmitting]) => (

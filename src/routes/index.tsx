@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Cloud, Zap } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -53,6 +54,7 @@ function RouteComponent() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -111,7 +113,7 @@ function RouteComponent() {
               progressPercentage >= 50 ? "bg-c_secondary hover:bg-gray-500 " : "bg-main hover:bg-amber-400 text-black"
             }`}
           >
-            Go to dashboard
+            {isAuthenticated ? "Go to dashboard" : "Login"}
           </Button>
         </Link>
 
