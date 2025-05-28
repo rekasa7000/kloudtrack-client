@@ -1,7 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { LoginForm } from "@/components/login/login-form";
 
 export const Route = createFileRoute("/_auth/login")({
+  beforeLoad: ({ context }) => {
+    const { isAuthenticated } = context.authentication;
+
+    if (isAuthenticated) {
+      redirect({
+        to: "/dashboard",
+      });
+    }
+  },
   component: RouteComponent,
 });
 
@@ -12,5 +21,3 @@ function RouteComponent() {
     </div>
   );
 }
-
-

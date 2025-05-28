@@ -1,13 +1,11 @@
-type SuccessResponse<T> = {
+interface SuccessResponse<T> {
   success: true;
   data: T;
   message?: string;
-};
+}
 
-type ErrorResponse = {
+interface ErrorResponse {
   success: false;
   error: string;
   message?: string;
-};
-
-type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
+}

@@ -1,14 +1,25 @@
-import { authService } from "@/api/services/authServices";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { loginService } from "@/api/services/authServices";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export function useLogin() {
   return useMutation({
-    mutationFn: authService.login,
+    mutationFn: loginService,
     onSuccess: (newUser) => {
-      console.log(newUser);
+      toast.success("Login Success", {
+        description: `Welcome! ${newUser.userName}`,
+        position: "top-right",
+        duration: 5000,
+        style: { backgroundColor: "green" },
+      });
     },
     onError: (error) => {
-      console.error("Failed to login user:", error);
+      toast.error("Login Error", {
+        description: error.message,
+        position: "top-right",
+        duration: 5000,
+        style: { backgroundColor: "red" },
+      });
     },
   });
 }
