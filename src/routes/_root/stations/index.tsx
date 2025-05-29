@@ -1,4 +1,4 @@
-import StationTable from "@/components/station/station-table";
+// import StationTable from "@/components/station/station-table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useEffect, useRef, useState } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useTheme } from "next-themes";
 
 export const Route = createFileRoute("/_root/stations/")({
   component: RouteComponent,
@@ -33,35 +34,74 @@ export const Route = createFileRoute("/_root/stations/")({
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
 function RouteComponent() {
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const { theme } = useTheme();
   const [zoom, setZoom] = useState<number>(9);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const mapContainer = useRef<HTMLDivElement>(null);
   const [lngLat, setLngLat] = useState<{ lng: number; lat: number } | null>(null);
+  const [mapboxStyle, setMapboxStyle] = useState(
+    theme === "dark" ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
+  );
 
   useEffect(() => {
-    if (mapRef.current || !mapContainer.current) return;
+    if (mapContainer.current && !mapRef.current) {
+      const map = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: mapboxStyle,
+        center: [120.4818, 14.6417],
+        zoom: 10,
+        maxZoom: 15,
+        minZoom: 8,
+        accessToken: import.meta.env.VITE_MAPBOX_TOKEN,
+        maxBounds: [117.27427453, 5.68100332277, 126.557423944, 18.5552273625],
+      });
 
-    mapRef.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [0, 0],
-      zoom: 2,
-    });
+      mapRef.current = map;
+      map.addControl(new mapboxgl.NavigationControl(), "bottom-left");
+      map.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: true,
+          showUserHeading: true,
+        }),
+        "bottom-left"
+      );
+      return () => {
+        mapRef.current?.remove();
+        mapRef.current = null;
+      };
+    }
+  }, [mapboxStyle]);
 
-    // Add click event listener
-    mapRef.current.on("click", (e) => {
-      const { lng, lat } = e.lngLat;
-      setLngLat({ lng, lat });
+  useEffect(() => {
+    if (mapContainer.current) {
+      const map = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: mapboxStyle,
+        center: [120.4818, 14.6417],
+        zoom: 10,
+        maxZoom: 15,
+        minZoom: 8,
+        accessToken: import.meta.env.VITE_MAPBOX_TOKEN,
+        maxBounds: [117.27427453, 5.68100332277, 126.557423944, 18.5552273625],
+      });
 
-      // Optional: add a marker
-      new mapboxgl.Marker().setLngLat([lng, lat]).addTo(mapRef.current!);
-    });
+      map.addControl(new mapboxgl.NavigationControl(), "bottom-left");
+      map.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          trackUserLocation: true,
+          showUserHeading: true,
+        }),
+        "bottom-left"
+      );
+    }
+  }, [mapboxStyle]);
 
-    return () => {
-      mapRef.current?.remove();
-    };
-  }, []);
   return (
     <main className="flex flex-col items-center w-full min-h-screen gap-5">
       <div className="flex flex-col w-full">
@@ -94,6 +134,9 @@ function RouteComponent() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+          <div ref={mapContainer} className="h-[500px] w-[500px] rounded-l-2xl">
+            adsadas
+          </div>
           <div>
             <Dialog>
               <DialogTrigger asChild>
@@ -117,12 +160,13 @@ function RouteComponent() {
                     {/* <Label htmlFor="location" className="text-right">
                       Location
                     </Label> */}
-                    <div ref={mapContainer} style={{ height: "500px", width: "100%" }} />
-                    {lngLat && (
-                      <div className="mt-2 text-sm">
-                        Clicked Location: Longitude: {lngLat.lng.toFixed(4)}, Latitude: {lngLat.lat.toFixed(4)}
-                      </div>
-                    )}{" "}
+                    <div ref={mapContainer} className="h-full w-full rounded-l-2xl">
+                      {lngLat && (
+                        <div className="mt-2 text-sm">
+                          Clicked Location: Longitude: {lngLat.lng.toFixed(4)}, Latitude: {lngLat.lat.toFixed(4)}
+                        </div>
+                      )}{" "}
+                    </div>
                   </div>
                 </div>
                 <DialogFooter>
@@ -132,7 +176,7 @@ function RouteComponent() {
             </Dialog>
           </div>
         </div>
-        <StationTable />
+        {/* <StationTable /> */}
       </div>
     </main>
   );
