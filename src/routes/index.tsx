@@ -145,7 +145,7 @@ function RouteComponent() {
         </div>
 
         <div className="absolute bottom-4 left-4 right-4 z-20">
-          <div className="rounded-full h-2 bg-black/20">
+          <div className="rounded-full h-2">
             <div
               className={`rounded-full h-2 transition-all duration-100 ${
                 progressPercentage >= 50 ? "bg-c_secondary" : "bg-main"
@@ -159,7 +159,7 @@ function RouteComponent() {
 
         {progressPercentage === 100 && (
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
-            <div className="text-white text-center">
+            <div className=" text-center">
               <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
                 <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
               </div>
