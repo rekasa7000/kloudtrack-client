@@ -20,8 +20,7 @@ function RouteComponent() {
       <AppSidebar />
 
       {/* put padding or margin here para magkaspace ung child */}
-      {/* TRY */}
-      <main className="p-3.5 flex flex-col min-h-screen container mx-auto">
+      <main className="p-3.5 flex flex-col min-h-screen w-full">
         {/* <SidebarTrigger /> */}
         <Outlet />
       </main>

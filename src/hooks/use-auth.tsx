@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { checkAuthService, loginService, logoutService } from "@/api/services/authServices";
 import { User, Login, LoginResponse } from "@/api/client/types";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 export interface AuthContext {
   isAuthenticated: boolean;
@@ -92,7 +93,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div>Loading...</div>
+        <Loader2 className="animate-spin" />
       </div>
     );
   }

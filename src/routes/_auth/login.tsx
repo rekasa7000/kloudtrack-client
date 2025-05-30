@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { LoginForm } from "@/components/login/login-form";
+import { LoginForm } from "@/components/forms/login/login-form";
 
 export const Route = createFileRoute("/_auth/login")({
   beforeLoad: ({ context }) => {

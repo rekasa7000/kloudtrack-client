@@ -1,183 +1,49 @@
-// import StationTable from "@/components/station/station-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import mapboxgl from "mapbox-gl";
-
-import { Input } from "@/components/ui/input";
 import { createFileRoute } from "@tanstack/react-router";
-import { ListFilter, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CreateStation } from "@/components/forms/station/create-station";
+import { StationList } from "@/components/station/station-list";
 import { Label } from "@/components/ui/label";
-import { useEffect, useRef, useState } from "react";
-import "mapbox-gl/dist/mapbox-gl.css";
-import { useTheme } from "next-themes";
 
 export const Route = createFileRoute("/_root/stations/")({
   component: RouteComponent,
 });
 
-mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
+const tabs = [
+  { name: "List", value: "list", content: <StationList /> },
+  { name: "Create", value: "create", content: <CreateStation /> },
+  { name: "Certificates", value: "certificate", content: <CreateStation /> },
+];
 
 function RouteComponent() {
-  const { theme } = useTheme();
-  const [zoom, setZoom] = useState<number>(9);
-  const mapRef = useRef<mapboxgl.Map | null>(null);
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const [lngLat, setLngLat] = useState<{ lng: number; lat: number } | null>(null);
-  const [mapboxStyle, setMapboxStyle] = useState(
-    theme === "dark" ? "mapbox://styles/mapbox/dark-v11" : "mapbox://styles/mapbox/light-v11"
-  );
-
-  useEffect(() => {
-    if (mapContainer.current && !mapRef.current) {
-      const map = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: mapboxStyle,
-        center: [120.4818, 14.6417],
-        zoom: 10,
-        maxZoom: 15,
-        minZoom: 8,
-        accessToken: import.meta.env.VITE_MAPBOX_TOKEN,
-        maxBounds: [117.27427453, 5.68100332277, 126.557423944, 18.5552273625],
-      });
-
-      mapRef.current = map;
-      map.addControl(new mapboxgl.NavigationControl(), "bottom-left");
-      map.addControl(
-        new mapboxgl.GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true,
-          },
-          trackUserLocation: true,
-          showUserHeading: true,
-        }),
-        "bottom-left"
-      );
-      return () => {
-        mapRef.current?.remove();
-        mapRef.current = null;
-      };
-    }
-  }, [mapboxStyle]);
-
-  useEffect(() => {
-    if (mapContainer.current) {
-      const map = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: mapboxStyle,
-        center: [120.4818, 14.6417],
-        zoom: 10,
-        maxZoom: 15,
-        minZoom: 8,
-        accessToken: import.meta.env.VITE_MAPBOX_TOKEN,
-        maxBounds: [117.27427453, 5.68100332277, 126.557423944, 18.5552273625],
-      });
-
-      map.addControl(new mapboxgl.NavigationControl(), "bottom-left");
-      map.addControl(
-        new mapboxgl.GeolocateControl({
-          positionOptions: {
-            enableHighAccuracy: true,
-          },
-          trackUserLocation: true,
-          showUserHeading: true,
-        }),
-        "bottom-left"
-      );
-    }
-  }, [mapboxStyle]);
-
   return (
     <main className="flex flex-col items-center w-full min-h-screen gap-5">
-      <div className="flex flex-col w-full">
-        <h1 className="text-3xl font-bold  text-black">Stations</h1>
-        <p className="mt-2 text-sm font-normal text-[#545454]">
+      <div className="flex flex-col w-full ">
+        <Label className="text-3xl font-bold text-black">Stations</Label>
+        <p className="mt-2 text-base font-normal text-[#545454]">
           Manage weather stations—register, activate, configure, and monitor real-time and historical data. Diagnose
           issues, upload firmware, and access forecasts and downloads.
         </p>
       </div>
-
-      <div className="flex flex-col items-center w-full mt-2 gap-2">
-        <div className="w-full flex justify-between">
-          <div className="w-full max-w-lg flex justify-start items-center gap-2.5 justify-self-start">
-            <div className="w-full relative ">
-              <Search className="w-4 h-4 absolute top-2.5 left-4" />
-              <Input className="pl-10 rounded-lg py-2 font-inter" placeholder="Search...." />
-            </div>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger className="w-fit inline-flex gap-2 items-center text-nowrap px-5 py-2 text-sm rounded-md border border-[#D4D4D4] bg-white">
-                <ListFilter className="w-4 h-4" />
-                <span className="font-medium">Filter</span>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>Filter</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Station Name</DropdownMenuItem>
-                <DropdownMenuItem>Organization</DropdownMenuItem>
-                <DropdownMenuItem>Active</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <div ref={mapContainer} className="h-[500px] w-[500px] rounded-l-2xl">
-            adsadas
-          </div>
-          <div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline">Add Station</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Edit profile</DialogTitle>
-                  <DialogDescription>
-                    Register a new station by inputting its metadata and saving it to the database.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">
-                      Name
-                    </Label>
-                    {/* <Input id="name" value="Pedro Duarte" className="col-span-3" /> */}
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    {/* <Label htmlFor="location" className="text-right">
-                      Location
-                    </Label> */}
-                    <div ref={mapContainer} className="h-full w-full rounded-l-2xl">
-                      {lngLat && (
-                        <div className="mt-2 text-sm">
-                          Clicked Location: Longitude: {lngLat.lng.toFixed(4)}, Latitude: {lngLat.lat.toFixed(4)}
-                        </div>
-                      )}{" "}
-                    </div>
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit">Save changes</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </div>
+      <Tabs defaultValue={tabs[0].value} className="w-full">
+        <div className="border-b">
+          <TabsList className="w-full p-0 bg-background justify-start rounded-none max-w-sm">
+            {tabs.map((tab) => (
+              <TabsTrigger
+                key={tab.value}
+                value={tab.value}
+                className="rounded-none bg-background h-full data-[state=active]:shadow-none border-b-2 border-transparent data-[state=active]:border-b-primary"
+              >
+                <span className="text-[13px]">{tab.name}</span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
         </div>
-        {/* <StationTable /> */}
-      </div>
+        {tabs.map((tab) => (
+          <TabsContent key={tab.value} value={tab.value} className="w-full m-2">
+            {tab.content}
+          </TabsContent>
+        ))}
+      </Tabs>
     </main>
   );
 }
