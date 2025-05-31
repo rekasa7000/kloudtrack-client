@@ -22,7 +22,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { ReactNode } from "@tanstack/react-router";
+import { ReactNode, useNavigate } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { Button } from "./ui/button";
 import {
@@ -35,12 +35,8 @@ import {
   DialogFooter,
 } from "./ui/dialog";
 import { useTheme } from "./theme-provider";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { useAuth } from "@/hooks/use-auth";
 
 // Menu items.
 const sidebar_items = [
@@ -78,6 +74,18 @@ const sidebar_items = [
 
 export const AppSidebar = (): ReactNode => {
   const { setTheme } = useTheme();
+  const navigate = useNavigate();
+
+  const { logout, isLogoutLoading } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate({ to: "/" });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <Sidebar className="pl-2">
@@ -88,31 +96,20 @@ export const AppSidebar = (): ReactNode => {
             Kloud
             <span className="text-main font-inter">Track</span>
           </h1>
-          <p className="text-xs text-[#B7B7B7] font-montserrat">
-            Version 2.0.0
-          </p>
+          <p className="text-xs text-[#B7B7B7] font-montserrat">Version 2.0.0</p>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              size="icon"
-              className="bg-transparent shadow-none hover:bg-transparent"
-            >
+            <Button size="icon" className="bg-transparent shadow-none hover:bg-transparent">
               <Sun className="h-[1.2rem] w-[1.2rem] text-black  rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-[1.2rem] text-white w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center" sideOffset={2}>
-            <DropdownMenuItem onClick={() => setTheme("light")}>
-              Light
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme("dark")}>
-              Dark
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme("system")}>
-              System
-            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarHeader>
@@ -122,11 +119,7 @@ export const AppSidebar = (): ReactNode => {
             <SidebarMenu className="gap-2.5">
               {sidebar_items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    size={"sm"}
-                    className="h-10 [&.active]:bg-none "
-                  >
+                  <SidebarMenuButton asChild size={"sm"} className="h-10 [&.active]:bg-none ">
                     <Link
                       to={item.url}
                       className="border font-inter  border-[#EFEFEF] [&.active]:border-b-2 transition-all ease-in-out  dark:bg-stone-700 dark:text-white dark:hover:bg-stone-600 dark:border-stone-700
@@ -159,10 +152,7 @@ export const AppSidebar = (): ReactNode => {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Report a Bug</DialogTitle>
-              <DialogDescription>
-                Please provide a detailed description of the bug you
-                encountered.
-              </DialogDescription>
+              <DialogDescription>Please provide a detailed description of the bug you encountered.</DialogDescription>
             </DialogHeader>
 
             <textarea
@@ -191,16 +181,16 @@ export const AppSidebar = (): ReactNode => {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Logout</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to logout?
-              </DialogDescription>
+              <DialogDescription>Are you sure you want to logout?</DialogDescription>
             </DialogHeader>
 
             <DialogFooter>
               <Button variant="secondary" onClick={() => console.log("Cancel")}>
                 Cancel
               </Button>
-              <Button onClick={() => console.log("Submit")}>Yes</Button>
+              <Button onClick={handleLogout} disabled={isLogoutLoading}>
+                {isLogoutLoading ? "Logging out..." : "Logout"}
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
