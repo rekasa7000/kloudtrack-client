@@ -1,13 +1,7 @@
 import { ListFilter, Search } from "lucide-react";
 import { Input } from "../ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import StationTable from "./station-table";
 
 export const StationList = () => {
   return (
@@ -25,8 +19,6 @@ export const StationList = () => {
               <span className="font-medium">Filter</span>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Filter</DropdownMenuLabel>
-              <DropdownMenuSeparator />
               <DropdownMenuItem>Station Name</DropdownMenuItem>
               <DropdownMenuItem>Organization</DropdownMenuItem>
               <DropdownMenuItem>Active</DropdownMenuItem>
@@ -34,7 +26,7 @@ export const StationList = () => {
           </DropdownMenu>
         </div>
       </div>
-      {/* <StationTable /> */}
+      <StationTable />
     </div>
   );
 };

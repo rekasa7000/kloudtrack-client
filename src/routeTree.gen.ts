@@ -15,6 +15,7 @@ import { Route as RootRouteImport } from './routes/_root/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as RootTenantsRouteImport } from './routes/_root/tenants/route'
+import { Route as RootStationsRouteImport } from './routes/_root/stations/route'
 import { Route as RootDashboardRouteImport } from './routes/_root/dashboard/route'
 import { Route as RootUsersIndexImport } from './routes/_root/users/index'
 import { Route as RootTenantsIndexImport } from './routes/_root/tenants/index'
@@ -26,8 +27,12 @@ import { Route as RootDashboardIndexImport } from './routes/_root/dashboard/inde
 import { Route as RootConfigurationIndexImport } from './routes/_root/configuration/index'
 import { Route as RootAuditLogsIndexImport } from './routes/_root/audit-logs/index'
 import { Route as RootTenantsAddTenantImport } from './routes/_root/tenants/add-tenant'
+import { Route as RootStationsCreateImport } from './routes/_root/stations/create'
 import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
 import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
+import { Route as RootStationsCertificatesRouteImport } from './routes/_root/stations/certificates/route'
+import { Route as RootStationsCertificatesIndexImport } from './routes/_root/stations/certificates/index'
+import { Route as RootStationsCertificatesRootImport } from './routes/_root/stations/certificates/root'
 
 // Create/Update Routes
 
@@ -54,6 +59,12 @@ const RootTenantsRouteRoute = RootTenantsRouteImport.update({
   getParentRoute: () => RootRouteRoute,
 } as any)
 
+const RootStationsRouteRoute = RootStationsRouteImport.update({
+  id: '/stations',
+  path: '/stations',
+  getParentRoute: () => RootRouteRoute,
+} as any)
+
 const RootDashboardRouteRoute = RootDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -73,9 +84,9 @@ const RootTenantsIndexRoute = RootTenantsIndexImport.update({
 } as any)
 
 const RootStationsIndexRoute = RootStationsIndexImport.update({
-  id: '/stations/',
-  path: '/stations/',
-  getParentRoute: () => RootRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => RootStationsRouteRoute,
 } as any)
 
 const RootProfileIndexRoute = RootProfileIndexImport.update({
@@ -120,6 +131,12 @@ const RootTenantsAddTenantRoute = RootTenantsAddTenantImport.update({
   getParentRoute: () => RootTenantsRouteRoute,
 } as any)
 
+const RootStationsCreateRoute = RootStationsCreateImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => RootStationsRouteRoute,
+} as any)
+
 const RootDashboardMapRoute = RootDashboardMapImport.update({
   id: '/map',
   path: '/map',
@@ -131,6 +148,27 @@ const RootDashboardDataAnalysisRoute = RootDashboardDataAnalysisImport.update({
   path: '/data-analysis',
   getParentRoute: () => RootDashboardRouteRoute,
 } as any)
+
+const RootStationsCertificatesRouteRoute =
+  RootStationsCertificatesRouteImport.update({
+    id: '/certificates',
+    path: '/certificates',
+    getParentRoute: () => RootStationsRouteRoute,
+  } as any)
+
+const RootStationsCertificatesIndexRoute =
+  RootStationsCertificatesIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => RootStationsCertificatesRouteRoute,
+  } as any)
+
+const RootStationsCertificatesRootRoute =
+  RootStationsCertificatesRootImport.update({
+    id: '/root',
+    path: '/root',
+    getParentRoute: () => RootStationsCertificatesRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -157,6 +195,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootDashboardRouteImport
       parentRoute: typeof RootRouteImport
     }
+    '/_root/stations': {
+      id: '/_root/stations'
+      path: '/stations'
+      fullPath: '/stations'
+      preLoaderRoute: typeof RootStationsRouteImport
+      parentRoute: typeof RootRouteImport
+    }
     '/_root/tenants': {
       id: '/_root/tenants'
       path: '/tenants'
@@ -171,6 +216,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof rootRoute
     }
+    '/_root/stations/certificates': {
+      id: '/_root/stations/certificates'
+      path: '/certificates'
+      fullPath: '/stations/certificates'
+      preLoaderRoute: typeof RootStationsCertificatesRouteImport
+      parentRoute: typeof RootStationsRouteImport
+    }
     '/_root/dashboard/data-analysis': {
       id: '/_root/dashboard/data-analysis'
       path: '/data-analysis'
@@ -184,6 +236,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/map'
       preLoaderRoute: typeof RootDashboardMapImport
       parentRoute: typeof RootDashboardRouteImport
+    }
+    '/_root/stations/create': {
+      id: '/_root/stations/create'
+      path: '/create'
+      fullPath: '/stations/create'
+      preLoaderRoute: typeof RootStationsCreateImport
+      parentRoute: typeof RootStationsRouteImport
     }
     '/_root/tenants/add-tenant': {
       id: '/_root/tenants/add-tenant'
@@ -236,10 +295,10 @@ declare module '@tanstack/react-router' {
     }
     '/_root/stations/': {
       id: '/_root/stations/'
-      path: '/stations'
-      fullPath: '/stations'
+      path: '/'
+      fullPath: '/stations/'
       preLoaderRoute: typeof RootStationsIndexImport
-      parentRoute: typeof RootRouteImport
+      parentRoute: typeof RootStationsRouteImport
     }
     '/_root/tenants/': {
       id: '/_root/tenants/'
@@ -254,6 +313,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/users'
       preLoaderRoute: typeof RootUsersIndexImport
       parentRoute: typeof RootRouteImport
+    }
+    '/_root/stations/certificates/root': {
+      id: '/_root/stations/certificates/root'
+      path: '/root'
+      fullPath: '/stations/certificates/root'
+      preLoaderRoute: typeof RootStationsCertificatesRootImport
+      parentRoute: typeof RootStationsCertificatesRouteImport
+    }
+    '/_root/stations/certificates/': {
+      id: '/_root/stations/certificates/'
+      path: '/'
+      fullPath: '/stations/certificates/'
+      preLoaderRoute: typeof RootStationsCertificatesIndexImport
+      parentRoute: typeof RootStationsCertificatesRouteImport
     }
   }
 }
@@ -275,6 +348,38 @@ const RootDashboardRouteRouteChildren: RootDashboardRouteRouteChildren = {
 const RootDashboardRouteRouteWithChildren =
   RootDashboardRouteRoute._addFileChildren(RootDashboardRouteRouteChildren)
 
+interface RootStationsCertificatesRouteRouteChildren {
+  RootStationsCertificatesRootRoute: typeof RootStationsCertificatesRootRoute
+  RootStationsCertificatesIndexRoute: typeof RootStationsCertificatesIndexRoute
+}
+
+const RootStationsCertificatesRouteRouteChildren: RootStationsCertificatesRouteRouteChildren =
+  {
+    RootStationsCertificatesRootRoute: RootStationsCertificatesRootRoute,
+    RootStationsCertificatesIndexRoute: RootStationsCertificatesIndexRoute,
+  }
+
+const RootStationsCertificatesRouteRouteWithChildren =
+  RootStationsCertificatesRouteRoute._addFileChildren(
+    RootStationsCertificatesRouteRouteChildren,
+  )
+
+interface RootStationsRouteRouteChildren {
+  RootStationsCertificatesRouteRoute: typeof RootStationsCertificatesRouteRouteWithChildren
+  RootStationsCreateRoute: typeof RootStationsCreateRoute
+  RootStationsIndexRoute: typeof RootStationsIndexRoute
+}
+
+const RootStationsRouteRouteChildren: RootStationsRouteRouteChildren = {
+  RootStationsCertificatesRouteRoute:
+    RootStationsCertificatesRouteRouteWithChildren,
+  RootStationsCreateRoute: RootStationsCreateRoute,
+  RootStationsIndexRoute: RootStationsIndexRoute,
+}
+
+const RootStationsRouteRouteWithChildren =
+  RootStationsRouteRoute._addFileChildren(RootStationsRouteRouteChildren)
+
 interface RootTenantsRouteRouteChildren {
   RootTenantsAddTenantRoute: typeof RootTenantsAddTenantRoute
   RootTenantsIndexRoute: typeof RootTenantsIndexRoute
@@ -290,25 +395,25 @@ const RootTenantsRouteRouteWithChildren =
 
 interface RootRouteRouteChildren {
   RootDashboardRouteRoute: typeof RootDashboardRouteRouteWithChildren
+  RootStationsRouteRoute: typeof RootStationsRouteRouteWithChildren
   RootTenantsRouteRoute: typeof RootTenantsRouteRouteWithChildren
   RootAuditLogsIndexRoute: typeof RootAuditLogsIndexRoute
   RootConfigurationIndexRoute: typeof RootConfigurationIndexRoute
   RootMonitoringIndexRoute: typeof RootMonitoringIndexRoute
   RootOrganizationIndexRoute: typeof RootOrganizationIndexRoute
   RootProfileIndexRoute: typeof RootProfileIndexRoute
-  RootStationsIndexRoute: typeof RootStationsIndexRoute
   RootUsersIndexRoute: typeof RootUsersIndexRoute
 }
 
 const RootRouteRouteChildren: RootRouteRouteChildren = {
   RootDashboardRouteRoute: RootDashboardRouteRouteWithChildren,
+  RootStationsRouteRoute: RootStationsRouteRouteWithChildren,
   RootTenantsRouteRoute: RootTenantsRouteRouteWithChildren,
   RootAuditLogsIndexRoute: RootAuditLogsIndexRoute,
   RootConfigurationIndexRoute: RootConfigurationIndexRoute,
   RootMonitoringIndexRoute: RootMonitoringIndexRoute,
   RootOrganizationIndexRoute: RootOrganizationIndexRoute,
   RootProfileIndexRoute: RootProfileIndexRoute,
-  RootStationsIndexRoute: RootStationsIndexRoute,
   RootUsersIndexRoute: RootUsersIndexRoute,
 }
 
@@ -320,10 +425,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof RootRouteRouteWithChildren
   '/dashboard': typeof RootDashboardRouteRouteWithChildren
+  '/stations': typeof RootStationsRouteRouteWithChildren
   '/tenants': typeof RootTenantsRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
+  '/stations/certificates': typeof RootStationsCertificatesRouteRouteWithChildren
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
+  '/stations/create': typeof RootStationsCreateRoute
   '/tenants/add-tenant': typeof RootTenantsAddTenantRoute
   '/audit-logs': typeof RootAuditLogsIndexRoute
   '/configuration': typeof RootConfigurationIndexRoute
@@ -331,9 +439,11 @@ export interface FileRoutesByFullPath {
   '/monitoring': typeof RootMonitoringIndexRoute
   '/organization': typeof RootOrganizationIndexRoute
   '/profile': typeof RootProfileIndexRoute
-  '/stations': typeof RootStationsIndexRoute
+  '/stations/': typeof RootStationsIndexRoute
   '/tenants/': typeof RootTenantsIndexRoute
   '/users': typeof RootUsersIndexRoute
+  '/stations/certificates/root': typeof RootStationsCertificatesRootRoute
+  '/stations/certificates/': typeof RootStationsCertificatesIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -342,6 +452,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
+  '/stations/create': typeof RootStationsCreateRoute
   '/tenants/add-tenant': typeof RootTenantsAddTenantRoute
   '/audit-logs': typeof RootAuditLogsIndexRoute
   '/configuration': typeof RootConfigurationIndexRoute
@@ -352,6 +463,8 @@ export interface FileRoutesByTo {
   '/stations': typeof RootStationsIndexRoute
   '/tenants': typeof RootTenantsIndexRoute
   '/users': typeof RootUsersIndexRoute
+  '/stations/certificates/root': typeof RootStationsCertificatesRootRoute
+  '/stations/certificates': typeof RootStationsCertificatesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -359,10 +472,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_root': typeof RootRouteRouteWithChildren
   '/_root/dashboard': typeof RootDashboardRouteRouteWithChildren
+  '/_root/stations': typeof RootStationsRouteRouteWithChildren
   '/_root/tenants': typeof RootTenantsRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
+  '/_root/stations/certificates': typeof RootStationsCertificatesRouteRouteWithChildren
   '/_root/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/_root/dashboard/map': typeof RootDashboardMapRoute
+  '/_root/stations/create': typeof RootStationsCreateRoute
   '/_root/tenants/add-tenant': typeof RootTenantsAddTenantRoute
   '/_root/audit-logs/': typeof RootAuditLogsIndexRoute
   '/_root/configuration/': typeof RootConfigurationIndexRoute
@@ -373,6 +489,8 @@ export interface FileRoutesById {
   '/_root/stations/': typeof RootStationsIndexRoute
   '/_root/tenants/': typeof RootTenantsIndexRoute
   '/_root/users/': typeof RootUsersIndexRoute
+  '/_root/stations/certificates/root': typeof RootStationsCertificatesRootRoute
+  '/_root/stations/certificates/': typeof RootStationsCertificatesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -381,10 +499,13 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/dashboard'
+    | '/stations'
     | '/tenants'
     | '/login'
+    | '/stations/certificates'
     | '/dashboard/data-analysis'
     | '/dashboard/map'
+    | '/stations/create'
     | '/tenants/add-tenant'
     | '/audit-logs'
     | '/configuration'
@@ -392,9 +513,11 @@ export interface FileRouteTypes {
     | '/monitoring'
     | '/organization'
     | '/profile'
-    | '/stations'
+    | '/stations/'
     | '/tenants/'
     | '/users'
+    | '/stations/certificates/root'
+    | '/stations/certificates/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -402,6 +525,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard/data-analysis'
     | '/dashboard/map'
+    | '/stations/create'
     | '/tenants/add-tenant'
     | '/audit-logs'
     | '/configuration'
@@ -412,15 +536,20 @@ export interface FileRouteTypes {
     | '/stations'
     | '/tenants'
     | '/users'
+    | '/stations/certificates/root'
+    | '/stations/certificates'
   id:
     | '__root__'
     | '/'
     | '/_root'
     | '/_root/dashboard'
+    | '/_root/stations'
     | '/_root/tenants'
     | '/_auth/login'
+    | '/_root/stations/certificates'
     | '/_root/dashboard/data-analysis'
     | '/_root/dashboard/map'
+    | '/_root/stations/create'
     | '/_root/tenants/add-tenant'
     | '/_root/audit-logs/'
     | '/_root/configuration/'
@@ -431,6 +560,8 @@ export interface FileRouteTypes {
     | '/_root/stations/'
     | '/_root/tenants/'
     | '/_root/users/'
+    | '/_root/stations/certificates/root'
+    | '/_root/stations/certificates/'
   fileRoutesById: FileRoutesById
 }
 
@@ -468,13 +599,13 @@ export const routeTree = rootRoute
       "filePath": "_root/route.tsx",
       "children": [
         "/_root/dashboard",
+        "/_root/stations",
         "/_root/tenants",
         "/_root/audit-logs/",
         "/_root/configuration/",
         "/_root/monitoring/",
         "/_root/organization/",
         "/_root/profile/",
-        "/_root/stations/",
         "/_root/users/"
       ]
     },
@@ -485,6 +616,15 @@ export const routeTree = rootRoute
         "/_root/dashboard/data-analysis",
         "/_root/dashboard/map",
         "/_root/dashboard/"
+      ]
+    },
+    "/_root/stations": {
+      "filePath": "_root/stations/route.tsx",
+      "parent": "/_root",
+      "children": [
+        "/_root/stations/certificates",
+        "/_root/stations/create",
+        "/_root/stations/"
       ]
     },
     "/_root/tenants": {
@@ -498,6 +638,14 @@ export const routeTree = rootRoute
     "/_auth/login": {
       "filePath": "_auth/login.tsx"
     },
+    "/_root/stations/certificates": {
+      "filePath": "_root/stations/certificates/route.tsx",
+      "parent": "/_root/stations",
+      "children": [
+        "/_root/stations/certificates/root",
+        "/_root/stations/certificates/"
+      ]
+    },
     "/_root/dashboard/data-analysis": {
       "filePath": "_root/dashboard/data-analysis.tsx",
       "parent": "/_root/dashboard"
@@ -505,6 +653,10 @@ export const routeTree = rootRoute
     "/_root/dashboard/map": {
       "filePath": "_root/dashboard/map.tsx",
       "parent": "/_root/dashboard"
+    },
+    "/_root/stations/create": {
+      "filePath": "_root/stations/create.tsx",
+      "parent": "/_root/stations"
     },
     "/_root/tenants/add-tenant": {
       "filePath": "_root/tenants/add-tenant.tsx",
@@ -536,7 +688,7 @@ export const routeTree = rootRoute
     },
     "/_root/stations/": {
       "filePath": "_root/stations/index.tsx",
-      "parent": "/_root"
+      "parent": "/_root/stations"
     },
     "/_root/tenants/": {
       "filePath": "_root/tenants/index.tsx",
@@ -545,6 +697,14 @@ export const routeTree = rootRoute
     "/_root/users/": {
       "filePath": "_root/users/index.tsx",
       "parent": "/_root"
+    },
+    "/_root/stations/certificates/root": {
+      "filePath": "_root/stations/certificates/root.tsx",
+      "parent": "/_root/stations/certificates"
+    },
+    "/_root/stations/certificates/": {
+      "filePath": "_root/stations/certificates/index.tsx",
+      "parent": "/_root/stations/certificates"
     }
   }
 }

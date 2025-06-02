@@ -1,7 +1,7 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { useMapboxLocator } from "@/hooks/custom-hooks/use-mapbox-locator";
 import { useForm } from "@tanstack/react-form";
 import { useEffect } from "react";
-
 import {
   Select,
   SelectContent,
@@ -15,6 +15,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { FieldInfo } from "@/utils/field-info";
+
+export const Route = createFileRoute("/_root/stations/create")({
+  component: RouteComponent,
+});
 
 const firmwareVersions = [
   {
@@ -81,7 +85,7 @@ const stationTypes = [
   { value: "COASTALLEVEL", label: "Coastal Level Monitoring System" },
 ];
 
-export const CreateStation = () => {
+function RouteComponent() {
   const { mapContainer, lngLat, mapLoaded, locationInfo } = useMapboxLocator();
 
   const form = useForm({
@@ -445,4 +449,4 @@ export const CreateStation = () => {
       </form>
     </div>
   );
-};
+}

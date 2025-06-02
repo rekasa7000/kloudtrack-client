@@ -1,12 +1,5 @@
-import { useMemo, useReducer, useState } from "react";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  PaginationState,
-  useReactTable,
-} from "@tanstack/react-table";
+import { useMemo, useState } from "react";
+import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -21,7 +14,7 @@ interface StationMetadata {
 }
 
 const StationTable = () => {
-  const [data, setData] = useState<StationMetadata[]>();
+  const [data, setData] = useState<StationMetadata[]>([]);
 
   // column
   const columns = useMemo<ColumnDef<StationMetadata>[]>(
@@ -29,34 +22,34 @@ const StationTable = () => {
       {
         accessorKey: "name",
         header: "Name",
-        cell: (prop) => prop.getValue(),
+        cell: (prop) => prop.getValue() as string,
       },
       {
         accessorKey: "organization",
         header: "Organization",
-        cell: (prop) => prop.getValue()?.toLocaleString(),
+        cell: (prop) => prop.getValue() as string, // Removed toLocaleString()
       },
       {
         accessorKey: "lastSeen",
         header: "Last Seen",
-        cell: (prop) => prop.getValue(),
+        cell: (prop) => prop.getValue() as string,
       },
       {
         accessorKey: "createdAt",
         header: "Date Created",
-        cell: (prop) => prop.getValue(),
+        cell: (prop) => prop.getValue() as string,
       },
       {
         accessorKey: "status",
         header: "Status",
-        cell: (prop) => prop.getValue(),
+        cell: (prop) => prop.getValue() as string,
       },
     ],
     []
   );
 
   const table = useReactTable({
-    data: data ? data : [],
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
