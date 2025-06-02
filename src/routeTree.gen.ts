@@ -27,12 +27,10 @@ import { Route as RootDashboardIndexImport } from './routes/_root/dashboard/inde
 import { Route as RootConfigurationIndexImport } from './routes/_root/configuration/index'
 import { Route as RootAuditLogsIndexImport } from './routes/_root/audit-logs/index'
 import { Route as RootTenantsAddTenantImport } from './routes/_root/tenants/add-tenant'
+import { Route as RootStationsRootCertificateImport } from './routes/_root/stations/root-certificate'
 import { Route as RootStationsCreateImport } from './routes/_root/stations/create'
 import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
 import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
-import { Route as RootStationsCertificatesRouteImport } from './routes/_root/stations/certificates/route'
-import { Route as RootStationsCertificatesIndexImport } from './routes/_root/stations/certificates/index'
-import { Route as RootStationsCertificatesRootImport } from './routes/_root/stations/certificates/root'
 
 // Create/Update Routes
 
@@ -131,6 +129,13 @@ const RootTenantsAddTenantRoute = RootTenantsAddTenantImport.update({
   getParentRoute: () => RootTenantsRouteRoute,
 } as any)
 
+const RootStationsRootCertificateRoute =
+  RootStationsRootCertificateImport.update({
+    id: '/root-certificate',
+    path: '/root-certificate',
+    getParentRoute: () => RootStationsRouteRoute,
+  } as any)
+
 const RootStationsCreateRoute = RootStationsCreateImport.update({
   id: '/create',
   path: '/create',
@@ -148,27 +153,6 @@ const RootDashboardDataAnalysisRoute = RootDashboardDataAnalysisImport.update({
   path: '/data-analysis',
   getParentRoute: () => RootDashboardRouteRoute,
 } as any)
-
-const RootStationsCertificatesRouteRoute =
-  RootStationsCertificatesRouteImport.update({
-    id: '/certificates',
-    path: '/certificates',
-    getParentRoute: () => RootStationsRouteRoute,
-  } as any)
-
-const RootStationsCertificatesIndexRoute =
-  RootStationsCertificatesIndexImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => RootStationsCertificatesRouteRoute,
-  } as any)
-
-const RootStationsCertificatesRootRoute =
-  RootStationsCertificatesRootImport.update({
-    id: '/root',
-    path: '/root',
-    getParentRoute: () => RootStationsCertificatesRouteRoute,
-  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -216,13 +200,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof rootRoute
     }
-    '/_root/stations/certificates': {
-      id: '/_root/stations/certificates'
-      path: '/certificates'
-      fullPath: '/stations/certificates'
-      preLoaderRoute: typeof RootStationsCertificatesRouteImport
-      parentRoute: typeof RootStationsRouteImport
-    }
     '/_root/dashboard/data-analysis': {
       id: '/_root/dashboard/data-analysis'
       path: '/data-analysis'
@@ -242,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/create'
       fullPath: '/stations/create'
       preLoaderRoute: typeof RootStationsCreateImport
+      parentRoute: typeof RootStationsRouteImport
+    }
+    '/_root/stations/root-certificate': {
+      id: '/_root/stations/root-certificate'
+      path: '/root-certificate'
+      fullPath: '/stations/root-certificate'
+      preLoaderRoute: typeof RootStationsRootCertificateImport
       parentRoute: typeof RootStationsRouteImport
     }
     '/_root/tenants/add-tenant': {
@@ -314,20 +298,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootUsersIndexImport
       parentRoute: typeof RootRouteImport
     }
-    '/_root/stations/certificates/root': {
-      id: '/_root/stations/certificates/root'
-      path: '/root'
-      fullPath: '/stations/certificates/root'
-      preLoaderRoute: typeof RootStationsCertificatesRootImport
-      parentRoute: typeof RootStationsCertificatesRouteImport
-    }
-    '/_root/stations/certificates/': {
-      id: '/_root/stations/certificates/'
-      path: '/'
-      fullPath: '/stations/certificates/'
-      preLoaderRoute: typeof RootStationsCertificatesIndexImport
-      parentRoute: typeof RootStationsCertificatesRouteImport
-    }
   }
 }
 
@@ -348,32 +318,15 @@ const RootDashboardRouteRouteChildren: RootDashboardRouteRouteChildren = {
 const RootDashboardRouteRouteWithChildren =
   RootDashboardRouteRoute._addFileChildren(RootDashboardRouteRouteChildren)
 
-interface RootStationsCertificatesRouteRouteChildren {
-  RootStationsCertificatesRootRoute: typeof RootStationsCertificatesRootRoute
-  RootStationsCertificatesIndexRoute: typeof RootStationsCertificatesIndexRoute
-}
-
-const RootStationsCertificatesRouteRouteChildren: RootStationsCertificatesRouteRouteChildren =
-  {
-    RootStationsCertificatesRootRoute: RootStationsCertificatesRootRoute,
-    RootStationsCertificatesIndexRoute: RootStationsCertificatesIndexRoute,
-  }
-
-const RootStationsCertificatesRouteRouteWithChildren =
-  RootStationsCertificatesRouteRoute._addFileChildren(
-    RootStationsCertificatesRouteRouteChildren,
-  )
-
 interface RootStationsRouteRouteChildren {
-  RootStationsCertificatesRouteRoute: typeof RootStationsCertificatesRouteRouteWithChildren
   RootStationsCreateRoute: typeof RootStationsCreateRoute
+  RootStationsRootCertificateRoute: typeof RootStationsRootCertificateRoute
   RootStationsIndexRoute: typeof RootStationsIndexRoute
 }
 
 const RootStationsRouteRouteChildren: RootStationsRouteRouteChildren = {
-  RootStationsCertificatesRouteRoute:
-    RootStationsCertificatesRouteRouteWithChildren,
   RootStationsCreateRoute: RootStationsCreateRoute,
+  RootStationsRootCertificateRoute: RootStationsRootCertificateRoute,
   RootStationsIndexRoute: RootStationsIndexRoute,
 }
 
@@ -428,10 +381,10 @@ export interface FileRoutesByFullPath {
   '/stations': typeof RootStationsRouteRouteWithChildren
   '/tenants': typeof RootTenantsRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
-  '/stations/certificates': typeof RootStationsCertificatesRouteRouteWithChildren
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
   '/stations/create': typeof RootStationsCreateRoute
+  '/stations/root-certificate': typeof RootStationsRootCertificateRoute
   '/tenants/add-tenant': typeof RootTenantsAddTenantRoute
   '/audit-logs': typeof RootAuditLogsIndexRoute
   '/configuration': typeof RootConfigurationIndexRoute
@@ -442,8 +395,6 @@ export interface FileRoutesByFullPath {
   '/stations/': typeof RootStationsIndexRoute
   '/tenants/': typeof RootTenantsIndexRoute
   '/users': typeof RootUsersIndexRoute
-  '/stations/certificates/root': typeof RootStationsCertificatesRootRoute
-  '/stations/certificates/': typeof RootStationsCertificatesIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -453,6 +404,7 @@ export interface FileRoutesByTo {
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
   '/stations/create': typeof RootStationsCreateRoute
+  '/stations/root-certificate': typeof RootStationsRootCertificateRoute
   '/tenants/add-tenant': typeof RootTenantsAddTenantRoute
   '/audit-logs': typeof RootAuditLogsIndexRoute
   '/configuration': typeof RootConfigurationIndexRoute
@@ -463,8 +415,6 @@ export interface FileRoutesByTo {
   '/stations': typeof RootStationsIndexRoute
   '/tenants': typeof RootTenantsIndexRoute
   '/users': typeof RootUsersIndexRoute
-  '/stations/certificates/root': typeof RootStationsCertificatesRootRoute
-  '/stations/certificates': typeof RootStationsCertificatesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -475,10 +425,10 @@ export interface FileRoutesById {
   '/_root/stations': typeof RootStationsRouteRouteWithChildren
   '/_root/tenants': typeof RootTenantsRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
-  '/_root/stations/certificates': typeof RootStationsCertificatesRouteRouteWithChildren
   '/_root/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/_root/dashboard/map': typeof RootDashboardMapRoute
   '/_root/stations/create': typeof RootStationsCreateRoute
+  '/_root/stations/root-certificate': typeof RootStationsRootCertificateRoute
   '/_root/tenants/add-tenant': typeof RootTenantsAddTenantRoute
   '/_root/audit-logs/': typeof RootAuditLogsIndexRoute
   '/_root/configuration/': typeof RootConfigurationIndexRoute
@@ -489,8 +439,6 @@ export interface FileRoutesById {
   '/_root/stations/': typeof RootStationsIndexRoute
   '/_root/tenants/': typeof RootTenantsIndexRoute
   '/_root/users/': typeof RootUsersIndexRoute
-  '/_root/stations/certificates/root': typeof RootStationsCertificatesRootRoute
-  '/_root/stations/certificates/': typeof RootStationsCertificatesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -502,10 +450,10 @@ export interface FileRouteTypes {
     | '/stations'
     | '/tenants'
     | '/login'
-    | '/stations/certificates'
     | '/dashboard/data-analysis'
     | '/dashboard/map'
     | '/stations/create'
+    | '/stations/root-certificate'
     | '/tenants/add-tenant'
     | '/audit-logs'
     | '/configuration'
@@ -516,8 +464,6 @@ export interface FileRouteTypes {
     | '/stations/'
     | '/tenants/'
     | '/users'
-    | '/stations/certificates/root'
-    | '/stations/certificates/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -526,6 +472,7 @@ export interface FileRouteTypes {
     | '/dashboard/data-analysis'
     | '/dashboard/map'
     | '/stations/create'
+    | '/stations/root-certificate'
     | '/tenants/add-tenant'
     | '/audit-logs'
     | '/configuration'
@@ -536,8 +483,6 @@ export interface FileRouteTypes {
     | '/stations'
     | '/tenants'
     | '/users'
-    | '/stations/certificates/root'
-    | '/stations/certificates'
   id:
     | '__root__'
     | '/'
@@ -546,10 +491,10 @@ export interface FileRouteTypes {
     | '/_root/stations'
     | '/_root/tenants'
     | '/_auth/login'
-    | '/_root/stations/certificates'
     | '/_root/dashboard/data-analysis'
     | '/_root/dashboard/map'
     | '/_root/stations/create'
+    | '/_root/stations/root-certificate'
     | '/_root/tenants/add-tenant'
     | '/_root/audit-logs/'
     | '/_root/configuration/'
@@ -560,8 +505,6 @@ export interface FileRouteTypes {
     | '/_root/stations/'
     | '/_root/tenants/'
     | '/_root/users/'
-    | '/_root/stations/certificates/root'
-    | '/_root/stations/certificates/'
   fileRoutesById: FileRoutesById
 }
 
@@ -622,8 +565,8 @@ export const routeTree = rootRoute
       "filePath": "_root/stations/route.tsx",
       "parent": "/_root",
       "children": [
-        "/_root/stations/certificates",
         "/_root/stations/create",
+        "/_root/stations/root-certificate",
         "/_root/stations/"
       ]
     },
@@ -638,14 +581,6 @@ export const routeTree = rootRoute
     "/_auth/login": {
       "filePath": "_auth/login.tsx"
     },
-    "/_root/stations/certificates": {
-      "filePath": "_root/stations/certificates/route.tsx",
-      "parent": "/_root/stations",
-      "children": [
-        "/_root/stations/certificates/root",
-        "/_root/stations/certificates/"
-      ]
-    },
     "/_root/dashboard/data-analysis": {
       "filePath": "_root/dashboard/data-analysis.tsx",
       "parent": "/_root/dashboard"
@@ -656,6 +591,10 @@ export const routeTree = rootRoute
     },
     "/_root/stations/create": {
       "filePath": "_root/stations/create.tsx",
+      "parent": "/_root/stations"
+    },
+    "/_root/stations/root-certificate": {
+      "filePath": "_root/stations/root-certificate.tsx",
       "parent": "/_root/stations"
     },
     "/_root/tenants/add-tenant": {
@@ -697,14 +636,6 @@ export const routeTree = rootRoute
     "/_root/users/": {
       "filePath": "_root/users/index.tsx",
       "parent": "/_root"
-    },
-    "/_root/stations/certificates/root": {
-      "filePath": "_root/stations/certificates/root.tsx",
-      "parent": "/_root/stations/certificates"
-    },
-    "/_root/stations/certificates/": {
-      "filePath": "_root/stations/certificates/index.tsx",
-      "parent": "/_root/stations/certificates"
     }
   }
 }

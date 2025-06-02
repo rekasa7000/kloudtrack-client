@@ -2,8 +2,8 @@ import { ReactNode } from "react";
 import { Link, useMatchRoute } from "@tanstack/react-router";
 
 const tabs = [
-  { name: "List", url: "/stations/certificates" as const },
-  { name: "Root", url: "/stations/certificates/root" as const },
+  { name: "Station Certificates", url: "/stations/certificates" as const },
+  { name: "Root Certificates", url: "/stations/certificates/root" as const },
 ];
 
 const CertificateTabs = (): ReactNode => {

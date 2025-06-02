@@ -88,7 +88,7 @@ export const AppSidebar = (): ReactNode => {
   };
 
   return (
-    <Sidebar className="pl-2">
+    <Sidebar className="pl-2 h-screen">
       {/* ayaw mag white ewan kung baket */}
       <SidebarHeader className="bg-white dark:bg-stone-800 pb-5 pt-3.5 px-3 w-full flex-row items-center justify-between">
         <div>

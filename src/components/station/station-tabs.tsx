@@ -4,7 +4,7 @@ import { Link, useMatchRoute, useLocation } from "@tanstack/react-router";
 const tabs = [
   { name: "List", url: "/stations" as const },
   { name: "Create", url: "/stations/create" as const },
-  { name: "Certificates", url: "/stations/certificates" as const },
+  { name: "Certificates", url: "/stations/root-certificate" as const },
 ];
 
 const StationTabs = (): ReactNode => {
@@ -18,8 +18,6 @@ const StationTabs = (): ReactNode => {
 
         if (tab.url === "/stations") {
           isActive = matchRoute({ to: "/stations" }) && !location.pathname.startsWith("/stations/");
-        } else if (tab.url === "/stations/certificates") {
-          isActive = location.pathname.startsWith("/stations/certificates");
         } else {
           isActive = !!matchRoute({ to: tab.url });
         }
@@ -29,7 +27,7 @@ const StationTabs = (): ReactNode => {
             <Link
               to={tab.url}
               className={`w-fit text-nowrap px-11 py-2 text-sm transition-all font-inter ease-in-out ${
-                isActive ? "bg-white font-semibold border-b-2 border-black" : ""
+                isActive ? "bg-white font-semibold border-b-2 pb-1 border-main" : ""
               }`}
             >
               {tab.name}

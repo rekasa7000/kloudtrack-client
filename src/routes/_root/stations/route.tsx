@@ -9,10 +9,10 @@ function RouteComponent() {
   return (
     <main className="flex flex-col items-center w-full min-h-screen">
       <div className="flex flex-col w-full">
-        <h1 className="text-2xl font-bold font-inter text-[#545454]">Dashboard</h1>
+        <h1 className="text-2xl font-bold font-inter text-[#545454]">Stations</h1>
         <p className="mt-2 text-sm font-normal text-stone-700 font-montserrat">
-          Manage all users across the platform. Add, edit, assign roles, and control access to organizations and
-          stations.
+          Manage weather stations—register, activate, configure, and monitor real-time and historical data. Diagnose
+          issues, upload firmware, and access forecasts and downloads.
         </p>
         <StationTabs />
       </div>
