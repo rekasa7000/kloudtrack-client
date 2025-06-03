@@ -7,10 +7,8 @@ export const Route = createFileRoute("/_root/tenants/add-tenant")({
 
 function RouteComponent() {
   return (
-    <div className="w-full min-h-svh flex flex-col  justify-start items-start">
-      <h1 className="text-xl font-semibold md:text-3xl font-inter">
-        Create Organization
-      </h1>
+    <div className="w-full flex flex-col h-full justify-start items-start">
+      <h1 className="text-xl font-semibold md:text-3xl font-inter">Create Organization</h1>
       <TenantForm />
     </div>
   );

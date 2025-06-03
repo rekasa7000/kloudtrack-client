@@ -45,7 +45,7 @@ import {
 import { Button } from "@/components/ui/button";
 import DeviceCertificateUploader from "@/components/station/certificates/device-certificate-uploader";
 import { Separator } from "@/components/ui/separator";
-import { Tabs } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const mockStations: Station[] = [
   {
@@ -559,11 +559,62 @@ function RouteComponent() {
                               <DialogTrigger>
                                 <Command className="w-4 h-4 text-black" />
                               </DialogTrigger>
-                              <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
-                                <DialogHeader className="font-semibold">Root Certificate</DialogHeader>
-                                <DialogDescription>Send Command to specific weather station </DialogDescription>
-                                <Separator className="mb-2" />
-                                <Tabs></Tabs>
+                              <DialogContent className="min-w-sm flex flex-col gap-4">
+                                <div className="flex flex-col gap-1">
+                                  <DialogHeader className="font-semibold text-lg">Commands</DialogHeader>
+                                  <DialogDescription className="text-sm text-gray-700">
+                                    Send Command to specific weather station{" "}
+                                  </DialogDescription>
+                                </div>
+                                <Tabs defaultValue="reset" className="flex flex-col gap-2">
+                                  <TabsList className="border-gray-200 bg-transparent border-b-1 p-0 rounded-none">
+                                    <TabsTrigger value="reset" className="shadow-none rounded-none w-24">
+                                      Reset
+                                    </TabsTrigger>
+                                    <TabsTrigger value="status" className="shadow-none rounded-none w-24">
+                                      Status
+                                    </TabsTrigger>
+                                    <TabsTrigger value="update" className="shadow-none rounded-none w-24">
+                                      Update
+                                    </TabsTrigger>
+                                    <TabsTrigger value="sync" className="shadow-none rounded-none w-24">
+                                      Sync
+                                    </TabsTrigger>
+                                  </TabsList>
+                                  <TabsContent value="reset">
+                                    <div className="mb-5">
+                                      <Label className="text-lg text-gray-700 font-semibold">Reset</Label>
+                                      <h3 className="text-sm font-medium text-[#545454]">
+                                        Resetting this station will refresh the state of it.
+                                      </h3>
+                                    </div>
+                                    <Button>Reset</Button>
+                                  </TabsContent>
+                                  <TabsContent value="status">
+                                    <div className="mb-5">
+                                      <Label className="text-lg text-gray-700 font-semibold">Status</Label>
+                                      <h3 className="text-sm font-medium text-[#545454]">
+                                        This command will collect the device status and health.
+                                      </h3>
+                                    </div>
+                                  </TabsContent>
+                                  <TabsContent value="update">
+                                    <div className="mb-5">
+                                      <Label className="text-lg text-gray-700 font-semibold">Update Firmware</Label>
+                                      <h3 className="text-sm font-medium text-[#545454]">
+                                        This will allow the station to update its firmware
+                                      </h3>
+                                    </div>
+                                  </TabsContent>
+                                  <TabsContent value="sync">
+                                    <div className="mb-5">
+                                      <Label className="text-lg text-gray-700 font-semibold">Sync</Label>
+                                      <h3 className="text-sm font-medium text-[#545454]">
+                                        This will collect the current data for sync in.
+                                      </h3>
+                                    </div>
+                                  </TabsContent>
+                                </Tabs>
                               </DialogContent>
                             </Dialog>
                           </Button>
