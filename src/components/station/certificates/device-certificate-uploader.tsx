@@ -195,7 +195,7 @@ const DeviceCertificateUploader: React.FC<DeviceCertificateUploaderProps> = ({
   );
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full  mx-auto">
       <div className="mb-6">
         <h3 className="text-lg font-semibold flex items-center gap-2 mb-2">
           <FileText className="w-5 h-5 text-green-600" />

@@ -17,6 +17,9 @@ import {
   Shield,
   CheckCircle,
   XCircle,
+  Plus,
+  FilePlus,
+  Command,
 } from "lucide-react";
 import { Station } from "@/types/station";
 import { StationCertificate } from "@/types/certificate";
@@ -31,8 +34,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import DeviceCertificateUploader from "@/components/station/certificates/device-certificate-uploader";
+import { Separator } from "@/components/ui/separator";
+import { Tabs } from "@/components/ui/tabs";
 
 const mockStations: Station[] = [
   {
@@ -431,7 +444,7 @@ function RouteComponent() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center">
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
@@ -523,11 +536,37 @@ function RouteComponent() {
                               </div>
                             </DialogContent>
                           </Dialog>
-
+                          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-700">
+                            <Dialog>
+                              <DialogTrigger>
+                                <FilePlus className="w-4 h-4 text-black" />
+                              </DialogTrigger>
+                              <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
+                                <DialogHeader className="font-semibold">Root Certificate</DialogHeader>
+                                <DialogDescription>
+                                  Add and save root certificate from AWS IoT Core. Input its metadata
+                                </DialogDescription>
+                                <Separator className="mb-2" />
+                                <DeviceCertificateUploader />
+                              </DialogContent>
+                            </Dialog>
+                          </Button>
                           <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-700">
                             <Edit className="w-4 h-4" />
                           </Button>
-
+                          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-700">
+                            <Dialog>
+                              <DialogTrigger>
+                                <Command className="w-4 h-4 text-black" />
+                              </DialogTrigger>
+                              <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
+                                <DialogHeader className="font-semibold">Root Certificate</DialogHeader>
+                                <DialogDescription>Send Command to specific weather station </DialogDescription>
+                                <Separator className="mb-2" />
+                                <Tabs></Tabs>
+                              </DialogContent>
+                            </Dialog>
+                          </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700">

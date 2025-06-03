@@ -118,7 +118,7 @@ function RouteComponent() {
             <DialogDescription>Add and save root certificate from AWS IoT Core. Input its metadata</DialogDescription>
             <AddRootCertificate />
           </DialogContent>
-        </Dialog>{" "}
+        </Dialog>
       </div>
       <div className="mx-auto">
         <div className="mb-8">
