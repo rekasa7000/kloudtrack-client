@@ -1,7 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Shield, ShieldAlert, Trash2, Calendar, Globe, Key, AlertTriangle, CheckCircle } from "lucide-react";
+import {
+  Shield,
+  ShieldAlert,
+  Trash2,
+  Calendar,
+  Globe,
+  Key,
+  AlertTriangle,
+  CheckCircle,
+  GitCompareArrows,
+} from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Certificate, CertificateFile } from "@/types/certificate";
+import { Certificate } from "@/types/certificate";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import {
@@ -28,12 +38,7 @@ function RouteComponent() {
     {
       id: "cert-1",
       name: "Amazon Root CA 1",
-      subject: "CN=Amazon Root CA 1, O=Amazon, C=US",
-      issuer: "CN=Amazon Root CA 1, O=Amazon, C=US",
-      validFrom: "2015-05-26",
-      validTo: "2040-05-26",
-      serialNumber: "066c9fcf99bf8c0a39e2f0788a43e696365bca",
-      thumbprint: "a8985d3a65e5e5c4b2d7d66d40c6dd2fb19c5436",
+      version: "CA1",
       isActive: true,
       region: "us-east-1",
       createdAt: "2023-01-15",
@@ -41,12 +46,7 @@ function RouteComponent() {
     {
       id: "cert-2",
       name: "Amazon Root CA 2",
-      subject: "CN=Amazon Root CA 2, O=Amazon, C=US",
-      issuer: "CN=Amazon Root CA 2, O=Amazon, C=US",
-      validFrom: "2015-05-26",
-      validTo: "2040-05-26",
-      serialNumber: "066c9fd29635869f0a0fe58678f85b26bb8a37",
-      thumbprint: "b8985d3a65e5e5c4b2d7d66d40c6dd2fb19c5437",
+      version: "CA2",
       isActive: false,
       region: "us-west-2",
       createdAt: "2023-02-20",
@@ -54,12 +54,7 @@ function RouteComponent() {
     {
       id: "cert-3",
       name: "Amazon Root CA 3",
-      subject: "CN=Amazon Root CA 3, O=Amazon, C=US",
-      issuer: "CN=Amazon Root CA 3, O=Amazon, C=US",
-      validFrom: "2015-05-26",
-      validTo: "2040-05-26",
-      serialNumber: "066c9fd7c1bb104c2943e5717b7b2cc81ac10e",
-      thumbprint: "c8985d3a65e5e5c4b2d7d66d40c6dd2fb19c5438",
+      version: "CA3",
       isActive: true,
       region: "eu-west-1",
       createdAt: "2023-03-10",
@@ -67,12 +62,7 @@ function RouteComponent() {
     {
       id: "cert-4",
       name: "Amazon Root CA 4",
-      subject: "CN=Amazon Root CA 4, O=Amazon, C=US",
-      issuer: "CN=Amazon Root CA 4, O=Amazon, C=US",
-      validFrom: "2015-05-26",
-      validTo: "2040-05-26",
-      serialNumber: "066c9fd85f7f0c463ad5441f563aab7e605682",
-      thumbprint: "d8985d3a65e5e5c4b2d7d66d40c6dd2fb19c5439",
+      version: "CA4",
       isActive: true,
       region: "ap-southeast-1",
       createdAt: "2023-04-05",
@@ -113,7 +103,7 @@ function RouteComponent() {
           <DialogTrigger>
             <Button>Add</Button>
           </DialogTrigger>
-          <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
+          <DialogContent className="min-w-sm lg:min-w-[540px] flex flex-col gap-1">
             <DialogHeader className="font-semibold">Root Certificate</DialogHeader>
             <DialogDescription>Add and save root certificate from AWS IoT Core. Input its metadata</DialogDescription>
             <AddRootCertificate />
@@ -122,7 +112,7 @@ function RouteComponent() {
       </div>
       <div className="mx-auto">
         <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="bg-white rounded-xl p-4 border">
               <div className="flex items-center justify-between">
                 <div>
@@ -150,18 +140,6 @@ function RouteComponent() {
                   <p className="text-2xl font-bold text-gray-600">{certificates.filter((c) => !c.isActive).length}</p>
                 </div>
                 <ShieldAlert className="w-8 h-8 text-gray-500" />
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl p-4 border">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-500">Expiring Soon</p>
-                  <p className="text-2xl font-bold text-orange-600">
-                    {certificates.filter((c) => isExpiringSoon(c.validTo)).length}
-                  </p>
-                </div>
-                <AlertTriangle className="w-8 h-8 text-orange-500" />
               </div>
             </div>
           </div>
@@ -195,35 +173,16 @@ function RouteComponent() {
                         >
                           {cert.isActive ? "Active" : "Inactive"}
                         </span>
-                        {isExpiringSoon(cert.validTo) && (
-                          <span className="px-3 rounded-full text-xs font-medium bg-orange-100 text-orange-700">
-                            Expiring Soon
-                          </span>
-                        )}
                       </div>
 
                       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-sm text-gray-600">
-                        <div>
-                          <p>
-                            <span className="font-medium">Subject:</span> {cert.subject}
-                          </p>
-                          <p>
-                            <span className="font-medium">Created:</span> {formatDate(cert.createdAt)}
-                          </p>
-                        </div>
-                        <div>
-                          <p>
-                            <span className="font-medium">Thumbprint:</span> {cert.thumbprint}
-                          </p>
-                          <p>
-                            <span className="font-medium">Serial Number:</span> {cert.serialNumber}
-                          </p>
-                        </div>
+                        <p>
+                          <span className="font-medium">Created:</span> {formatDate(cert.createdAt)}
+                        </p>
                         <div>
                           <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4" />
-                            <span className="font-medium">Valid:</span> {formatDate(cert.validFrom)} -{" "}
-                            {formatDate(cert.validTo)}
+                            <GitCompareArrows className="w-4 h-4" />
+                            <span className="font-medium">Version:</span> {cert.version}
                           </div>
                           <div className="flex items-center gap-2">
                             <Globe className="w-4 h-4" />

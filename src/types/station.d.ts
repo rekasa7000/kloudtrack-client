@@ -1,16 +1,3 @@
-export interface Station {
-  id: string;
-  name: string;
-  description?: string;
-  status: "connected" | "disconnected" | "error" | "pending";
-  location?: string;
-  lastSeen?: Date;
-  deviceCertificate?: StationCertificate;
-  privateKey?: StationCertificate;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export interface StationListProps {
   stations: Station[];
   onStationSelect?: (station: Station) => void;
@@ -19,15 +6,28 @@ export interface StationListProps {
   onCertificateView?: (certificate: StationCertificate, type: "certificate" | "privateKey") => void;
 }
 
-interface Station {
+export interface Station {
   id: string;
   name: string;
-  description?: string;
+  type?: string;
   status: "connected" | "disconnected" | "error" | "pending";
   location?: string;
+  elevation?: string;
   lastSeen?: Date;
   deviceCertificate?: StationCertificate;
   privateKey?: StationCertificate;
+  certificate: Certificate;
   createdAt: Date;
-  updatedAt: Date;
+}
+
+interface Certificate {
+  certificateId?: string;
+  certificateArn?: string;
+  subject?: string;
+  issuer?: string;
+  status: string;
+  fingerprint?: string;
+  validSince: string;
+  expiresAt: Date;
+  createdAt: Date;
 }

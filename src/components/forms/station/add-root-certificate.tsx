@@ -14,13 +14,9 @@ const AddRootCertificate = () => {
 
   const form = useForm({
     defaultValues: {
-      subject: "",
-      issuer: "",
       version: "CA1",
-      validUntil: "",
-      expiresAt: "",
-      certificateId: "",
-      certificateArn: "",
+      region: "",
+
       rootCertificate: null as CertificateFile | null,
     },
     onSubmit: async ({ value }) => {
@@ -44,12 +40,7 @@ const AddRootCertificate = () => {
 
       formData.append("root-ca-file", file);
       formData.append("version", value.version);
-      formData.append("certificateId", value.certificateId);
-      formData.append("certificateArn", value.certificateArn);
-      formData.append("subject", value.subject);
-      formData.append("issuer", value.issuer);
-      formData.append("validUntil", value.validUntil);
-      formData.append("expiresAt", value.expiresAt);
+      formData.append("region", value.region);
 
       for (var pair of formData.entries()) {
         console.log(pair[0] + ", " + pair[1]);
@@ -72,46 +63,8 @@ const AddRootCertificate = () => {
         form.handleSubmit();
       }}
     >
-      <div className="bg-white flex flex-col lg:flex-row gap-5 rounded-lg space-y-4 py-5">
+      <div className="bg-white flex flex-col gap-2 rounded-lg space-y-4 py-5">
         <div className="w-full flex flex-col space-y-2">
-          <form.Field
-            name="certificateId"
-            children={(field) => (
-              <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                  Certificate ID
-                </Label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  placeholder="Input aws thing certificate id"
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            )}
-          />
-          <form.Field
-            name="certificateArn"
-            children={(field) => (
-              <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                  Certificate ARN
-                </Label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  placeholder="Input aws thing certificate arn"
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            )}
-          />
           <form.Field
             name="version"
             children={(field) => (
@@ -133,52 +86,12 @@ const AddRootCertificate = () => {
               </div>
             )}
           />
-
           <form.Field
-            name="subject"
+            name="region"
             children={(field) => (
               <div>
                 <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                  Subject
-                </Label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  placeholder="Input aws thing certificate subject"
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            )}
-          />
-
-          <form.Field
-            name="issuer"
-            children={(field) => (
-              <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                  Issuer
-                </Label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  placeholder="Input aws thing certificate issuer"
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            )}
-          />
-          <form.Field
-            name="validUntil"
-            children={(field) => (
-              <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                  Issuer
+                  Region
                 </Label>
                 <Input
                   id={field.name}
@@ -186,25 +99,6 @@ const AddRootCertificate = () => {
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   placeholder="Input aws thing certificate validity until"
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            )}
-          />
-          <form.Field
-            name="expiresAt"
-            children={(field) => (
-              <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                  Issuer
-                </Label>
-                <Input
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  placeholder="Input aws thing certificate issuer"
                   onChange={(e) => field.handleChange(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />

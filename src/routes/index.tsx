@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Cloud, Zap } from "lucide-react";
@@ -135,7 +136,7 @@ function RouteComponent() {
 
         <div
           ref={textRef}
-          className="text-[50rem] leading-none font-bold whitespace-nowrap transition-transform duration-100 ease-out font-montserrat"
+          className="text-[50rem] leading-[60rem] font-bold whitespace-nowrap transition-transform duration-100 ease-out font-montserrat "
           style={{
             transform: `translateX(-${scrollPosition}px)`,
           }}
@@ -168,108 +169,43 @@ function RouteComponent() {
           </div>
         )}
       </div>
-
-      <div className="bg-white">
-        <div className="bg-white">
-          <section className="py-20 px-6 w-full mx-auto relative h-[30rem]">
-            <video
-              src="https://videos.pexels.com/video-files/9354232/9354232-hd_1080_1920_28fps.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute top-0 left-0 z-0 block w-full h-[100%] object-cover"
-              poster="https://images.pexels.com/videos/9354232/pexels-photo-9354232.jpeg?auto=compress&amp;cs=tinysrgb&amp;fit=crop&amp;h=1200&amp;w=630"
-            ></video>
-            <div className="w-full absolute top-0 bottom-0 flex flex-col justify-center items-center">
-              <div className="text-center my-16">
-                <h1 className="text-6xl font-bold text-gray-900 mb-4">
-                  <span className="text-c_secondary ">Kloud</span>
-                  <span className="text-main">track</span>
-                </h1>
-
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">Disaster Preparedness Starts Here </p>
-              </div>
-              <div className="grid md:grid-cols-3 gap-8">
-                {solutions.map((solution, index) => (
-                  <div key={index} className="bg-gray-50 rounded-lg p-8 hover:shadow-lg transition-shadow duration-300">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4">{solution.title}</h3>
-                    <p className="text-gray-600">{solution.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="py-20 px-6 bg-gray-50">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold text-gray-900 mb-4">Key Features</h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Advanced technology solutions for real-time weather monitoring and decision support
-                </p>
-              </div>
-              <div className="grid md:grid-cols-2 gap-12">
-                {features.map((feature, index) => (
-                  <div key={index} className="flex gap-6">
-                    <div className="flex-shrink-0 w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
-                      {feature.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-semibold text-gray-900 mb-4">{feature.title}</h3>
-                      <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="py-20 px-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold text-gray-900 mb-4">Additional Services</h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Specialized monitoring systems tailored for different environmental conditions
-                </p>
-              </div>
-              <div className="grid md:grid-cols-3 gap-8">
-                {otherServices.map((service, index) => (
-                  <div
-                    key={index}
-                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
-                  >
-                    <div className="h-48 bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-                      <div className="text-white text-center">
-                        <Cloud className="w-12 h-12 mx-auto mb-2" />
-                        <p className="text-sm opacity-90">{service.image}</p>
-                      </div>
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3">{service.title}</h3>
-                      <p className="text-gray-600 leading-relaxed">{service.content}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="py-20 px-6 bg-gray-900 text-white">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl font-bold mb-6">Ready to Get Started?</h2>
-              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                Join us in building resilient communities with cutting-edge weather monitoring technology
-              </p>
-              <Link to={isAuthenticated ? "/dashboard" : "/login"}>
-                <Button className="bg-main hover:bg-amber-400 text-black px-8 py-3 text-lg font-semibold">
-                  {isAuthenticated ? "Go to Dashboard" : "Get Started Today"}
-                </Button>
-              </Link>
-            </div>
-          </section>
+      <div className="w-full text-center text-white bg-c_secondary text-2xl font-montserrat">KLOUDTRACK</div>
+      <section className="w-full h-full bg-main">
+        <div className=" flex flex-col container m-auto space-y-5 py-5 ">
+          {solutions.map((item) => (
+            <Card className="p-2">
+              <CardTitle>{item.title}</CardTitle>
+              <CardDescription>{item.description}</CardDescription>
+            </Card>
+          ))}
         </div>
-      </div>
+      </section>
+      <section className="w-full h-full bg-c_secondary">
+        <div className=" flex flex-col container m-auto space-y-5 py-5 ">
+          {features.map((item) => (
+            <Card className="p-2">
+              <CardTitle className="flex items-center gap-2">
+                {item.icon}
+                {item.title}
+              </CardTitle>
+              <CardDescription>{item.description}</CardDescription>
+            </Card>
+          ))}
+        </div>
+      </section>
+      <section className="w-full h-full bg-main">
+        <div className=" flex flex-col container m-auto space-y-5 py-5 ">
+          {otherServices.map((item) => (
+            <Card className="p-2">
+              <CardTitle className="flex items-center gap-2">
+                {item.image}
+                {item.title}
+              </CardTitle>
+              <CardDescription>{item.content}</CardDescription>
+            </Card>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

@@ -27,12 +27,7 @@ export interface StationCertificate {
 interface Certificate {
   id: string;
   name: string;
-  subject: string;
-  issuer: string;
-  validFrom: string;
-  validTo: string;
-  serialNumber: string;
-  thumbprint: string;
+  version: string;
   isActive: boolean;
   region: string;
   createdAt: string;

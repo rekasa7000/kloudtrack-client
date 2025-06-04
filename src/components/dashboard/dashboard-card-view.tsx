@@ -41,12 +41,8 @@ const DashboardCardView = () => {
                   </div>
                 </div>
                 <div className="right-10 bottom-10 z-10 absolute">
-                  <span className="text-white text-5xl font-bold font-montserrat">
-                    40{" "}
-                  </span>
-                  <span className="text-white text-4xl font-medium font-montserrat">
-                    °C
-                  </span>
+                  <span className="text-white text-5xl font-bold font-montserrat">40 </span>
+                  <span className="text-white text-4xl font-medium font-montserrat">°C</span>
                 </div>
               </div>
 

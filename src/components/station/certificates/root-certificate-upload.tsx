@@ -77,7 +77,7 @@ const RootCertificateUploader: React.FC<RootCertificateUploaderProps> = ({ onCer
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full">
       <div className="mb-4">
         <h3 className="text-lg font-semibold flex items-center gap-2 mb-2">
           <Key className="w-5 h-5 text-main" />

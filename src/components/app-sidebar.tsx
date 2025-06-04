@@ -37,6 +37,7 @@ import {
 import { useTheme } from "./theme-provider";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 // Menu items.
 const sidebar_items = [
@@ -66,15 +67,16 @@ const sidebar_items = [
     icon: Settings,
   },
   {
-    title: "Admin",
+    title: "Profile",
     url: "/profile",
-    icon: ShieldUserIcon,
+    icon: null,
   },
 ];
 
 export const AppSidebar = (): ReactNode => {
   const { setTheme } = useTheme();
   const navigate = useNavigate();
+  const user = useAuth();
 
   const { logout, isLogoutLoading } = useAuth();
 
@@ -128,7 +130,13 @@ export const AppSidebar = (): ReactNode => {
                       [&.active]:dark:bg-stone-600 
                       "
                     >
-                      <item.icon />
+                      {!item.icon ? (
+                        <Avatar className="border-main border bg-">
+                          <AvatarFallback>PR</AvatarFallback>
+                        </Avatar>
+                      ) : (
+                        <item.icon />
+                      )}
                       {item.title}
                     </Link>
                   </SidebarMenuButton>

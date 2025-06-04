@@ -132,7 +132,7 @@ const DeviceCertificateUploader: React.FC<DeviceCertificateUploaderProps> = ({
 
       {!file ? (
         <div
-          className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors ${
+          className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors aspect-[10/4] ${
             dragStates[type] ? "border-blue-500 bg-blue-50" : "border-gray-300 hover:border-gray-400"
           }`}
           onDrop={(e) => handleDrop(e, type)}
@@ -142,7 +142,7 @@ const DeviceCertificateUploader: React.FC<DeviceCertificateUploaderProps> = ({
           }}
           onDragLeave={() => setDragStates((prev) => ({ ...prev, [type]: false }))}
         >
-          <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+          <Upload className="w-10 h-10 text-gray-400 mx-auto mb-2" />
           <p className="text-sm text-gray-600 mb-1">
             Drop your {type === "privateKey" ? "private key" : "certificate"} here, or{" "}
             <button onClick={() => inputRef.current?.click()} className="text-blue-600 hover:text-blue-700 font-medium">
@@ -155,7 +155,7 @@ const DeviceCertificateUploader: React.FC<DeviceCertificateUploaderProps> = ({
         <div className="border rounded-lg p-3 bg-green-50 border-green-200">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-green-600" />
+              <CheckCircle className="w-5 h-5 text-green-600" />
               <div>
                 <p className="text-sm font-medium text-green-800">{file.name}</p>
                 <p className="text-xs text-green-600">{(file.size / 1024).toFixed(1)} KB</p>
@@ -196,17 +196,7 @@ const DeviceCertificateUploader: React.FC<DeviceCertificateUploaderProps> = ({
 
   return (
     <div className="w-full  mx-auto">
-      <div className="mb-6">
-        <h3 className="text-lg font-semibold flex items-center gap-2 mb-2">
-          <FileText className="w-5 h-5 text-green-600" />
-          Device Certificates
-        </h3>
-        <p className="text-sm text-gray-600">
-          Upload your device's private key and certificate for AWS IoT Core Thing authentication.
-        </p>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-1 md:grid-rows-2">
         {renderUploadArea(
           "privateKey",
           privateKey,

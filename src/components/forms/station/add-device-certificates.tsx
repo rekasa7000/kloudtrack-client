@@ -1,3 +1,4 @@
+import DeviceCertificateUploader from "@/components/station/certificates/device-certificate-uploader";
 import RootCertificateUploader from "@/components/station/certificates/root-certificate-upload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,12 +22,18 @@ const AddDeviceCertificates = () => {
       expiresAt: "",
       certificateId: "",
       certificateArn: "",
-      rootCertificate: null as CertificateFile | null,
+      region: "",
+      certificate: null as CertificateFile | null,
+      privateKey: null as CertificateFile | null,
     },
     onSubmit: async ({ value }) => {
       console.log("Form submitted with values:", value);
 
-      if (!value.rootCertificate) {
+      if (!value.certificate) {
+        setUploadError("Please upload a root certificate");
+        return;
+      }
+      if (!value.privateKey) {
         setUploadError("Please upload a root certificate");
         return;
       }
@@ -36,13 +43,20 @@ const AddDeviceCertificates = () => {
 
       const formData = new FormData();
 
-      const blob = new Blob([value.rootCertificate.content], { type: "application/x-pem-file" });
-      const file = new File([blob], value.rootCertificate.name, {
+      const certificateBlob = new Blob([value.certificate.content], { type: "application/x-pem-file" });
+      const certificateFile = new File([certificateBlob], value.certificate.name, {
         type: "application/x-pem-file",
         lastModified: Date.now(),
       });
 
-      formData.append("root-ca-file", file);
+      const privateKeyBlob = new Blob([value.privateKey.content], { type: "application/x-pem-file" });
+      const privateKeyFile = new File([privateKeyBlob], value.certificate.name, {
+        type: "application/x-pem-file",
+        lastModified: Date.now(),
+      });
+
+      formData.append("cert-file", certificateFile);
+      formData.append("key-file", privateKeyFile);
       formData.append("version", value.version);
       formData.append("certificateId", value.certificateId);
       formData.append("certificateArn", value.certificateArn);
@@ -50,6 +64,7 @@ const AddDeviceCertificates = () => {
       formData.append("issuer", value.issuer);
       formData.append("validUntil", value.validUntil);
       formData.append("expiresAt", value.expiresAt);
+      formData.append("region", value.region);
 
       for (var pair of formData.entries()) {
         console.log(pair[0] + ", " + pair[1]);
@@ -57,10 +72,16 @@ const AddDeviceCertificates = () => {
     },
   });
 
-  const handleRootCertUpload = (cert: CertificateFile) => {
-    form.setFieldValue("rootCertificate", cert);
+  const handleCertificateUpload = (cert: CertificateFile) => {
+    form.setFieldValue("certificate", cert);
     setUploadError(null);
-    console.log("Root Certificate uploaded:", cert.name);
+    console.log("Device Certificate uploaded:", cert.name);
+  };
+
+  const handlePrivateKeyUpload = (privateKey: CertificateFile) => {
+    form.setFieldValue("privateKey", privateKey);
+    setUploadError(null);
+    console.log("Device Private Key uploaded:", privateKey.name);
   };
 
   return (
@@ -72,7 +93,7 @@ const AddDeviceCertificates = () => {
         form.handleSubmit();
       }}
     >
-      <div className="bg-white flex flex-col lg:flex-row gap-5 rounded-lg space-y-4 py-5">
+      <div className="bg-white flex flex-col lg:flex-row gap-5 rounded-lg space-y-4 py-2">
         <div className="w-full flex flex-col space-y-2">
           <form.Field
             name="certificateId"
@@ -133,7 +154,25 @@ const AddDeviceCertificates = () => {
               </div>
             )}
           />
-
+          <form.Field
+            name="region"
+            children={(field) => (
+              <div>
+                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                  Region
+                </Label>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  placeholder="Input aws thing certificate validity until"
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            )}
+          />
           <form.Field
             name="subject"
             children={(field) => (
@@ -178,7 +217,7 @@ const AddDeviceCertificates = () => {
             children={(field) => (
               <div>
                 <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                  Issuer
+                  Valid Until
                 </Label>
                 <Input
                   id={field.name}
@@ -197,14 +236,14 @@ const AddDeviceCertificates = () => {
             children={(field) => (
               <div>
                 <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
-                  Issuer
+                  Expires
                 </Label>
                 <Input
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
-                  placeholder="Input aws thing certificate issuer"
+                  placeholder="Input aws thing certificate expiration"
                   onChange={(e) => field.handleChange(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -214,7 +253,7 @@ const AddDeviceCertificates = () => {
         </div>
         <div className="w-full">
           <form.Field
-            name="rootCertificate"
+            name="certificate"
             validators={{
               onChange: ({ value }) => {
                 if (!value) {
@@ -225,7 +264,10 @@ const AddDeviceCertificates = () => {
             }}
             children={(field) => (
               <div>
-                <RootCertificateUploader onCertificateUpload={handleRootCertUpload} />
+                <DeviceCertificateUploader
+                  onCertificateUpload={handleCertificateUpload}
+                  onPrivateKeyUpload={handlePrivateKeyUpload}
+                />
                 <FieldInfo field={field} />
               </div>
             )}

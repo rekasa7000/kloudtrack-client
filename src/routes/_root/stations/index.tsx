@@ -1,13 +1,9 @@
-import { StationList } from "@/components/station/station-list";
 import { Label } from "@/components/ui/label";
 import { createFileRoute } from "@tanstack/react-router";
-
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Wifi,
-  WifiOff,
   AlertTriangle,
-  Clock,
   Key,
   FileText,
   MapPin,
@@ -15,14 +11,11 @@ import {
   Edit,
   Trash2,
   Shield,
-  CheckCircle,
   XCircle,
-  Plus,
   FilePlus,
   Command,
 } from "lucide-react";
 import { Station } from "@/types/station";
-import { StationCertificate } from "@/types/certificate";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,18 +36,32 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import DeviceCertificateUploader from "@/components/station/certificates/device-certificate-uploader";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+import AddDeviceCertificates from "@/components/forms/station/add-device-certificates";
+import { formatDate, formatRelativeTime, getStatusColor, getStatusIcon } from "@/utils/utils";
+import StationDetails from "@/components/station/station-details";
 
 const mockStations: Station[] = [
   {
     id: "1",
-    name: "Temperature Sensor A1",
-    description: "Main warehouse temperature monitoring",
+    name: "Pto. Rivas Ibaba AWS",
+    type: "Automated Weather Station",
     status: "connected",
-    location: "Warehouse A - Section 1",
+    location: "Pto. Rivas Ibaba, Balanga City, Bataan",
     lastSeen: new Date(Date.now() - 1000 * 60 * 5),
+    certificate: {
+      certificateId: " abcde",
+      certificateArn: " abcde",
+      subject: " abcde",
+      issuer: " abcde",
+      status: " abcde",
+      fingerprint: " abcde",
+      validSince: " abcde",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+    },
     deviceCertificate: {
       id: "cert-1",
       name: "temp-sensor-a1-cert.pem",
@@ -75,15 +82,25 @@ const mockStations: Station[] = [
       fingerprint: "SHA256:abcdef1234567890",
     },
     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
-    updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1),
   },
   {
     id: "2",
-    name: "Humidity Sensor B2",
-    description: "Office humidity control system",
+    name: "Daang Bago RLMS",
+    type: "River Level Monitoring System",
     status: "disconnected",
-    location: "Office Building B - Floor 2",
+    location: "Daang Bago, Dinalupihan, Bataan",
     lastSeen: new Date(Date.now() - 1000 * 60 * 60 * 2),
+    certificate: {
+      certificateId: " abcde",
+      certificateArn: " abcde",
+      subject: " abcde",
+      issuer: " abcde",
+      status: " abcde",
+      fingerprint: " abcde",
+      validSince: " abcde",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+    },
     deviceCertificate: {
       id: "cert-2",
       name: "humidity-sensor-b2-cert.pem",
@@ -101,18 +118,27 @@ const mockStations: Station[] = [
         "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC7VJTUt9Us8cKB\n-----END PRIVATE KEY-----",
       size: 1702,
       uploadedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14),
-      fingerprint: "SHA256:0987654321fedcba",
     },
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 45),
-    updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 2),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
   },
   {
     id: "3",
-    name: "Motion Detector C3",
-    description: "Security motion detection",
+    name: "Bayan-bayanan ARG",
+    type: "Automatic Rain Gauge",
     status: "error",
-    location: "Parking Lot C - Entrance",
+    location: "Bayan Bayanan, Dinalupihan Bataan",
     lastSeen: new Date(Date.now() - 1000 * 60 * 60 * 24),
+    certificate: {
+      certificateId: " abcde",
+      certificateArn: " abcde",
+      subject: " abcde",
+      issuer: " abcde",
+      status: " abcde",
+      fingerprint: " abcde",
+      validSince: " abcde",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+    },
     deviceCertificate: {
       id: "cert-3",
       name: "motion-detector-c3-cert.pem",
@@ -123,17 +149,26 @@ const mockStations: Station[] = [
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 180),
       fingerprint: "SHA256:abcd1234efgh5678",
     },
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 60),
-    updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24),
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
   },
   {
     id: "4",
-    name: "Smart Thermostat D4",
-    description: "HVAC temperature control",
+    name: "Pto. Rivas Ibaba CLMS",
+    type: "Coastal Level Monitoring System",
     status: "pending",
-    location: "Conference Room D",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
-    updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3),
+    location: "Pto. Rivas Ibaba, Balanga City, Bataan",
+    certificate: {
+      certificateId: " abcde",
+      certificateArn: " abcde",
+      subject: " abcde",
+      issuer: " abcde",
+      status: " abcde",
+      fingerprint: " abcde",
+      validSince: " abcde",
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+    },
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30),
   },
 ];
 
@@ -143,55 +178,6 @@ export const Route = createFileRoute("/_root/stations/")({
 
 function RouteComponent() {
   const [stations, setStations] = useState<Station[]>(mockStations);
-  const [selectedStation, setSelectedStation] = useState<Station | null>(null);
-
-  const getStatusIcon = (status: Station["status"]) => {
-    switch (status) {
-      case "connected":
-        return <Wifi className="w-5 h-5 text-green-600" />;
-      case "disconnected":
-        return <WifiOff className="w-5 h-5 text-gray-500" />;
-      case "error":
-        return <AlertTriangle className="w-5 h-5 text-red-600" />;
-      case "pending":
-        return <Clock className="w-5 h-5 text-yellow-600" />;
-    }
-  };
-
-  const getStatusColor = (status: Station["status"]) => {
-    switch (status) {
-      case "connected":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "disconnected":
-        return "bg-gray-100 text-gray-800 border-gray-200";
-      case "error":
-        return "bg-red-100 text-red-800 border-red-200";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-    }
-  };
-
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
-
-  const formatRelativeTime = (date: Date) => {
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-    const minutes = Math.floor(diff / (1000 * 60));
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-    if (minutes < 60) return `${minutes}m ago`;
-    if (hours < 24) return `${hours}h ago`;
-    return `${days}d ago`;
-  };
 
   const handleDeleteStation = (stationId: string) => {
     setStations((prev) => prev.filter((s) => s.id !== stationId));
@@ -285,7 +271,7 @@ function RouteComponent() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
                           <div className="text-sm font-medium text-gray-900">{station.name}</div>
-                          {station.description && <div className="text-sm text-gray-500">{station.description}</div>}
+                          {station.type && <div className="text-sm text-gray-500">{station.type}</div>}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -446,183 +432,109 @@ function RouteComponent() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <Dialog>
-                            <DialogTrigger asChild>
-                              <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
-                                <Eye className="w-4 h-4" />
-                              </Button>
+                            <DialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-blue-600 hover:text-blue-700 hover:bg-blue-50">
+                              <Eye className="w-4 h-4" />
                             </DialogTrigger>
-                            <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
-                              <DialogHeader>
+                            <DialogContent className="w-full min-w-sm lg:min-w-5xl min-h-[50vh] overflow-hidden flex flex-col justify-start">
+                              <DialogHeader className="mb-0 pb-0">
                                 <DialogTitle>Station Details</DialogTitle>
+                                <DialogDescription>Station details and it's certificate metadata.</DialogDescription>
                               </DialogHeader>
-                              <div className="overflow-y-auto">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                  <div className="space-y-4">
-                                    <h4 className="font-medium text-gray-900">Basic Information</h4>
-                                    <div className="space-y-2 text-sm">
-                                      <div className="flex justify-between">
-                                        <span className="text-gray-600">Name:</span>
-                                        <span className="font-medium">{station.name}</span>
-                                      </div>
-                                      <div className="flex justify-between">
-                                        <span className="text-gray-600">Status:</span>
-                                        <div className="flex items-center gap-2">
-                                          {getStatusIcon(station.status)}
-                                          <span
-                                            className={`px-2 py-1 text-xs rounded-full border ${getStatusColor(station.status)}`}
-                                          >
-                                            {station.status}
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <div className="flex justify-between">
-                                        <span className="text-gray-600">Location:</span>
-                                        <span className="font-medium">{station.location || "Not set"}</span>
-                                      </div>
-                                      <div className="flex justify-between">
-                                        <span className="text-gray-600">Created:</span>
-                                        <span className="font-medium">{formatDate(station.createdAt)}</span>
-                                      </div>
-                                      <div className="flex justify-between">
-                                        <span className="text-gray-600">Last Seen:</span>
-                                        <span className="font-medium">
-                                          {station.lastSeen ? formatDate(station.lastSeen) : "Never"}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div className="space-y-4">
-                                    <h4 className="font-medium text-gray-900">Certificate Status</h4>
-                                    <div className="space-y-3">
-                                      <div className="p-3 border rounded-lg">
-                                        <div className="flex items-center justify-between mb-2">
-                                          <span className="font-medium text-sm">Device Certificate</span>
-                                          {station.deviceCertificate ? (
-                                            <CheckCircle className="w-5 h-5 text-green-600" />
-                                          ) : (
-                                            <XCircle className="w-5 h-5 text-red-600" />
-                                          )}
-                                        </div>
-                                        {station.deviceCertificate ? (
-                                          <div className="text-xs text-gray-600">
-                                            <p>{station.deviceCertificate.name}</p>
-                                            <p>Uploaded: {formatDate(station.deviceCertificate.uploadedAt)}</p>
-                                          </div>
-                                        ) : (
-                                          <p className="text-xs text-red-600">No certificate uploaded</p>
-                                        )}
-                                      </div>
-                                      <div className="p-3 border rounded-lg">
-                                        <div className="flex items-center justify-between mb-2">
-                                          <span className="font-medium text-sm">Private Key</span>
-                                          {station.privateKey ? (
-                                            <CheckCircle className="w-5 h-5 text-green-600" />
-                                          ) : (
-                                            <XCircle className="w-5 h-5 text-red-600" />
-                                          )}
-                                        </div>
-                                        {station.privateKey ? (
-                                          <div className="text-xs text-gray-600">
-                                            <p>{station.privateKey.name}</p>
-                                            <p>Uploaded: {formatDate(station.privateKey.uploadedAt)}</p>
-                                          </div>
-                                        ) : (
-                                          <p className="text-xs text-red-600">No private key uploaded</p>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+                              <Separator className="h-1" />
+                              <StationDetails station={station} />
                             </DialogContent>
                           </Dialog>
-                          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-700">
-                            <Dialog>
-                              <DialogTrigger>
-                                <FilePlus className="w-4 h-4 text-black" />
-                              </DialogTrigger>
-                              <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
-                                <DialogHeader className="font-semibold">Root Certificate</DialogHeader>
-                                <DialogDescription>
-                                  Add and save root certificate from AWS IoT Core. Input its metadata
+                          <Dialog>
+                            <DialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-600 hover:text-gray-700 hover:bg-gray-50">
+                              <FilePlus className="w-4 h-4 text-black" />
+                            </DialogTrigger>
+                            <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
+                              <DialogTitle className="font-semibold">Device Certificate</DialogTitle>
+                              <DialogDescription>
+                                Add and save root certificate from AWS IoT Core. Input its metadata
+                              </DialogDescription>
+                              <Separator className="mb-2" />
+                              <AddDeviceCertificates />
+                            </DialogContent>
+                          </Dialog>
+                          <Dialog>
+                            <DialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-600 hover:text-gray-700 hover:bg-gray-50">
+                              <Edit className="w-4 h-4" />
+                            </DialogTrigger>
+                            <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
+                              <DialogHeader className="font-semibold">Update Station</DialogHeader>
+                              <DialogDescription>Update station metadata.</DialogDescription>
+                              <Separator className="mb-2" />
+                            </DialogContent>
+                          </Dialog>
+                          <Dialog>
+                            <DialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-600 hover:text-gray-700 hover:bg-gray-50">
+                              <Command className="w-4 h-4 text-black" />
+                            </DialogTrigger>
+                            <DialogContent className="min-w-sm flex flex-col gap-4">
+                              <div className="flex flex-col gap-1">
+                                <DialogHeader className="font-semibold text-lg">Commands</DialogHeader>
+                                <DialogDescription className="text-sm text-gray-700">
+                                  Send Command to specific weather station{" "}
                                 </DialogDescription>
-                                <Separator className="mb-2" />
-                                <DeviceCertificateUploader />
-                              </DialogContent>
-                            </Dialog>
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-700">
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-700">
-                            <Dialog>
-                              <DialogTrigger>
-                                <Command className="w-4 h-4 text-black" />
-                              </DialogTrigger>
-                              <DialogContent className="min-w-sm flex flex-col gap-4">
-                                <div className="flex flex-col gap-1">
-                                  <DialogHeader className="font-semibold text-lg">Commands</DialogHeader>
-                                  <DialogDescription className="text-sm text-gray-700">
-                                    Send Command to specific weather station{" "}
-                                  </DialogDescription>
-                                </div>
-                                <Tabs defaultValue="reset" className="flex flex-col gap-2">
-                                  <TabsList className="border-gray-200 bg-transparent border-b-1 p-0 rounded-none">
-                                    <TabsTrigger value="reset" className="shadow-none rounded-none w-24">
-                                      Reset
-                                    </TabsTrigger>
-                                    <TabsTrigger value="status" className="shadow-none rounded-none w-24">
-                                      Status
-                                    </TabsTrigger>
-                                    <TabsTrigger value="update" className="shadow-none rounded-none w-24">
-                                      Update
-                                    </TabsTrigger>
-                                    <TabsTrigger value="sync" className="shadow-none rounded-none w-24">
-                                      Sync
-                                    </TabsTrigger>
-                                  </TabsList>
-                                  <TabsContent value="reset">
-                                    <div className="mb-5">
-                                      <Label className="text-lg text-gray-700 font-semibold">Reset</Label>
-                                      <h3 className="text-sm font-medium text-[#545454]">
-                                        Resetting this station will refresh the state of it.
-                                      </h3>
-                                    </div>
-                                    <Button>Reset</Button>
-                                  </TabsContent>
-                                  <TabsContent value="status">
-                                    <div className="mb-5">
-                                      <Label className="text-lg text-gray-700 font-semibold">Status</Label>
-                                      <h3 className="text-sm font-medium text-[#545454]">
-                                        This command will collect the device status and health.
-                                      </h3>
-                                    </div>
-                                  </TabsContent>
-                                  <TabsContent value="update">
-                                    <div className="mb-5">
-                                      <Label className="text-lg text-gray-700 font-semibold">Update Firmware</Label>
-                                      <h3 className="text-sm font-medium text-[#545454]">
-                                        This will allow the station to update its firmware
-                                      </h3>
-                                    </div>
-                                  </TabsContent>
-                                  <TabsContent value="sync">
-                                    <div className="mb-5">
-                                      <Label className="text-lg text-gray-700 font-semibold">Sync</Label>
-                                      <h3 className="text-sm font-medium text-[#545454]">
-                                        This will collect the current data for sync in.
-                                      </h3>
-                                    </div>
-                                  </TabsContent>
-                                </Tabs>
-                              </DialogContent>
-                            </Dialog>
-                          </Button>
+                              </div>
+                              <Tabs defaultValue="reset" className="flex flex-col gap-2">
+                                <TabsList className="border-gray-200 bg-transparent border-b-1 p-0 rounded-none">
+                                  <TabsTrigger value="reset" className="shadow-none rounded-none w-24">
+                                    Reset
+                                  </TabsTrigger>
+                                  <TabsTrigger value="status" className="shadow-none rounded-none w-24">
+                                    Status
+                                  </TabsTrigger>
+                                  <TabsTrigger value="update" className="shadow-none rounded-none w-24">
+                                    Update
+                                  </TabsTrigger>
+                                  <TabsTrigger value="sync" className="shadow-none rounded-none w-24">
+                                    Sync
+                                  </TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="reset">
+                                  <div className="mb-5">
+                                    <Label className="text-lg text-gray-700 font-semibold">Reset</Label>
+                                    <h3 className="text-sm font-medium text-[#545454]">
+                                      Resetting this station will refresh the state of it.
+                                    </h3>
+                                  </div>
+                                  <Button onClick={() => toast("Reset successful!")}>Reset</Button>
+                                </TabsContent>
+                                <TabsContent value="status">
+                                  <div className="mb-5">
+                                    <Label className="text-lg text-gray-700 font-semibold">Status</Label>
+                                    <h3 className="text-sm font-medium text-[#545454]">
+                                      This command will collect the device status and health.
+                                    </h3>
+                                  </div>
+                                  <Button onClick={() => toast("Status successful!")}>Status</Button>
+                                </TabsContent>
+                                <TabsContent value="update">
+                                  <div className="mb-5">
+                                    <Label className="text-lg text-gray-700 font-semibold">Update Firmware</Label>
+                                    <h3 className="text-sm font-medium text-[#545454]">
+                                      This will allow the station to update its firmware
+                                    </h3>
+                                  </div>
+                                  <Button onClick={() => toast("Updated firmware successful!")}>Update</Button>
+                                </TabsContent>
+                                <TabsContent value="sync">
+                                  <div className="mb-5">
+                                    <Label className="text-lg text-gray-700 font-semibold">Sync</Label>
+                                    <h3 className="text-sm font-medium text-[#545454]">
+                                      This will collect the current data for sync in.
+                                    </h3>
+                                  </div>
+                                  <Button onClick={() => toast("Sync successful!")}>Sync</Button>
+                                </TabsContent>
+                              </Tabs>
+                            </DialogContent>
+                          </Dialog>
                           <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700">
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
+                            <AlertDialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-red-600 hover:text-red-700 hover:bg-red-50">
+                              <Trash2 className="w-4 h-4" />
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
