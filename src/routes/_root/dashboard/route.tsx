@@ -1,5 +1,5 @@
-import DashboardTabs from "@/components/dashboard/dashboard-tabs";
-import Header from "@/components/header";
+import DashboardTabs from "@/components/layout/dashboard-tabs";
+import Header from "@/components/layout/header";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_root/dashboard")({
@@ -14,7 +14,7 @@ const routeInfoHeader = {
 
 function RouteComponent() {
   return (
-    <main className="flex flex-col items-center w-full min-h-screen">
+    <main className="flex flex-col items-center w-full h-full">
       <Header title={routeInfoHeader.title} description={routeInfoHeader.description} tabs={<DashboardTabs />} />
 
       <div className="flex flex-col items-center w-full mt-2">

@@ -1,5 +1,5 @@
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { useState, ReactNode } from "react";
 

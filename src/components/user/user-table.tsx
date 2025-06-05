@@ -97,7 +97,7 @@ const UserTable = ({ user }: UserTableProps) => {
         </TableBody>
       </Table>
 
-      <div className="bg-white  flex items-center px-5 justify-between w-full py-4 z-10">
+      <div className="flex items-center px-5 justify-between w-full py-4 z-10">
         <div className="flex gap-2">
           <Button
             variant="outline"

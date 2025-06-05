@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import Header from "@/components/layout/header";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/_root/tenants")({
 
 function RouteComponent() {
   return (
-    <main className="flex flex-col items-center w-full min-h-screen">
+    <main className="flex flex-col items-center w-full h-full">
       <div className="w-full flex items-center justify-between ">
         <Header title={routeInfoHeader.title} description={routeInfoHeader.description} />
         <Link

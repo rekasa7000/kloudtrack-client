@@ -152,7 +152,7 @@ function RouteComponent() {
               <Input className="pl-10 rounded-lg py-2 font-inter" placeholder="Search...." />
             </div>
             <DropdownMenu>
-              <DropdownMenuTrigger className="w-fit inline-flex gap-2 items-center text-nowrap px-5 py-2 text-sm rounded-md border border-[#D4D4D4] bg-white">
+              <DropdownMenuTrigger className="w-fit inline-flex gap-2 items-center text-nowrap px-5 py-2 text-sm rounded-md border">
                 <ListFilter className="w-4 h-4" />
                 <span className="font-inter font-medium">Filter</span>
               </DropdownMenuTrigger>

@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ReactNode, useNavigate } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   Dialog,
   DialogHeader,
@@ -39,14 +39,14 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "./ui/dialog";
-import { useTheme } from "./theme-provider";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+} from "../ui/dialog";
+import { useTheme } from "../theme-provider";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useState } from "react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
-import ThemeSwitch from "./theme-switch";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
+import ThemeSwitch from "../theme-switch";
 
 // Updated menu items with subroutes
 const sidebar_items = [

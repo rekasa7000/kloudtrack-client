@@ -1,5 +1,5 @@
-import Header from "@/components/header";
-import StationTabs from "@/components/station/station-tabs";
+import Header from "@/components/layout/header";
+import StationTabs from "@/components/layout/station-tabs";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_root/stations")({
@@ -14,7 +14,7 @@ const routeInfoHeader = {
 
 function RouteComponent() {
   return (
-    <main className="flex flex-col items-center w-full">
+    <main className="flex flex-col items-center w-full h-full">
       <div className="flex flex-col w-full">
         <Header title={routeInfoHeader.title} description={routeInfoHeader.description} tabs={<StationTabs />} />
       </div>

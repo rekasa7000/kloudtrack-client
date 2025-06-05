@@ -1,4 +1,5 @@
-import Header from "@/components/header";
+import Header from "@/components/layout/header";
+import ProfileTabs from "@/components/layout/profile-tabs";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_root/profile")({
@@ -13,9 +14,8 @@ const routeInfoHeader = {
 
 function RouteComponent() {
   return (
-    <main className="flex flex-col items-center w-full min-h-screen">
-      <Header title={routeInfoHeader.title} description={routeInfoHeader.description} />
-
+    <main className="flex flex-col items-center w-full h-full">
+      <Header title={routeInfoHeader.title} description={routeInfoHeader.description} tabs={<ProfileTabs />} />
       <div className="flex flex-col items-center w-full mt-2">
         <Outlet />
       </div>

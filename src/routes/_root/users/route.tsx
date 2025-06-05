@@ -1,4 +1,4 @@
-import Header from "@/components/header";
+import Header from "@/components/layout/header";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_root/users")({
@@ -13,7 +13,7 @@ const routeInfoHeader = {
 
 function RouteComponent() {
   return (
-    <main className="flex flex-col items-center w-full min-h-screen">
+    <main className="flex flex-col items-center w-full h-full">
       <Header title={routeInfoHeader.title} description={routeInfoHeader.description} />
 
       <div className="flex flex-col items-center w-full mt-2">
