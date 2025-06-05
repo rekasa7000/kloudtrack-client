@@ -18,16 +18,15 @@ const StationTabs = (): ReactNode => {
 
         if (tab.url === "/stations") {
           isActive = matchRoute({ to: "/stations" }) && !location.pathname.startsWith("/stations/");
-        } else {
-          isActive = !!matchRoute({ to: tab.url });
         }
+        isActive = !!matchRoute({ to: tab.url });
 
         return (
           <div key={index} className="w-fit flex h-auto items-center">
             <Link
               to={tab.url}
               className={`w-fit text-nowrap px-11 py-2 text-sm transition-all font-inter ease-in-out ${
-                isActive ? "bg-white font-semibold border-b-2 pb-1 border-main" : ""
+                isActive ? "font-semibold border-b-2 pb-1 border-main" : ""
               }`}
             >
               {tab.name}

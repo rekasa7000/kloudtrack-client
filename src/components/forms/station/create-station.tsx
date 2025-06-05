@@ -119,330 +119,329 @@ export const CreateStation = () => {
   }, [locationInfo, form]);
 
   return (
-    <div className="w-full max-h-[90vh] overflow-y-auto lg:px-5 px-1">
-      <div className="mb-5 space-y-2">
-        <Label className="text-lg font-semibold">Add New Station</Label>
-        <h3 className="text-sm font-medium text-[#545454]">
-          Register a new station by inputting its metadata and selecting its location on the map.
-        </h3>
-      </div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
-        }}
-        className="flex flex-col gap-5"
-      >
-        <div className="lg:grid lg:grid-cols-5 gap-5 flex flex-col-reverse">
-          <div className="flex flex-col gap-2 w-full col-span-2">
-            <form.Field
-              name="stationName"
-              validators={{
-                onChange: ({ value }) =>
-                  !value
-                    ? "A Station name is Required"
-                    : value.length < 5
-                      ? "Station name must be at least 5 characters"
-                      : undefined,
-                onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
-                  return value.includes("error") && 'No "error" allowed in station name';
-                },
-              }}
-              children={(field) => {
-                return (
-                  <>
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="name" className="text-right">
-                        Station Name
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        form.handleSubmit();
+      }}
+      className="flex flex-col gap-5 p-0 lg:px-5 lg:py-2"
+    >
+      <div className="lg:grid lg:grid-cols-5 gap-5 flex flex-col-reverse">
+        <div className="flex flex-col gap-2 w-full col-span-2">
+          <form.Field
+            name="stationName"
+            validators={{
+              onChange: ({ value }) =>
+                !value
+                  ? "A Station name is Required"
+                  : value.length < 5
+                    ? "Station name must be at least 5 characters"
+                    : undefined,
+              onChangeAsyncDebounceMs: 500,
+              onChangeAsync: async ({ value }) => {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                return value.includes("error") && 'No "error" allowed in station name';
+              },
+            }}
+            children={(field) => {
+              return (
+                <>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2 justify-start ">
+                      <Label htmlFor={field.name} className="text-start">
+                        Name
                       </Label>
-                      <Input
-                        id="name"
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        placeholder="Enter station name"
-                        className="col-span-3"
-                      />
+                      <FieldInfo field={field} />
                     </div>
-                    <FieldInfo field={field} />
-                  </>
-                );
-              }}
-            />
+                    <Input
+                      id="name"
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Enter station name"
+                      className="col-span-3"
+                    />
+                  </div>
+                </>
+              );
+            }}
+          />
 
-            <form.Field
-              name="stationType"
-              validators={{
-                onChange: ({ value }) => (!value ? "A Station Type is required" : undefined),
-                onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
-                  return value.includes("error") && 'No "error" allowed in station type';
-                },
-              }}
-              children={(field) => {
-                return (
-                  <>
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="type" className="text-right">
-                        Station Type
+          <form.Field
+            name="stationType"
+            validators={{
+              onChange: ({ value }) => (!value ? "A Station Type is required" : undefined),
+              onChangeAsyncDebounceMs: 500,
+              onChangeAsync: async ({ value }) => {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                return value.includes("error") && 'No "error" allowed in station type';
+              },
+            }}
+            children={(field) => {
+              return (
+                <>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2 justify-start ">
+                      <Label htmlFor={field.name} className="text-start">
+                        Type
                       </Label>
-                      <Select name={field.name} value={field.state.value} onValueChange={field.handleChange}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select station type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {stationTypes.map((type) => (
-                              <SelectItem key={type.value} value={type.value}>
-                                {type.label}
+                      <FieldInfo field={field} />
+                    </div>
+                    <Select name={field.name} value={field.state.value} onValueChange={field.handleChange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select station type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {stationTypes.map((type) => (
+                            <SelectItem key={type.value} value={type.value}>
+                              {type.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </>
+              );
+            }}
+          />
+
+          <form.Field
+            name="elevation"
+            children={(field) => {
+              return (
+                <>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2 justify-start ">
+                      <Label htmlFor={field.name} className="text-start">
+                        Elevation
+                      </Label>
+                      <FieldInfo field={field} />
+                    </div>
+                    <Input
+                      id="elevation"
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Leave blank if unknown"
+                      className="col-span-3"
+                    />
+                  </div>
+                  <FieldInfo field={field} />
+                </>
+              );
+            }}
+          />
+
+          <form.Field
+            name="firmwareId"
+            validators={{
+              onChange: ({ value }) => (!value ? "A Firmware Version is required" : undefined),
+              onChangeAsyncDebounceMs: 500,
+              onChangeAsync: async ({ value }) => {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                return value.includes("error") && 'No "error" allowed in firmware version';
+              },
+            }}
+            children={(field) => {
+              return (
+                <>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2 justify-start ">
+                      <Label htmlFor={field.name} className="text-start">
+                        Firmware Version
+                      </Label>
+                      <FieldInfo field={field} />
+                    </div>
+                    <Select name={field.name} value={field.state.value} onValueChange={field.handleChange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select firmware version" />
+                      </SelectTrigger>
+                      <SelectContent className="h-63">
+                        {firmwareVersions.map((group) => (
+                          <SelectGroup key={group.label}>
+                            <SelectLabel>{group.label}</SelectLabel>
+                            {group.versions.map((version) => (
+                              <SelectItem key={version.id} value={version.id.toString()}>
+                                Version {version.label.replace(/^v/, "")}
                               </SelectItem>
                             ))}
                           </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <FieldInfo field={field} />
-                  </>
-                );
-              }}
-            />
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <FieldInfo field={field} />
+                </>
+              );
+            }}
+          />
 
-            <form.Field
-              name="elevation"
-              children={(field) => {
-                return (
-                  <>
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="elevation" className="text-right">
-                        Elevation
+          {lngLat && (
+            <div className="grid grid-cols-2 gap-5">
+              <form.Field
+                name="longitude"
+                children={(field) => {
+                  return (
+                    <div className="flex flex-col gap-2 w-full">
+                      <Label htmlFor="longitude" className="text-right">
+                        Longitude
                       </Label>
                       <Input
-                        id="elevation"
+                        id="longitude"
                         name={field.name}
                         value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        placeholder="Leave blank if unknown"
-                        className="col-span-3"
+                        readOnly
+                        className="col-span-3 bg-gray-50"
                       />
+                      <FieldInfo field={field} />
                     </div>
-                    <FieldInfo field={field} />
-                  </>
-                );
-              }}
-            />
-
-            <form.Field
-              name="firmwareId"
-              validators={{
-                onChange: ({ value }) => (!value ? "A Firmware Version is required" : undefined),
-                onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
-                  return value.includes("error") && 'No "error" allowed in firmware version';
-                },
-              }}
-              children={(field) => {
-                return (
-                  <>
-                    <div className="flex flex-col gap-2">
-                      <Label htmlFor="firmware" className="text-right">
-                        Firmware Version
+                  );
+                }}
+              />
+              <form.Field
+                name="latitude"
+                children={(field) => {
+                  return (
+                    <div className="flex flex-col gap-2 w-full">
+                      <Label htmlFor="latitude" className="text-right">
+                        Latitude
                       </Label>
-                      <Select name={field.name} value={field.state.value} onValueChange={field.handleChange}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select firmware version" />
-                        </SelectTrigger>
-                        <SelectContent className="h-63">
-                          {firmwareVersions.map((group) => (
-                            <SelectGroup key={group.label}>
-                              <SelectLabel>{group.label}</SelectLabel>
-                              {group.versions.map((version) => (
-                                <SelectItem key={version.id} value={version.id.toString()}>
-                                  Version {version.label.replace(/^v/, "")}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Input
+                        id="latitude"
+                        name={field.name}
+                        value={field.state.value}
+                        readOnly
+                        className="col-span-3 bg-gray-50"
+                      />
+                      <FieldInfo field={field} />
                     </div>
-                    <FieldInfo field={field} />
-                  </>
-                );
-              }}
-            />
-
-            {lngLat && (
-              <div className="grid grid-cols-2 gap-5">
-                <form.Field
-                  name="longitude"
-                  children={(field) => {
-                    return (
-                      <div className="flex flex-col gap-2 w-full">
-                        <Label htmlFor="longitude" className="text-right">
-                          Longitude
-                        </Label>
-                        <Input
-                          id="longitude"
-                          name={field.name}
-                          value={field.state.value}
-                          readOnly
-                          className="col-span-3 bg-gray-50"
-                        />
-                        <FieldInfo field={field} />
-                      </div>
-                    );
-                  }}
-                />
-                <form.Field
-                  name="latitude"
-                  children={(field) => {
-                    return (
-                      <div className="flex flex-col gap-2 w-full">
-                        <Label htmlFor="latitude" className="text-right">
-                          Latitude
-                        </Label>
-                        <Input
-                          id="latitude"
-                          name={field.name}
-                          value={field.state.value}
-                          readOnly
-                          className="col-span-3 bg-gray-50"
-                        />
-                        <FieldInfo field={field} />
-                      </div>
-                    );
-                  }}
-                />
-              </div>
-            )}
-
-            {locationInfo && (
-              <div className="text-green-700 space-y-1">
-                <form.Field
-                  name="address"
-                  children={(field) => {
-                    return (
-                      <div className="flex flex-col gap-2">
-                        <Label htmlFor="address" className="text-right">
-                          Address
-                        </Label>
-                        <Input
-                          id="address"
-                          name={field.name}
-                          value={field.state.value}
-                          readOnly
-                          className="col-span-3 bg-gray-50"
-                        />
-                        <FieldInfo field={field} />
-                      </div>
-                    );
-                  }}
-                />
-
-                <form.Field
-                  name="city"
-                  children={(field) => {
-                    return (
-                      <div className="flex flex-col gap-2">
-                        <Label htmlFor="city" className="text-right">
-                          City/Municipality:
-                        </Label>
-                        <Input
-                          id="city"
-                          name={field.name}
-                          value={field.state.value}
-                          readOnly
-                          className="col-span-3 bg-gray-50"
-                        />
-                        <FieldInfo field={field} />
-                      </div>
-                    );
-                  }}
-                />
-
-                <form.Field
-                  name="state"
-                  children={(field) => {
-                    return (
-                      <div className="flex flex-col gap-2">
-                        <Label htmlFor="state" className="text-right">
-                          State/Province:
-                        </Label>
-                        <Input
-                          id="state"
-                          name={field.name}
-                          value={field.state.value}
-                          readOnly
-                          className="col-span-3 bg-gray-50"
-                        />
-                        <FieldInfo field={field} />
-                      </div>
-                    );
-                  }}
-                />
-
-                <form.Field
-                  name="country"
-                  children={(field) => {
-                    return (
-                      <div className="flex flex-col gap-2">
-                        <Label htmlFor="country" className="text-right">
-                          Country
-                        </Label>
-                        <Input
-                          id="country"
-                          name={field.name}
-                          value={field.state.value}
-                          readOnly
-                          className="col-span-3 bg-gray-50"
-                        />
-                        <FieldInfo field={field} />
-                      </div>
-                    );
-                  }}
-                />
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-2 w-full col-span-3">
-            <Label>Location</Label>
-            <p className="text-sm text-gray-600">Click on the map to select the station location</p>
-
-            <div
-              ref={mapContainer}
-              className="h-[600px] w-full rounded-lg border-2 border-gray-300 bg-gray-100 relative"
-            >
-              {!mapLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
-                    <p className="text-sm text-gray-600">Loading map...</p>
-                  </div>
-                </div>
-              )}
+                  );
+                }}
+              />
             </div>
-          </div>
+          )}
+
+          {locationInfo && (
+            <div className="text-green-700 space-y-1">
+              <form.Field
+                name="address"
+                children={(field) => {
+                  return (
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="address" className="text-right">
+                        Address
+                      </Label>
+                      <Input
+                        id="address"
+                        name={field.name}
+                        value={field.state.value}
+                        readOnly
+                        className="col-span-3 bg-gray-50"
+                      />
+                      <FieldInfo field={field} />
+                    </div>
+                  );
+                }}
+              />
+
+              <form.Field
+                name="city"
+                children={(field) => {
+                  return (
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="city" className="text-right">
+                        City/Municipality:
+                      </Label>
+                      <Input
+                        id="city"
+                        name={field.name}
+                        value={field.state.value}
+                        readOnly
+                        className="col-span-3 bg-gray-50"
+                      />
+                      <FieldInfo field={field} />
+                    </div>
+                  );
+                }}
+              />
+
+              <form.Field
+                name="state"
+                children={(field) => {
+                  return (
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="state" className="text-right">
+                        State/Province:
+                      </Label>
+                      <Input
+                        id="state"
+                        name={field.name}
+                        value={field.state.value}
+                        readOnly
+                        className="col-span-3 bg-gray-50"
+                      />
+                      <FieldInfo field={field} />
+                    </div>
+                  );
+                }}
+              />
+
+              <form.Field
+                name="country"
+                children={(field) => {
+                  return (
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="country" className="text-right">
+                        Country
+                      </Label>
+                      <Input
+                        id="country"
+                        name={field.name}
+                        value={field.state.value}
+                        readOnly
+                        className="col-span-3 bg-gray-50"
+                      />
+                      <FieldInfo field={field} />
+                    </div>
+                  );
+                }}
+              />
+            </div>
+          )}
         </div>
 
-        <div className="w-full flex justify-end">
-          <form.Subscribe
-            selector={(state) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]) => (
-              <Button type="submit" disabled={!canSubmit || !lngLat}>
-                {isSubmitting ? "..." : "Submit"}
-              </Button>
+        <div className="space-y-2 w-full col-span-3">
+          <Label>Location</Label>
+          <p className="text-sm text-gray-600">Click on the map to select the station location</p>
+
+          <div ref={mapContainer} className="h-[600px] w-full rounded-lg border-2 border-gray-300 bg-gray-100 relative">
+            {!mapLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                  <p className="text-sm text-gray-600">Loading map...</p>
+                </div>
+              </div>
             )}
-          />
+          </div>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <div className="w-full flex justify-end">
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting]}
+          children={([canSubmit, isSubmitting]) => (
+            <Button type="submit" disabled={!canSubmit || !lngLat}>
+              {isSubmitting ? "..." : "Submit"}
+            </Button>
+          )}
+        />
+      </div>
+    </form>
   );
 };

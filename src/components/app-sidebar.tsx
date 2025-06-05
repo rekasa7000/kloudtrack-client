@@ -5,10 +5,13 @@ import {
   LogOut,
   Moon,
   Settings,
-  ShieldUserIcon,
   Sun,
   UserCog2,
   Users2Icon,
+  ChevronDown,
+  ChevronRight,
+  Map,
+  UserCircle,
 } from "lucide-react";
 
 import {
@@ -21,6 +24,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { ReactNode, useNavigate } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
@@ -38,8 +44,11 @@ import { useTheme } from "./theme-provider";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { Avatar, AvatarFallback } from "./ui/avatar";
+import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import ThemeSwitch from "./theme-switch";
 
-// Menu items.
+// Updated menu items with subroutes
 const sidebar_items = [
   {
     title: "Dashboard",
@@ -69,14 +78,13 @@ const sidebar_items = [
   {
     title: "Profile",
     url: "/profile",
-    icon: null,
+    icon: UserCircle,
   },
 ];
 
 export const AppSidebar = (): ReactNode => {
-  const { setTheme } = useTheme();
   const navigate = useNavigate();
-  const user = useAuth();
+  const [openItems, setOpenItems] = useState<string[]>([]);
 
   const { logout, isLogoutLoading } = useAuth();
 
@@ -89,10 +97,13 @@ export const AppSidebar = (): ReactNode => {
     }
   };
 
+  const toggleItem = (title: string) => {
+    setOpenItems((prev) => (prev.includes(title) ? prev.filter((item) => item !== title) : [...prev, title]));
+  };
+
   return (
-    <Sidebar className="pl-2 h-screen">
-      {/* ayaw mag white ewan kung baket */}
-      <SidebarHeader className="bg-white dark:bg-stone-800 pb-5 pt-3.5 px-3 w-full flex-row items-center justify-between">
+    <Sidebar variant="inset">
+      <SidebarHeader className="pb-5 pt-3.5 px-3 w-full flex-row items-center justify-between">
         <div>
           <h1 className="text-lg font-medium font-inter">
             Kloud
@@ -100,58 +111,42 @@ export const AppSidebar = (): ReactNode => {
           </h1>
           <p className="text-xs text-[#B7B7B7] font-montserrat">Version 2.0.0</p>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button size="icon" className="bg-transparent shadow-none hover:bg-transparent">
-              <Sun className="h-[1.2rem] w-[1.2rem] text-black  rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-[1.2rem] text-white w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-              <span className="sr-only">Toggle theme</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center" sideOffset={2}>
-            <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ThemeSwitch />
       </SidebarHeader>
-      <SidebarContent className="bg-white  dark:bg-stone-800 ">
+
+      <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="gap-2.5">
               {sidebar_items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild size={"sm"} className="h-10 [&.active]:bg-none ">
-                    <Link
-                      to={item.url}
-                      className="border font-inter  border-[#EFEFEF] [&.active]:border-b-2 transition-all ease-in-out  dark:bg-stone-700 dark:text-white dark:hover:bg-stone-600 dark:border-stone-700
-                      [&.active]:border-b-main
-                      [&.active]:text-main [&.active]:bg-transparent [&.active]:font-semibold [&.active]:rounded-md 
-                      [&.active]:dark:bg-stone-600 
-                      "
-                    >
-                      {!item.icon ? (
-                        <Avatar className="border-main border bg-">
-                          <AvatarFallback>PR</AvatarFallback>
-                        </Avatar>
-                      ) : (
+                <Collapsible
+                  key={item.title}
+                  open={openItems.includes(item.title)}
+                  onOpenChange={() => toggleItem(item.title)}
+                >
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild className=" h-[32px] rounded-[5px]">
+                      <Link
+                        to={item.url}
+                        className=" transition-all ease-in-out 
+                            [&.active]:bg-c_secondary  [&.active]:text-main &.active]:font-semibold
+                         "
+                      >
                         <item.icon />
-                      )}
-                      {item.title}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                        {item.title}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Collapsible>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      {/* panget pa tong implementation | its either gawa ng 1 component or magkahiwalay a component pero for now et o na muna */}
-      <SidebarFooter className="bg-white  dark:bg-stone-800 ">
+      <SidebarFooter>
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="font-inter bg-white flex w-full justify-start text-xs text-black border hover:bg-muted border-[#EFEFEF] transition-all ease-in-out dark:border-none dark:bg-stone-700 dark:text-white dark:hover:bg-stone-600">
+            <Button className="bg-transparent flex w-full justify-start text-black shadow-none font-normal dark:text-white hover:bg-muted transition-all ease-in-out ">
               <Bug />
               Report
             </Button>
@@ -177,10 +172,7 @@ export const AppSidebar = (): ReactNode => {
         </Dialog>
         <Dialog>
           <DialogTrigger asChild>
-            <Button
-              className=" font-inter bg-white flex w-full justify-start text-xs text-black border hover:bg-muted border-[#EFEFEF] transition-all ease-in-out  dark:border-none dark:bg-stone-700 dark:text-white dark:hover:bg-stone-600
-        "
-            >
+            <Button className="bg-transparent flex w-full justify-start text-black shadow-none font-normal dark:text-white hover:bg-muted transition-all ease-in-out ">
               <LogOut />
               Logout
             </Button>

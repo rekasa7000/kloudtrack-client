@@ -85,30 +85,13 @@ function RouteComponent() {
     });
   };
 
-  const isExpiringSoon = (validTo: string) => {
-    const expiryDate = new Date(validTo);
-    const now = new Date();
-    const sixMonthsFromNow = new Date(now.getFullYear(), now.getMonth() + 6, now.getDate());
-    return expiryDate <= sixMonthsFromNow;
-  };
-
   return (
-    <div className="w-full max-h-[90vh] overflow-y-auto lg:px-5 px-1">
+    <div className="w-full max-h-[90vh] overflow-y-auto">
       <div className="mb-5 space-y-2 flex flex-row w-full">
         <div className="w-full flex flex-col">
-          <Label className="text-lg font-semibold">Root Certificates</Label>
+          <Label className="text-xl font-semibold">Root Certificates</Label>
           <h3 className="text-sm font-medium text-[#545454]">Trusted CA cert for secure AWS IoT connections.</h3>
         </div>
-        <Dialog>
-          <DialogTrigger>
-            <Button>Add</Button>
-          </DialogTrigger>
-          <DialogContent className="min-w-sm lg:min-w-[540px] flex flex-col gap-1">
-            <DialogHeader className="font-semibold">Root Certificate</DialogHeader>
-            <DialogDescription>Add and save root certificate from AWS IoT Core. Input its metadata</DialogDescription>
-            <AddRootCertificate />
-          </DialogContent>
-        </Dialog>
       </div>
       <div className="mx-auto">
         <div className="mb-8">
@@ -146,8 +129,20 @@ function RouteComponent() {
         </div>
 
         <div className="bg-white rounded-xl border overflow-hidden">
-          <div className="px-6 py-4 border-b bg-gray-50">
+          <div className="px-6 py-4 border-b bg-gray-50 flex justify-between flex-col lg:flex-row">
             <h2 className="text-lg font-semibold text-gray-900">Root Certificates</h2>
+            <Dialog>
+              <DialogTrigger>
+                <Button>Add</Button>
+              </DialogTrigger>
+              <DialogContent className="min-w-sm lg:min-w-[540px] flex flex-col gap-1">
+                <DialogHeader className="font-semibold">Root Certificate</DialogHeader>
+                <DialogDescription>
+                  Add and save root certificate from AWS IoT Core. Input its metadata
+                </DialogDescription>
+                <AddRootCertificate />
+              </DialogContent>
+            </Dialog>
           </div>
 
           <div className="divide-y divide-gray-100">
