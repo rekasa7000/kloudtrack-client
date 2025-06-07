@@ -11,12 +11,12 @@ import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Slash } from "lucide-react";
 
 const routeInfoHeader = {
-  title: "Tenant Management",
+  title: "Organization",
   description:
-    "Manage all users across the platform. Add, edit, assign roles, and control access to organizations and stations.",
+    "Manage all organizations across the platform. Add, edit, assign roles, and control access to organizations and stations.",
 };
 
-export const Route = createFileRoute("/_root/tenants")({
+export const Route = createFileRoute("/_root/_superadmin/organizations")({
   component: RouteComponent,
 });
 
@@ -26,7 +26,7 @@ function RouteComponent() {
       <div className="w-full flex items-center justify-between ">
         <Header title={routeInfoHeader.title} description={routeInfoHeader.description} />
         <Link
-          to="/tenants/add-tenant"
+          to="/organizations/add-tenant"
           className="w-fit text-nowrap border border-main rounded-md  py-2 px-4 text-sm font-inter"
         >
           Add Tenant

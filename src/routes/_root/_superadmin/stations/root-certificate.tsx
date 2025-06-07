@@ -29,7 +29,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 import AddRootCertificate from "@/components/forms/station/add-root-certificate";
 
-export const Route = createFileRoute("/_root/stations/root-certificate")({
+export const Route = createFileRoute("/_root/_superadmin/stations/root-certificate")({
   component: RouteComponent,
 });
 

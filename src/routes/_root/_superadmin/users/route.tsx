@@ -1,7 +1,7 @@
 import Header from "@/components/layout/header";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_root/users")({
+export const Route = createFileRoute("/_root/_superadmin/users")({
   component: RouteComponent,
 });
 

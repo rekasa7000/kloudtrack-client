@@ -14,7 +14,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Building, ListFilter, Search } from "lucide-react";
 import { useState } from "react";
 
-export const Route = createFileRoute("/_root/tenants/")({
+export const Route = createFileRoute("/_root/_superadmin/organizations/")({
   component: RouteComponent,
 });
 

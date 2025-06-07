@@ -3,17 +3,13 @@ import {
   Container,
   LayoutDashboard,
   LogOut,
-  Moon,
   Settings,
-  Sun,
   UserCog2,
   Users2Icon,
-  ChevronDown,
-  ChevronRight,
-  Map,
   UserCircle,
+  ShieldCheck,
+  Key,
 } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -24,9 +20,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { ReactNode, useNavigate } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
@@ -40,51 +33,12 @@ import {
   DialogDescription,
   DialogFooter,
 } from "../ui/dialog";
-import { useTheme } from "../theme-provider";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { useState } from "react";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 import ThemeSwitch from "../theme-switch";
-
-// Updated menu items with subroutes
-const sidebar_items = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Tenants",
-    url: "/tenants",
-    icon: Users2Icon,
-  },
-  {
-    title: "Stations",
-    url: "/stations",
-    icon: Container,
-  },
-  {
-    title: "User",
-    url: "/users",
-    icon: UserCog2,
-  },
-  {
-    title: "Settings",
-    url: "/configuration",
-    icon: Settings,
-  },
-  {
-    title: "Profile",
-    url: "/profile",
-    icon: UserCircle,
-  },
-];
 
 export const AppSidebar = (): ReactNode => {
   const navigate = useNavigate();
-  const [openItems, setOpenItems] = useState<string[]>([]);
+  const { user } = useAuth();
 
   const { logout, isLogoutLoading } = useAuth();
 
@@ -97,9 +51,61 @@ export const AppSidebar = (): ReactNode => {
     }
   };
 
-  const toggleItem = (title: string) => {
-    setOpenItems((prev) => (prev.includes(title) ? prev.filter((item) => item !== title) : [...prev, title]));
-  };
+  const sidebar_items = [
+    {
+      key: 1,
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: LayoutDashboard,
+    },
+
+    {
+      key: 10,
+      title: "Settings",
+      url: "/configuration",
+      icon: Settings,
+    },
+  ];
+
+  if (user?.role === "SUPERADMIN") {
+    sidebar_items.push(
+      {
+        key: 3,
+        title: "Organizations",
+        url: "/organizations",
+        icon: Users2Icon,
+      },
+      {
+        key: 2,
+        title: "Stations",
+        url: "/stations",
+        icon: Container,
+      },
+      {
+        key: 4,
+        title: "Users",
+        url: "/users",
+        icon: UserCog2,
+      },
+      {
+        key: 5,
+        title: "System",
+        url: "/system",
+        icon: ShieldCheck,
+      }
+    );
+  }
+
+  if (user?.role === "ADMIN") {
+    sidebar_items.push({
+      key: 6,
+      title: "Organization",
+      url: "/organization",
+      icon: Users2Icon,
+    });
+  }
+
+  sidebar_items.sort((a, b) => a.key - b.key);
 
   return (
     <Sidebar variant="inset">
@@ -119,26 +125,34 @@ export const AppSidebar = (): ReactNode => {
           <SidebarGroupContent>
             <SidebarMenu className="gap-2.5">
               {sidebar_items.map((item) => (
-                <Collapsible
-                  key={item.title}
-                  open={openItems.includes(item.title)}
-                  onOpenChange={() => toggleItem(item.title)}
-                >
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild className=" h-[32px] rounded-[5px]">
-                      <Link
-                        to={item.url}
-                        className=" transition-all ease-in-out 
+                <SidebarMenuItem key={item.url}>
+                  <SidebarMenuButton asChild className=" h-[32px] rounded-[5px]">
+                    <Link
+                      to={item.url}
+                      className=" transition-all ease-in-out 
                             [&.active]:bg-c_secondary  [&.active]:text-main &.active]:font-semibold
                          "
-                      >
-                        <item.icon />
-                        {item.title}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </Collapsible>
+                    >
+                      <item.icon />
+                      {item.title}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               ))}
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild className=" h-[32px] rounded-[5px]">
+                  <Link
+                    to={"/profile"}
+                    className=" transition-all ease-in-out 
+                            [&.active]:bg-c_secondary  [&.active]:text-main &.active]:font-semibold
+                         "
+                  >
+                    <UserCircle />
+                    Profile
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

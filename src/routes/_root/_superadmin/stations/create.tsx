@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Label } from "@/components/ui/label";
 import { CreateStation } from "@/components/forms/station/create-station";
 
-export const Route = createFileRoute("/_root/stations/create")({
+export const Route = createFileRoute("/_root/_superadmin/stations/create")({
   component: RouteComponent,
 });
 

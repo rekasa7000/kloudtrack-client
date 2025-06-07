@@ -2,7 +2,7 @@ import Header from "@/components/layout/header";
 import StationTabs from "@/components/layout/station-tabs";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_root/stations")({
+export const Route = createFileRoute("/_root/_superadmin/stations")({
   component: RouteComponent,
 });
 

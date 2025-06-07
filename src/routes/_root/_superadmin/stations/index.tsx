@@ -172,7 +172,7 @@ const mockStations: Station[] = [
   },
 ];
 
-export const Route = createFileRoute("/_root/stations/")({
+export const Route = createFileRoute("/_root/_superadmin/stations/")({
   component: RouteComponent,
 });
 

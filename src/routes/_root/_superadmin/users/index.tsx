@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 
-export const Route = createFileRoute("/_root/users/")({
+export const Route = createFileRoute("/_root/_superadmin/users/")({
   component: RouteComponent,
 });
 

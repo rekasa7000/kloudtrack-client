@@ -1,7 +1,7 @@
 import TenantForm from "@/components/tenant-management/tenant-forms";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_root/tenants/add-tenant")({
+export const Route = createFileRoute("/_root/_superadmin/organizations/add-tenant")({
   component: RouteComponent,
 });
 
