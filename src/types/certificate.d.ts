@@ -32,3 +32,15 @@ interface Certificate {
   region: string;
   createdAt: string;
 }
+
+interface DeviceCertificate {
+  certificateId?: string;
+  certificateArn?: string;
+  subject?: string;
+  issuer?: string;
+  status: string;
+  fingerprint?: string;
+  validSince: string;
+  expiresAt: Date;
+  createdAt: Date;
+}

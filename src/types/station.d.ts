@@ -5,7 +5,6 @@ export interface StationListProps {
   onStationDelete?: (stationId: string) => void;
   onCertificateView?: (certificate: StationCertificate, type: "certificate" | "privateKey") => void;
 }
-
 export interface Station {
   id: string;
   name: string;
@@ -17,17 +16,5 @@ export interface Station {
   deviceCertificate?: StationCertificate;
   privateKey?: StationCertificate;
   certificate: Certificate;
-  createdAt: Date;
-}
-
-interface Certificate {
-  certificateId?: string;
-  certificateArn?: string;
-  subject?: string;
-  issuer?: string;
-  status: string;
-  fingerprint?: string;
-  validSince: string;
-  expiresAt: Date;
   createdAt: Date;
 }

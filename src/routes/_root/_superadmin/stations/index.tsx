@@ -40,7 +40,8 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import AddDeviceCertificates from "@/components/forms/station/add-device-certificates";
-import { formatDate, formatRelativeTime, getStatusColor, getStatusIcon } from "@/utils/utils";
+import { getStatusIcon } from "@/utils/utils";
+import { formatDate, formatRelativeTime, getStatusColor } from "@/lib/utils";
 import StationDetails from "@/components/station/station-details";
 
 const mockStations: Station[] = [

@@ -1,15 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  Shield,
-  ShieldAlert,
-  Trash2,
-  Calendar,
-  Globe,
-  Key,
-  AlertTriangle,
-  CheckCircle,
-  GitCompareArrows,
-} from "lucide-react";
+import { Shield, ShieldAlert, Trash2, Globe, Key, AlertTriangle, CheckCircle, GitCompareArrows } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Certificate } from "@/types/certificate";
 import { useState } from "react";
