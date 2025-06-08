@@ -1,9 +1,8 @@
 import * as React from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { checkAuthService, loginService, logoutService } from "@/api/services/authServices";
 import { User, Login, LoginResponse } from "@/api/client/types";
-import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { checkAuth } from "@/hooks/queries/auth-queries";
+import { useLoginMutation, useLogoutMutation } from "./mutations/auth-mutations";
 
 export interface AuthContext {
   isAuthenticated: boolean;
@@ -18,69 +17,11 @@ export interface AuthContext {
 const AuthContext = React.createContext<AuthContext | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const queryClient = useQueryClient();
-
-  const { data: user, isLoading } = useQuery({
-    queryKey: ["auth", "user"],
-    queryFn: checkAuthService,
-    retry: false,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-
+  const { data: user, isLoading } = checkAuth();
   const isAuthenticated = !!user;
 
-  const loginMutation = useMutation({
-    mutationFn: loginService,
-    onSuccess: (data) => {
-      if (data.id) {
-        queryClient.setQueryData(["auth", "user"], data);
-      }
-      toast.success("Login Success", {
-        description: `Welcome! ${data.userName}`,
-        position: "top-right",
-        duration: 5000,
-        style: { backgroundColor: "green" },
-        closeButton: true,
-      });
-    },
-    onError: (error: any) => {
-      toast.error("Login Error", {
-        description: error.message,
-        position: "top-right",
-        duration: 5000,
-        style: { backgroundColor: "red" },
-        closeButton: true,
-      });
-      console.error("Login failed:", error);
-    },
-  });
-
-  const logoutMutation = useMutation({
-    mutationFn: logoutService,
-    onSuccess: () => {
-      toast.success("Logged out", {
-        description: "Logout Successful!",
-        position: "top-right",
-        duration: 5000,
-        style: { backgroundColor: "green" },
-        closeButton: true,
-      });
-      queryClient.setQueryData(["auth", "user"], null);
-      queryClient.removeQueries({ queryKey: ["auth", "user"] });
-    },
-    onError: (error: any) => {
-      toast.error("Logout Error", {
-        description: error.message,
-        position: "top-right",
-        duration: 5000,
-        style: { backgroundColor: "red" },
-        closeButton: true,
-      });
-      console.error("Logout failed:", error);
-      queryClient.setQueryData(["auth", "user"], null);
-      queryClient.removeQueries({ queryKey: ["auth", "user"] });
-    },
-  });
+  const loginMutation = useLoginMutation();
+  const logoutMutation = useLogoutMutation();
 
   const login = async (credentials: Login): Promise<LoginResponse> => {
     return loginMutation.mutateAsync(credentials);

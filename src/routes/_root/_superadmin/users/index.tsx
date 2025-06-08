@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
 
 export const Route = createFileRoute("/_root/_superadmin/users/")({
   component: RouteComponent,
@@ -94,46 +95,46 @@ const tabs = roles.map((role) => {
 
 function RouteComponent() {
   return (
-    <div className="mx-auo w-full container mt-5">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <div className="w-full mt-5 flex flex-col lg:flex-row gap-5 h-full">
+      <div className="flex flex-col gap-4 mb-8 w-full lg:w-1/3">
         <div className="p-4 rounded-lg border h-28">
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2">
-              <p className="text-sm text-gray-600">Total Accounts</p>
+              <p className="text-sm">Total Accounts</p>
               <p className="text-3xl font-bold">{usersMockData.totals.totalUsers}</p>
             </div>
             <UserCheckIcon className="w-12 h-12 text-black-600" />
           </div>
         </div>
-        <div className="p-4 rounded-lg border">
+        <div className="p-4 rounded-lg border h-28">
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2">
-              <p className="text-sm text-gray-600">Total Admin</p>
-              <p className="text-3xl font-bold text-blue-600">{usersMockData.totals.totalAdmins}</p>
+              <p className="text-sm">Total Admin</p>
+              <p className="text-3xl font-bold">{usersMockData.totals.totalAdmins}</p>
             </div>
-            <UserCog className="w-12 h-12 text-blue-600" />
+            <UserCog className="w-12 h-12" />
           </div>
         </div>
-        <div className="p-4 rounded-lg border">
+        <div className="p-4 rounded-lg border h-28">
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2">
-              <p className="text-sm text-gray-600">Active Users</p>
-              <p className="text-3xl font-bold text-blue-600">{usersMockData.totals.totalActive}</p>
+              <p className="text-sm">Active Users</p>
+              <p className="text-3xl font-bold">{usersMockData.totals.totalActive}</p>
             </div>
-            <UserPlus className="w-12 h-12 text-green-600" />
+            <UserPlus className="w-12 h-12" />
           </div>
         </div>
-        <div className="p-4 rounded-lg border">
+        <div className="p-4 rounded-lg border h-28">
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2">
-              <p className="text-sm text-gray-600">Total users</p>
-              <p className="text-3xl font-bold text-main">{usersMockData.totals.totalUsers}</p>
+              <p className="text-sm">Total users</p>
+              <p className="text-3xl font-bold">{usersMockData.totals.totalUsers}</p>
             </div>
-            <UserIcon className="w-12 h-12 text-main" />
+            <UserIcon className="w-12 h-12" />
           </div>
         </div>
       </div>
-      <Tabs defaultValue={tabs[0].value} className="w-full">
+      <Tabs defaultValue={tabs[0].value} className="w-full h-full">
         <div className="flex flex-col lg:flex-row gap-2 justify-start lg:justify-between w-full border-b">
           <TabsList className="w-full p-0 bg-background justify-start  rounded-none gap-1">
             {tabs.map((tab) => (
@@ -169,7 +170,7 @@ function RouteComponent() {
         </div>
         {tabs.map((tab) => (
           <TabsContent key={tab.value} value={tab.value}>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto h-full rounded-lg border">
               <UserTable user={tab.users} />
             </div>
           </TabsContent>

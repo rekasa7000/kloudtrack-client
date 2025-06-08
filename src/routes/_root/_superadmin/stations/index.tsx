@@ -40,9 +40,9 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import AddDeviceCertificates from "@/components/forms/station/add-device-certificates";
-import { getStatusIcon } from "@/utils/utils";
-import { formatDate, formatRelativeTime, getStatusColor } from "@/lib/utils";
 import StationDetails from "@/components/station/station-details";
+import { getStatusIcon } from "@/lib/status-icon";
+import { formatDate, formatRelativeTime, getStatusColor } from "@/lib/utils";
 
 const mockStations: Station[] = [
   {
@@ -185,7 +185,7 @@ function RouteComponent() {
   };
 
   return (
-    <div className="w-full max-h-[90vh] overflow-y-auto px-1">
+    <div className="w-full h-full overflow-y-auto px-1">
       <div className="w-full flex flex-col mb-5">
         <Label className="text-xl font-semibold">Station List</Label>
         <h3 className="text-sm font-medium text-[#545454] dark:text-gray-200">
@@ -284,7 +284,7 @@ function RouteComponent() {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-xs bg-blue-100 text-blue-700 hover:bg-blue-200"
+                                className="text-xs bg-blue-100 dark:bg-blue-700 text-blue-700 dark:text-blue-100 hover:bg-blue-200"
                               >
                                 <FileText className="w-3 h-3 mr-1" />
                                 Certificate
@@ -344,7 +344,7 @@ function RouteComponent() {
                             </DialogContent>
                           </Dialog>
                         ) : (
-                          <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded">
+                          <span className="flex items-center gap-1 text-xs  px-2 py-1 rounded">
                             <XCircle className="w-3 h-3" />
                             No Cert
                           </span>
@@ -355,7 +355,7 @@ function RouteComponent() {
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                className="text-xs bg-red-100 text-red-700 hover:bg-red-200"
+                                className="text-xs bg-red-100 dark:bg-amber-700 text-red-700 dark:text-amber-100 hover:bg-red-200"
                               >
                                 <Key className="w-3 h-3 mr-1" />
                                 Private Key
@@ -394,7 +394,7 @@ function RouteComponent() {
                                   )}
                                   <div>
                                     <span className="font-medium text-gray-700">Content Preview:</span>
-                                    <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-x-auto">
+                                    <pre className="mt-2 p-3 rounded text-xs overflow-x-auto">
                                       {station.privateKey.content.substring(0, 200)}...
                                     </pre>
                                   </div>
@@ -403,7 +403,7 @@ function RouteComponent() {
                             </DialogContent>
                           </Dialog>
                         ) : (
-                          <span className="flex items-center gap-1 text-xs bg-gray-100 px-2 py-1 rounded">
+                          <span className="flex items-center gap-1 text-xs  px-2 py-1 rounded">
                             <XCircle className="w-3 h-3" />
                             No Key
                           </span>

@@ -1,4 +1,4 @@
-import RootCertificateUploader from "@/components/station/certificates/root-certificate-upload";
+import RootCertificateUploader from "@/components/certificates/root-certificate-upload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

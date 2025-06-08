@@ -1,51 +1,80 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Button } from "../ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { Station } from "@/types/station";
 
-interface StationMetadata {
-  name: string;
-  organization: string;
-  lastSeen: string;
-  createdAt: string;
-  status: string;
-  id: string;
+interface stationTableProps {
+  station: Station[];
+  onToggleStatus: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-const StationTable = () => {
-  const [data, setData] = useState<StationMetadata[]>([]);
+const StationTable = ({ station, onToggleStatus, onDelete }: stationTableProps) => {
+  const data = station;
 
-  // column
-  const columns = useMemo<ColumnDef<StationMetadata>[]>(
+  const columns = useMemo<ColumnDef<Station>[]>(
     () => [
       {
-        accessorKey: "name",
+        accessorKey: "Station",
         header: "Name",
-        cell: (prop) => prop.getValue() as string,
+        cell: (prop) => prop.getValue(),
       },
       {
-        accessorKey: "organization",
-        header: "Organization",
-        cell: (prop) => prop.getValue() as string, // Removed toLocaleString()
+        accessorKey: "version",
+        header: "Version",
+        cell: (prop) => prop.getValue()?.toLocaleString(),
       },
       {
-        accessorKey: "lastSeen",
-        header: "Last Seen",
-        cell: (prop) => prop.getValue() as string,
+        accessorKey: "isActive",
+        header: "Status",
+        cell: (prop) => {
+          const isActive = prop.row.original.isActive;
+          return (
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+              }`}
+            >
+              {isActive ? "Active" : "Inactive"}
+            </span>
+          );
+        },
+      },
+      {
+        accessorKey: "region",
+        header: "Region",
+        cell: (prop) => prop.getValue(),
       },
       {
         accessorKey: "createdAt",
         header: "Date Created",
-        cell: (prop) => prop.getValue() as string,
+        cell: (prop) => prop.getValue(),
       },
       {
-        accessorKey: "status",
-        header: "Status",
-        cell: (prop) => prop.getValue() as string,
+        header: "Actions",
+        cell: (prop) => {
+          const certificate = prop.row.original;
+          return (
+            <div className="flex gap-2 justify-center">
+              <Button variant="outline" size="sm" onClick={() => onToggleStatus(certificate.id)} className="text-xs">
+                {certificate.isActive ? "Deactivate" : "Activate"}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onDelete(certificate.id)}
+                className="text-xs text-red-600 hover:text-red-700"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          );
+        },
       },
     ],
-    []
+    [onToggleStatus, onDelete]
   );
 
   const table = useReactTable({
@@ -56,8 +85,8 @@ const StationTable = () => {
   });
 
   return (
-    <div className="w-full flex flex-col items-center overflow-x-hidden ">
-      <Table className="w-full  mt-2 border-y-1 border-muted">
+    <div className="w-full flex flex-col items-center justify-between h-full">
+      <Table className="w-full">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id} className="bg-muted pointer-events-none">
@@ -92,7 +121,7 @@ const StationTable = () => {
         </TableBody>
       </Table>
 
-      <div className="bg-white  flex items-center  justify-between min-w-full py-4 z-10">
+      <div className="flex items-center px-5 justify-between w-full py-4 z-10">
         <div className="flex gap-2">
           <Button
             variant="outline"
@@ -116,7 +145,6 @@ const StationTable = () => {
         </div>
         <div className="mr-1">
           <span className="font-medium font-montserrat text-sm">
-            {" "}
             Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
           </span>
         </div>

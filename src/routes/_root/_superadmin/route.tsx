@@ -13,5 +13,9 @@ export const Route = createFileRoute("/_root/_superadmin")({
 });
 
 function RouteComponent() {
-  return <Outlet />;
+  return (
+    <div className="h-full w-full">
+      <Outlet />
+    </div>
+  );
 }

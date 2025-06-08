@@ -1,56 +1,80 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Button } from "../ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { Certificate } from "@/types/certificate";
 
-export interface UserData {
-  id: number;
-  username: string;
-  fullName: string;
-  organization: string;
-  lastSeen: string;
-  dateCreated: string;
-  status: "Active" | "Inactive";
-  role: "User" | "Superadmin" | "Admin";
+interface RootCertificateTableProps {
+  rootCertificate: Certificate[];
+  onToggleStatus: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-interface UserTableProps {
-  user: UserData[];
-}
+const RootCertificateTable = ({ rootCertificate, onToggleStatus, onDelete }: RootCertificateTableProps) => {
+  const data = rootCertificate;
 
-const UserTable = ({ user }: UserTableProps) => {
-  const [data] = useState<UserData[]>(user);
-
-  const columns = useMemo<ColumnDef<UserData>[]>(
+  const columns = useMemo<ColumnDef<Certificate>[]>(
     () => [
       {
-        accessorKey: "username",
-        header: "Username",
+        accessorKey: "name",
+        header: "Name",
         cell: (prop) => prop.getValue(),
       },
       {
-        accessorKey: "fullName",
-        header: "Full Name",
+        accessorKey: "version",
+        header: "Version",
         cell: (prop) => prop.getValue()?.toLocaleString(),
       },
       {
-        accessorKey: "organization",
-        header: "Organization",
+        accessorKey: "isActive",
+        header: "Status",
+        cell: (prop) => {
+          const isActive = prop.row.original.isActive;
+          return (
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+              }`}
+            >
+              {isActive ? "Active" : "Inactive"}
+            </span>
+          );
+        },
+      },
+      {
+        accessorKey: "region",
+        header: "Region",
         cell: (prop) => prop.getValue(),
       },
       {
-        accessorKey: "lastSeen",
-        header: "Last Seen",
-        cell: (prop) => prop.getValue(),
-      },
-      {
-        accessorKey: "dateCreated",
+        accessorKey: "createdAt",
         header: "Date Created",
         cell: (prop) => prop.getValue(),
       },
+      {
+        header: "Actions",
+        cell: (prop) => {
+          const certificate = prop.row.original;
+          return (
+            <div className="flex gap-2 justify-center">
+              <Button variant="outline" size="sm" onClick={() => onToggleStatus(certificate.id)} className="text-xs">
+                {certificate.isActive ? "Deactivate" : "Activate"}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => onDelete(certificate.id)}
+                className="text-xs text-red-600 hover:text-red-700"
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          );
+        },
+      },
     ],
-    []
+    [onToggleStatus, onDelete]
   );
 
   const table = useReactTable({
@@ -129,4 +153,4 @@ const UserTable = ({ user }: UserTableProps) => {
   );
 };
 
-export default UserTable;
+export default RootCertificateTable;

@@ -1,5 +1,4 @@
-import DeviceCertificateUploader from "@/components/station/certificates/device-certificate-uploader";
-import RootCertificateUploader from "@/components/station/certificates/root-certificate-upload";
+import DeviceCertificateUploader from "@/components/certificates/device-certificate-uploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

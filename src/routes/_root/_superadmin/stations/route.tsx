@@ -19,7 +19,7 @@ function RouteComponent() {
         <Header title={routeInfoHeader.title} description={routeInfoHeader.description} tabs={<StationTabs />} />
       </div>
 
-      <div className="flex flex-col items-center w-full mt-2">
+      <div className="flex flex-col items-center w-full h-full mt-2">
         <Outlet />
       </div>
     </main>

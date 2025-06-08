@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
 import { AuthProvider, useAuth } from "./hooks/use-auth";
-import PageNotFound from "./components/not-found";
+import PageNotFound from "./components/error/not-found";
 
 const queryClient = new QueryClient();
 

@@ -16,7 +16,7 @@ function RouteComponent() {
     <main className="flex flex-col items-center w-full h-full">
       <Header title={routeInfoHeader.title} description={routeInfoHeader.description} />
 
-      <div className="flex flex-col items-center w-full mt-2">
+      <div className="flex flex-col items-center w-full mt-2 h-full">
         <Outlet />
       </div>
     </main>

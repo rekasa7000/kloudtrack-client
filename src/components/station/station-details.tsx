@@ -1,7 +1,8 @@
 import { Station } from "@/types/station";
-import { formatDate, getStatusColor, getStatusIcon } from "@/utils/utils";
 import { CheckCircle, XCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getStatusIcon } from "@/lib/status-icon";
+import { formatDate, getStatusColor } from "@/lib/utils";
 
 interface StationDetailsProps {
   station: Station;
