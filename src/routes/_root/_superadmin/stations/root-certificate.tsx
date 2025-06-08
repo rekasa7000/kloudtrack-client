@@ -65,8 +65,8 @@ function RouteComponent() {
           <Button variant={"outline"}>Add Root Certificate</Button>
         </div>
       </div>
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-5 grid-rows-1">
-        <div className="flex flex-col gap-4">
+      <div className="flex flex-col lg:flex-row gap-5 h-full">
+        <div className="flex flex-col gap-4 w-1/3">
           <div className="rounded-xl p-4 border">
             <div className="flex items-center justify-between">
               <div>
@@ -95,7 +95,7 @@ function RouteComponent() {
             </div>
           </div>
         </div>
-        <div className="lg:col-span-2 rounded-lg border min-h-0">
+        <div className="lg:col-span-2 rounded-lg border min-h-0 w-full">
           <div className="h-full overflow-y-auto">
             <RootCertificateTable
               rootCertificate={certificates}
