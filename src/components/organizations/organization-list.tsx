@@ -9,9 +9,9 @@ interface TenantListProps {
   onSelect: (tenant: Tenant) => void;
 }
 
-const TenantList = ({ items, onSelect }: TenantListProps) => {
+const OrgnizationList = ({ items, onSelect }: TenantListProps) => {
   return (
-    <section className="w-full bg-white">
+    <section className="w-full">
       <div className="container px-0">
         <div className="flex flex-col max-h-[80vh] overflow-y-auto">
           <Separator />
@@ -19,13 +19,11 @@ const TenantList = ({ items, onSelect }: TenantListProps) => {
             <React.Fragment key={index}>
               <div className="flex w-full items-center gap-4 justify-between px-4 py-5">
                 <div className="order-2 flex items-center gap-2 md:order-none">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white border border-muted ">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-muted ">
                     {item.icon}
                   </span>
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-semibold font-inter">
-                      {item.tenantName}
-                    </h3>
+                    <h3 className="font-semibold font-inter">{item.tenantName}</h3>
                     <p className="text-sm inline-flex font-montserrat  items-center text-muted-foreground">
                       {item.status === "Active" ? (
                         <span className="flex w-3 h-3 me-1.5 bg-green-500 rounded-full"></span>
@@ -38,11 +36,7 @@ const TenantList = ({ items, onSelect }: TenantListProps) => {
                   </div>
                 </div>
 
-                <Button
-                  variant="outline"
-                  className="cursor-pointer"
-                  onClick={() => onSelect!(item)}
-                >
+                <Button variant="outline" className="cursor-pointer" onClick={() => onSelect!(item)}>
                   <span>View details</span>
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -56,4 +50,4 @@ const TenantList = ({ items, onSelect }: TenantListProps) => {
   );
 };
 
-export default TenantList;
+export default OrgnizationList;

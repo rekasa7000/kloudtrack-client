@@ -24,7 +24,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 
 export const Route = createFileRoute("/_root/_superadmin/users/")({
   component: RouteComponent,

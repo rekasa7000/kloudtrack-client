@@ -1,5 +1,5 @@
-import TenantDetails from "@/components/tenant-management/tenant-details";
-import TenantList from "@/components/tenant-management/tenant-lis";
+import TenantDetails from "@/components/organizations/organization-details";
+import TenantList from "@/components/organizations/organization-list";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,8 +24,7 @@ const data: Tenant[] = [
     icon: <Building />,
     tenantName: "John Doe",
     status: "Active",
-    description:
-      "Individual tenant managing personal projects and subscriptions.",
+    description: "Individual tenant managing personal projects and subscriptions.",
     dateCreated: "2023-01-15T10:30:00Z",
   },
   {
@@ -167,10 +166,7 @@ function RouteComponent() {
           <div className="w-full max-w-lg flex justify-start items-center gap-2.5 justify-self-start">
             <div className="w-full relative ">
               <Search className="w-4 h-4 absolute top-2.5 left-4" />
-              <Input
-                className="pl-10 rounded-lg py-2 font-inter"
-                placeholder="Search...."
-              />
+              <Input className="pl-10 rounded-lg py-2 font-inter" placeholder="Search...." />
             </div>
 
             <DropdownMenu>

@@ -35,9 +35,10 @@ import { Route as RootSuperadminSystemIndexImport } from './routes/_root/_supera
 import { Route as RootSuperadminStationsIndexImport } from './routes/_root/_superadmin/stations/index'
 import { Route as RootSuperadminOrganizationsIndexImport } from './routes/_root/_superadmin/organizations/index'
 import { Route as RootAdminOrganizationIndexImport } from './routes/_root/_admin/organization/index'
+import { Route as RootSuperadminUsersCreateImport } from './routes/_root/_superadmin/users/create'
 import { Route as RootSuperadminStationsRootCertificateImport } from './routes/_root/_superadmin/stations/root-certificate'
 import { Route as RootSuperadminStationsCreateImport } from './routes/_root/_superadmin/stations/create'
-import { Route as RootSuperadminOrganizationsAddTenantImport } from './routes/_root/_superadmin/organizations/add-tenant'
+import { Route as RootSuperadminOrganizationsCreateImport } from './routes/_root/_superadmin/organizations/create'
 
 // Create/Update Routes
 
@@ -190,6 +191,12 @@ const RootAdminOrganizationIndexRoute = RootAdminOrganizationIndexImport.update(
   } as any,
 )
 
+const RootSuperadminUsersCreateRoute = RootSuperadminUsersCreateImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => RootSuperadminUsersRouteRoute,
+} as any)
+
 const RootSuperadminStationsRootCertificateRoute =
   RootSuperadminStationsRootCertificateImport.update({
     id: '/root-certificate',
@@ -204,10 +211,10 @@ const RootSuperadminStationsCreateRoute =
     getParentRoute: () => RootSuperadminStationsRouteRoute,
   } as any)
 
-const RootSuperadminOrganizationsAddTenantRoute =
-  RootSuperadminOrganizationsAddTenantImport.update({
-    id: '/add-tenant',
-    path: '/add-tenant',
+const RootSuperadminOrganizationsCreateRoute =
+  RootSuperadminOrganizationsCreateImport.update({
+    id: '/create',
+    path: '/create',
     getParentRoute: () => RootSuperadminOrganizationsRouteRoute,
   } as any)
 
@@ -348,11 +355,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootProfileIndexImport
       parentRoute: typeof RootProfileRouteImport
     }
-    '/_root/_superadmin/organizations/add-tenant': {
-      id: '/_root/_superadmin/organizations/add-tenant'
-      path: '/add-tenant'
-      fullPath: '/organizations/add-tenant'
-      preLoaderRoute: typeof RootSuperadminOrganizationsAddTenantImport
+    '/_root/_superadmin/organizations/create': {
+      id: '/_root/_superadmin/organizations/create'
+      path: '/create'
+      fullPath: '/organizations/create'
+      preLoaderRoute: typeof RootSuperadminOrganizationsCreateImport
       parentRoute: typeof RootSuperadminOrganizationsRouteImport
     }
     '/_root/_superadmin/stations/create': {
@@ -368,6 +375,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/stations/root-certificate'
       preLoaderRoute: typeof RootSuperadminStationsRootCertificateImport
       parentRoute: typeof RootSuperadminStationsRouteImport
+    }
+    '/_root/_superadmin/users/create': {
+      id: '/_root/_superadmin/users/create'
+      path: '/create'
+      fullPath: '/users/create'
+      preLoaderRoute: typeof RootSuperadminUsersCreateImport
+      parentRoute: typeof RootSuperadminUsersRouteImport
     }
     '/_root/_admin/organization/': {
       id: '/_root/_admin/organization/'
@@ -436,14 +450,14 @@ const RootAdminRouteRouteWithChildren = RootAdminRouteRoute._addFileChildren(
 )
 
 interface RootSuperadminOrganizationsRouteRouteChildren {
-  RootSuperadminOrganizationsAddTenantRoute: typeof RootSuperadminOrganizationsAddTenantRoute
+  RootSuperadminOrganizationsCreateRoute: typeof RootSuperadminOrganizationsCreateRoute
   RootSuperadminOrganizationsIndexRoute: typeof RootSuperadminOrganizationsIndexRoute
 }
 
 const RootSuperadminOrganizationsRouteRouteChildren: RootSuperadminOrganizationsRouteRouteChildren =
   {
-    RootSuperadminOrganizationsAddTenantRoute:
-      RootSuperadminOrganizationsAddTenantRoute,
+    RootSuperadminOrganizationsCreateRoute:
+      RootSuperadminOrganizationsCreateRoute,
     RootSuperadminOrganizationsIndexRoute:
       RootSuperadminOrganizationsIndexRoute,
   }
@@ -487,11 +501,13 @@ const RootSuperadminSystemRouteRouteWithChildren =
   )
 
 interface RootSuperadminUsersRouteRouteChildren {
+  RootSuperadminUsersCreateRoute: typeof RootSuperadminUsersCreateRoute
   RootSuperadminUsersIndexRoute: typeof RootSuperadminUsersIndexRoute
 }
 
 const RootSuperadminUsersRouteRouteChildren: RootSuperadminUsersRouteRouteChildren =
   {
+    RootSuperadminUsersCreateRoute: RootSuperadminUsersCreateRoute,
     RootSuperadminUsersIndexRoute: RootSuperadminUsersIndexRoute,
   }
 
@@ -599,9 +615,10 @@ export interface FileRoutesByFullPath {
   '/configuration/': typeof RootConfigurationIndexRoute
   '/dashboard/': typeof RootDashboardIndexRoute
   '/profile/': typeof RootProfileIndexRoute
-  '/organizations/add-tenant': typeof RootSuperadminOrganizationsAddTenantRoute
+  '/organizations/create': typeof RootSuperadminOrganizationsCreateRoute
   '/stations/create': typeof RootSuperadminStationsCreateRoute
   '/stations/root-certificate': typeof RootSuperadminStationsRootCertificateRoute
+  '/users/create': typeof RootSuperadminUsersCreateRoute
   '/organization/': typeof RootAdminOrganizationIndexRoute
   '/organizations/': typeof RootSuperadminOrganizationsIndexRoute
   '/stations/': typeof RootSuperadminStationsIndexRoute
@@ -619,9 +636,10 @@ export interface FileRoutesByTo {
   '/configuration': typeof RootConfigurationIndexRoute
   '/dashboard': typeof RootDashboardIndexRoute
   '/profile': typeof RootProfileIndexRoute
-  '/organizations/add-tenant': typeof RootSuperadminOrganizationsAddTenantRoute
+  '/organizations/create': typeof RootSuperadminOrganizationsCreateRoute
   '/stations/create': typeof RootSuperadminStationsCreateRoute
   '/stations/root-certificate': typeof RootSuperadminStationsRootCertificateRoute
+  '/users/create': typeof RootSuperadminUsersCreateRoute
   '/organization': typeof RootAdminOrganizationIndexRoute
   '/organizations': typeof RootSuperadminOrganizationsIndexRoute
   '/stations': typeof RootSuperadminStationsIndexRoute
@@ -650,9 +668,10 @@ export interface FileRoutesById {
   '/_root/configuration/': typeof RootConfigurationIndexRoute
   '/_root/dashboard/': typeof RootDashboardIndexRoute
   '/_root/profile/': typeof RootProfileIndexRoute
-  '/_root/_superadmin/organizations/add-tenant': typeof RootSuperadminOrganizationsAddTenantRoute
+  '/_root/_superadmin/organizations/create': typeof RootSuperadminOrganizationsCreateRoute
   '/_root/_superadmin/stations/create': typeof RootSuperadminStationsCreateRoute
   '/_root/_superadmin/stations/root-certificate': typeof RootSuperadminStationsRootCertificateRoute
+  '/_root/_superadmin/users/create': typeof RootSuperadminUsersCreateRoute
   '/_root/_admin/organization/': typeof RootAdminOrganizationIndexRoute
   '/_root/_superadmin/organizations/': typeof RootSuperadminOrganizationsIndexRoute
   '/_root/_superadmin/stations/': typeof RootSuperadminStationsIndexRoute
@@ -680,9 +699,10 @@ export interface FileRouteTypes {
     | '/configuration/'
     | '/dashboard/'
     | '/profile/'
-    | '/organizations/add-tenant'
+    | '/organizations/create'
     | '/stations/create'
     | '/stations/root-certificate'
+    | '/users/create'
     | '/organization/'
     | '/organizations/'
     | '/stations/'
@@ -699,9 +719,10 @@ export interface FileRouteTypes {
     | '/configuration'
     | '/dashboard'
     | '/profile'
-    | '/organizations/add-tenant'
+    | '/organizations/create'
     | '/stations/create'
     | '/stations/root-certificate'
+    | '/users/create'
     | '/organization'
     | '/organizations'
     | '/stations'
@@ -728,9 +749,10 @@ export interface FileRouteTypes {
     | '/_root/configuration/'
     | '/_root/dashboard/'
     | '/_root/profile/'
-    | '/_root/_superadmin/organizations/add-tenant'
+    | '/_root/_superadmin/organizations/create'
     | '/_root/_superadmin/stations/create'
     | '/_root/_superadmin/stations/root-certificate'
+    | '/_root/_superadmin/users/create'
     | '/_root/_admin/organization/'
     | '/_root/_superadmin/organizations/'
     | '/_root/_superadmin/stations/'
@@ -838,7 +860,7 @@ export const routeTree = rootRoute
       "filePath": "_root/_superadmin/organizations/route.tsx",
       "parent": "/_root/_superadmin",
       "children": [
-        "/_root/_superadmin/organizations/add-tenant",
+        "/_root/_superadmin/organizations/create",
         "/_root/_superadmin/organizations/"
       ]
     },
@@ -862,6 +884,7 @@ export const routeTree = rootRoute
       "filePath": "_root/_superadmin/users/route.tsx",
       "parent": "/_root/_superadmin",
       "children": [
+        "/_root/_superadmin/users/create",
         "/_root/_superadmin/users/"
       ]
     },
@@ -885,8 +908,8 @@ export const routeTree = rootRoute
       "filePath": "_root/profile/index.tsx",
       "parent": "/_root/profile"
     },
-    "/_root/_superadmin/organizations/add-tenant": {
-      "filePath": "_root/_superadmin/organizations/add-tenant.tsx",
+    "/_root/_superadmin/organizations/create": {
+      "filePath": "_root/_superadmin/organizations/create.tsx",
       "parent": "/_root/_superadmin/organizations"
     },
     "/_root/_superadmin/stations/create": {
@@ -896,6 +919,10 @@ export const routeTree = rootRoute
     "/_root/_superadmin/stations/root-certificate": {
       "filePath": "_root/_superadmin/stations/root-certificate.tsx",
       "parent": "/_root/_superadmin/stations"
+    },
+    "/_root/_superadmin/users/create": {
+      "filePath": "_root/_superadmin/users/create.tsx",
+      "parent": "/_root/_superadmin/users"
     },
     "/_root/_admin/organization/": {
       "filePath": "_root/_admin/organization/index.tsx",

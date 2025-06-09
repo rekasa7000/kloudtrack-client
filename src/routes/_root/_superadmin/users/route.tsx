@@ -1,5 +1,5 @@
 import Header from "@/components/layout/header";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_root/_superadmin/users")({
   component: RouteComponent,
@@ -12,10 +12,21 @@ const routeInfoHeader = {
 };
 
 function RouteComponent() {
-  return (
-    <main className="flex flex-col items-center w-full h-full">
-      <Header title={routeInfoHeader.title} description={routeInfoHeader.description} />
+  const location = useLocation();
 
+  return (
+    <main className="flex flex-col w-full h-full">
+      <div className="flex flex-row w-full items-center">
+        <Header title={routeInfoHeader.title} description={routeInfoHeader.description} />
+        {location.pathname !== "/users/create" && (
+          <Link
+            to="/users/create"
+            className="w-fit text-nowrap border border-main rounded-md  py-2 px-4 text-sm font-inter"
+          >
+            Add new user
+          </Link>
+        )}
+      </div>
       <div className="flex flex-col items-center w-full mt-2 h-full">
         <Outlet />
       </div>

@@ -1,14 +1,5 @@
 import Header from "@/components/layout/header";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
-import { Slash } from "lucide-react";
+import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 
 const routeInfoHeader = {
   title: "Organization",
@@ -21,34 +12,22 @@ export const Route = createFileRoute("/_root/_superadmin/organizations")({
 });
 
 function RouteComponent() {
+  const location = useLocation();
+
   return (
     <main className="flex flex-col items-center w-full h-full">
       <div className="w-full flex items-center justify-between ">
         <Header title={routeInfoHeader.title} description={routeInfoHeader.description} />
-        <Link
-          to="/organizations/add-tenant"
-          className="w-fit text-nowrap border border-main rounded-md  py-2 px-4 text-sm font-inter"
-        >
-          Add Tenant
-        </Link>
+        {location.pathname !== "/users/create" && (
+          <Link
+            to="/organizations/create"
+            className="w-fit text-nowrap border border-main rounded-md  py-2 px-4 text-sm font-inter"
+          >
+            Add Organization
+          </Link>
+        )}
       </div>
-      <div className="flex items-center justify-start my-5 w-full">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/tenants">Tenants</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator>
-              <Slash />
-            </BreadcrumbSeparator>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/tenants/add-tenant">Add Tenant</BreadcrumbLink>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
-
-      <div className="flex flex-col items-center w-full ">
+      <div className="flex flex-col items-center w-full mt-2 h-full">
         <Outlet />
       </div>
     </main>

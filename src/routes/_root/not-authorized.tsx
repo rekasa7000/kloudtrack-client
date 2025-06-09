@@ -13,7 +13,7 @@ function RouteComponent() {
       <img src="./images/crying-not-authorized.png" alt="Not authorized image" />
 
       <div className="flex flex-col justify-center items-center gap-5">
-        <h1 className="text-[150px] leading-none font-extrabold font-inter">404</h1>
+        <h1 className="text-[150px] leading-none font-extrabold font-inter">401</h1>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger className="bg-main text-white dark:text-black font-bold font-montserrat px-2 text-base rounded rotate-12 absolute">
