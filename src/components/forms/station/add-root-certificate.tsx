@@ -63,7 +63,7 @@ const AddRootCertificate = () => {
         form.handleSubmit();
       }}
     >
-      <div className="bg-white flex flex-col gap-2 rounded-lg space-y-4 py-5">
+      <div className="flex flex-col gap-2 rounded-lg space-y-4 py-5">
         <div className="w-full flex flex-col space-y-2">
           <form.Field
             name="version"

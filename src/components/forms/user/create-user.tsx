@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { ChevronRight, ChevronLeft, AtSign, CircleCheck } from "lucide-react";
+import { ChevronRight, ChevronLeft, AtSign, CircleCheck, LockKeyholeIcon, EyeClosed, Eye } from "lucide-react";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { cn } from "@/lib/utils";
 import { FieldInfo } from "@/utils/field-info";
@@ -23,6 +23,9 @@ interface FormValues {
 
 const CreateUser = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+
   const totalSteps = 3;
 
   const form = useForm({
@@ -53,6 +56,10 @@ const CreateUser = () => {
       setCurrentStep((prev) => prev - 1);
     }
   };
+
+  const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
+
+  const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible((prev) => !prev);
 
   const getStepValidation = (step: number, formValues: FormValues): boolean => {
     switch (step) {
@@ -371,15 +378,33 @@ const CreateUser = () => {
                   <Label htmlFor="password" className="text-sm font-medium">
                     Password
                   </Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={field.state.value}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    onBlur={field.handleBlur}
-                    placeholder="Enter your password"
-                    className={`w-full ${field.state.meta.errors.length ? "border-red-500" : ""}`}
-                  />
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                      <LockKeyholeIcon className="w-5 h-5 text-c_secondary" />
+                    </span>
+                    <Input
+                      id="password"
+                      type={isPasswordVisible ? "text" : "password"}
+                      placeholder="Password"
+                      required
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      className="pl-10 pr-10 py-6 rounded-lg border-gray-300 text-gray-700 placeholder-gray-400 w-full"
+                    />
+                    <Button
+                      type="button"
+                      className="absolute inset-y-1.5 right-0 flex items-center pr-4 bg-transparent border-none appearance-none focus:outline-none hover:bg-transparent shadow-none"
+                      onClick={togglePasswordVisibility}
+                    >
+                      {isPasswordVisible ? (
+                        <EyeClosed className="text-c_secondary dark:text-white w-5 h-5 " />
+                      ) : (
+                        <Eye className="text-c_secondary dark:text-white h-5 w-5" />
+                      )}
+                    </Button>
+                  </div>
                   <FieldInfo field={field} />
                 </div>
               )}
@@ -401,22 +426,40 @@ const CreateUser = () => {
                   <Label htmlFor="confirmPassword" className="text-sm font-medium">
                     Confirm Password
                   </Label>
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    value={field.state.value}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    onBlur={field.handleBlur}
-                    placeholder="Confirm your password"
-                    className={`w-full ${field.state.meta.errors.length ? "border-red-500" : ""}`}
-                  />
+                  <div className="relative w-full">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                      <LockKeyholeIcon className="w-5 h-5 text-c_secondary" />
+                    </span>
+                    <Input
+                      id="confirmPassword"
+                      type={isConfirmPasswordVisible ? "text" : "password"}
+                      placeholder="Password"
+                      required
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      className="pl-10 pr-10 py-6 rounded-lg border-gray-300 text-gray-700 placeholder-gray-400 w-full"
+                    />
+                    <Button
+                      type="button"
+                      className="absolute inset-y-1.5 right-0 flex items-center pr-4 bg-transparent border-none appearance-none focus:outline-none hover:bg-transparent shadow-none"
+                      onClick={toggleConfirmPasswordVisibility}
+                    >
+                      {isConfirmPasswordVisible ? (
+                        <EyeClosed className="text-c_secondary dark:text-white w-5 h-5 " />
+                      ) : (
+                        <Eye className="text-c_secondary dark:text-white h-5 w-5" />
+                      )}
+                    </Button>
+                  </div>
                   <FieldInfo field={field} />
                 </div>
               )}
             </form.Field>
 
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-sm text-gray-700 font-medium mb-2">Password requirements:</p>
+            <div className="p-4 rounded-lg">
+              <p className="text-sm font-medium mb-2">Password requirements:</p>
               <ul className="text-xs space-y-1">
                 <li>• At least 8 characters long</li>
                 <li>• Contains uppercase and lowercase letters</li>

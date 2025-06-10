@@ -69,7 +69,7 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
           return (
             <div className="flex items-center gap-2">
               {getStatusIcon(station.status)}
-              <span className={`px-2 py-1 text-xs rounded-full border ${getStatusColor(station.status)}`}>
+              <span className={`px-2 py-1 text-xs rounded-full border capitalize ${getStatusColor(station.status)}`}>
                 {station.status}
               </span>
             </div>
@@ -252,7 +252,7 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
               </Dialog>
               <Dialog>
                 <DialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-600 hover:text-gray-700 hover">
-                  <FilePlus className="w-4 h-4 text-black" />
+                  <FilePlus className="w-4 h-4 text-black dark:text-gray-400" />
                 </DialogTrigger>
                 <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
                   <DialogTitle className="font-semibold">Device Certificate</DialogTitle>
@@ -398,7 +398,7 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-gray-50">
+              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-muted">
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className="text-left font-light py-4 font-montserrat">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

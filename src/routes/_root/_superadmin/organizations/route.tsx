@@ -18,7 +18,7 @@ function RouteComponent() {
     <main className="flex flex-col items-center w-full h-full">
       <div className="w-full flex items-center justify-between ">
         <Header title={routeInfoHeader.title} description={routeInfoHeader.description} />
-        {location.pathname !== "/users/create" && (
+        {location.pathname !== "/organizations/create" && (
           <Link
             to="/organizations/create"
             className="w-fit text-nowrap border border-main rounded-md  py-2 px-4 text-sm font-inter"

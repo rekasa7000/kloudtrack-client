@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { useGetOrganization } from "@/hooks/queries/organization-query";
 import { Tenant } from "@/types/tenant";
 import { createFileRoute } from "@tanstack/react-router";
 import { Building, ListFilter, Search } from "lucide-react";
@@ -150,10 +151,9 @@ const data: Tenant[] = [
 ];
 
 function RouteComponent() {
-  //  simple implementation of tenant list and details
-  // ? need to be refactored
+  const { data: organizationData } = useGetOrganization();
   const [selectedTenant, setSelectedTenant] = useState(data[0] || null);
-
+  console.log(organizationData);
   function handleSelectTenant(tenant: any) {
     console.log(selectedTenant);
     setSelectedTenant(tenant);
@@ -187,12 +187,10 @@ function RouteComponent() {
 
           <div className="flex items-center gap-5">
             <p className="text-lg flex justify-center flex-col font-medium text-stone-700 font-inter">
-              {" "}
               Total Organizations
               <span className="text-xl font-bold text-green-500">6</span>
             </p>
             <p className="text-lg flex justify-center flex-col font-medium text-green-500 font-inter">
-              {" "}
               Active Organizations
               <span className="text-xl font-bold text-stone-700">6</span>
             </p>

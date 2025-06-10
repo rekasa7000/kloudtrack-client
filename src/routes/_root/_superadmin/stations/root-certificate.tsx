@@ -4,7 +4,16 @@ import { Certificate } from "@/types/certificate";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import RootCertificateTable from "@/components/certificates/root-certificates-table";
+import AddRootCertificate from "@/components/forms/station/add-root-certificate";
 
 export const Route = createFileRoute("/_root/_superadmin/stations/root-certificate")({
   component: RouteComponent,
@@ -61,12 +70,23 @@ function RouteComponent() {
           <Label className="text-xl font-semibold">Root Certificates</Label>
           <h3 className="text-sm font-medium">Trusted CA cert for secure AWS IoT connections.</h3>
         </div>
-        <div>
-          <Button variant={"outline"}>Add Root Certificate</Button>
-        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant={"outline"}>Add Root Certificate</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Root Certificate</DialogTitle>
+              <DialogDescription>
+                Upload your Amazon Root CA from AWS IoT core and input the required fields.
+              </DialogDescription>
+            </DialogHeader>
+            <AddRootCertificate />
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="flex flex-col lg:flex-row gap-5 h-full">
-        <div className="flex flex-col gap-4 w-1/3">
+        <div className="flex flex-col gap-4 w-full lg:w-1/3">
           <div className="rounded-xl p-4 border">
             <div className="flex items-center justify-between">
               <div>
