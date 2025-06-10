@@ -1,7 +1,12 @@
 import dynamic_image from "@/assets/sunny.jpg";
 import test_image from "@/assets/testimage.png";
+import { useNavigate } from "@tanstack/react-router";
 
 const DashboardCardView = () => {
+  const navigate = useNavigate();
+  const navigateToHistorical = () => {
+    navigate({ to: "/dashboard/historical" });
+  }
   return (
     <main className="w-full min-h-svh mt-1">
       <div className="w-full min-h-[550px] h-full inline-flex flex-col justify-start items-start gap-2.5">
@@ -16,7 +21,7 @@ const DashboardCardView = () => {
               />
             </div>
 
-            <div className="w-full inline-flex  flex-col justify-start items-start gap-3.5">
+            <div className="w-full inline-flex  flex-col justify-start items-start gap-3.5 cursor-pointer" onClick={navigateToHistorical}>
               {/* image */}
               <div className="w-full h-60 px-5 py-6 relative rounded-md inline-flex justify-start items-end gap-2.5 overflow-hidden">
                 <img

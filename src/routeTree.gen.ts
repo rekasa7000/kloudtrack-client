@@ -27,6 +27,7 @@ import { Route as RootDashboardIndexImport } from './routes/_root/dashboard/inde
 import { Route as RootConfigurationIndexImport } from './routes/_root/configuration/index'
 import { Route as RootProfileEditProfileImport } from './routes/_root/profile/edit-profile'
 import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
+import { Route as RootDashboardHistoricalImport } from './routes/_root/dashboard/historical'
 import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
 import { Route as RootSuperadminUsersRouteImport } from './routes/_root/_superadmin/users/route'
 import { Route as RootSuperadminSystemRouteImport } from './routes/_root/_superadmin/system/route'
@@ -139,6 +140,12 @@ const RootProfileEditProfileRoute = RootProfileEditProfileImport.update({
 const RootDashboardMapRoute = RootDashboardMapImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => RootDashboardRouteRoute,
+} as any)
+
+const RootDashboardHistoricalRoute = RootDashboardHistoricalImport.update({
+  id: '/historical',
+  path: '/historical',
   getParentRoute: () => RootDashboardRouteRoute,
 } as any)
 
@@ -385,6 +392,13 @@ declare module '@tanstack/react-router' {
       path: '/data-analysis'
       fullPath: '/dashboard/data-analysis'
       preLoaderRoute: typeof RootDashboardDataAnalysisImport
+      parentRoute: typeof RootDashboardRouteImport
+    }
+    '/_root/dashboard/historical': {
+      id: '/_root/dashboard/historical'
+      path: '/historical'
+      fullPath: '/dashboard/historical'
+      preLoaderRoute: typeof RootDashboardHistoricalImport
       parentRoute: typeof RootDashboardRouteImport
     }
     '/_root/dashboard/map': {
@@ -653,12 +667,14 @@ const RootConfigurationRouteRouteWithChildren =
 
 interface RootDashboardRouteRouteChildren {
   RootDashboardDataAnalysisRoute: typeof RootDashboardDataAnalysisRoute
+  RootDashboardHistoricalRoute: typeof RootDashboardHistoricalRoute
   RootDashboardMapRoute: typeof RootDashboardMapRoute
   RootDashboardIndexRoute: typeof RootDashboardIndexRoute
 }
 
 const RootDashboardRouteRouteChildren: RootDashboardRouteRouteChildren = {
   RootDashboardDataAnalysisRoute: RootDashboardDataAnalysisRoute,
+  RootDashboardHistoricalRoute: RootDashboardHistoricalRoute,
   RootDashboardMapRoute: RootDashboardMapRoute,
   RootDashboardIndexRoute: RootDashboardIndexRoute,
 }
@@ -740,6 +756,7 @@ export interface FileRoutesByFullPath {
   '/system': typeof RootSuperadminSystemRouteRouteWithChildren
   '/users': typeof RootSuperadminUsersRouteRouteWithChildren
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
+  '/dashboard/historical': typeof RootDashboardHistoricalRoute
   '/dashboard/map': typeof RootDashboardMapRoute
   '/profile/edit-profile': typeof RootProfileEditProfileRoute
   '/configuration/': typeof RootConfigurationIndexRoute
@@ -767,6 +784,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/not-authorized': typeof RootNotAuthorizedRoute
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
+  '/dashboard/historical': typeof RootDashboardHistoricalRoute
   '/dashboard/map': typeof RootDashboardMapRoute
   '/profile/edit-profile': typeof RootProfileEditProfileRoute
   '/configuration': typeof RootConfigurationIndexRoute
@@ -806,6 +824,7 @@ export interface FileRoutesById {
   '/_root/_superadmin/system': typeof RootSuperadminSystemRouteRouteWithChildren
   '/_root/_superadmin/users': typeof RootSuperadminUsersRouteRouteWithChildren
   '/_root/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
+  '/_root/dashboard/historical': typeof RootDashboardHistoricalRoute
   '/_root/dashboard/map': typeof RootDashboardMapRoute
   '/_root/profile/edit-profile': typeof RootProfileEditProfileRoute
   '/_root/configuration/': typeof RootConfigurationIndexRoute
@@ -844,6 +863,7 @@ export interface FileRouteTypes {
     | '/system'
     | '/users'
     | '/dashboard/data-analysis'
+    | '/dashboard/historical'
     | '/dashboard/map'
     | '/profile/edit-profile'
     | '/configuration/'
@@ -870,6 +890,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/not-authorized'
     | '/dashboard/data-analysis'
+    | '/dashboard/historical'
     | '/dashboard/map'
     | '/profile/edit-profile'
     | '/configuration'
@@ -907,6 +928,7 @@ export interface FileRouteTypes {
     | '/_root/_superadmin/system'
     | '/_root/_superadmin/users'
     | '/_root/dashboard/data-analysis'
+    | '/_root/dashboard/historical'
     | '/_root/dashboard/map'
     | '/_root/profile/edit-profile'
     | '/_root/configuration/'
@@ -1000,6 +1022,7 @@ export const routeTree = rootRoute
       "parent": "/_root",
       "children": [
         "/_root/dashboard/data-analysis",
+        "/_root/dashboard/historical",
         "/_root/dashboard/map",
         "/_root/dashboard/"
       ]
@@ -1071,6 +1094,10 @@ export const routeTree = rootRoute
     },
     "/_root/dashboard/data-analysis": {
       "filePath": "_root/dashboard/data-analysis.tsx",
+      "parent": "/_root/dashboard"
+    },
+    "/_root/dashboard/historical": {
+      "filePath": "_root/dashboard/historical.tsx",
       "parent": "/_root/dashboard"
     },
     "/_root/dashboard/map": {
