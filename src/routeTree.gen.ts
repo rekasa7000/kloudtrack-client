@@ -23,6 +23,7 @@ import { Route as RootAdminRouteImport } from './routes/_root/_admin/route'
 import { Route as RootProfileIndexImport } from './routes/_root/profile/index'
 import { Route as RootDashboardIndexImport } from './routes/_root/dashboard/index'
 import { Route as RootConfigurationIndexImport } from './routes/_root/configuration/index'
+import { Route as RootProfileChangePasswordImport } from './routes/_root/profile/change-password'
 import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
 import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
 import { Route as RootSuperadminUsersRouteImport } from './routes/_root/_superadmin/users/route'
@@ -109,6 +110,12 @@ const RootConfigurationIndexRoute = RootConfigurationIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => RootConfigurationRouteRoute,
+} as any)
+
+const RootProfileChangePasswordRoute = RootProfileChangePasswordImport.update({
+  id: '/change-password',
+  path: '/change-password',
+  getParentRoute: () => RootProfileRouteRoute,
 } as any)
 
 const RootDashboardMapRoute = RootDashboardMapImport.update({
@@ -333,6 +340,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/map'
       preLoaderRoute: typeof RootDashboardMapImport
       parentRoute: typeof RootDashboardRouteImport
+    }
+    '/_root/profile/change-password': {
+      id: '/_root/profile/change-password'
+      path: '/change-password'
+      fullPath: '/profile/change-password'
+      preLoaderRoute: typeof RootProfileChangePasswordImport
+      parentRoute: typeof RootProfileRouteImport
     }
     '/_root/configuration/': {
       id: '/_root/configuration/'
@@ -565,10 +579,12 @@ const RootDashboardRouteRouteWithChildren =
   RootDashboardRouteRoute._addFileChildren(RootDashboardRouteRouteChildren)
 
 interface RootProfileRouteRouteChildren {
+  RootProfileChangePasswordRoute: typeof RootProfileChangePasswordRoute
   RootProfileIndexRoute: typeof RootProfileIndexRoute
 }
 
 const RootProfileRouteRouteChildren: RootProfileRouteRouteChildren = {
+  RootProfileChangePasswordRoute: RootProfileChangePasswordRoute,
   RootProfileIndexRoute: RootProfileIndexRoute,
 }
 
@@ -612,6 +628,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof RootSuperadminUsersRouteRouteWithChildren
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
+  '/profile/change-password': typeof RootProfileChangePasswordRoute
   '/configuration/': typeof RootConfigurationIndexRoute
   '/dashboard/': typeof RootDashboardIndexRoute
   '/profile/': typeof RootProfileIndexRoute
@@ -633,6 +650,7 @@ export interface FileRoutesByTo {
   '/not-authorized': typeof RootNotAuthorizedRoute
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
+  '/profile/change-password': typeof RootProfileChangePasswordRoute
   '/configuration': typeof RootConfigurationIndexRoute
   '/dashboard': typeof RootDashboardIndexRoute
   '/profile': typeof RootProfileIndexRoute
@@ -665,6 +683,7 @@ export interface FileRoutesById {
   '/_root/_superadmin/users': typeof RootSuperadminUsersRouteRouteWithChildren
   '/_root/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/_root/dashboard/map': typeof RootDashboardMapRoute
+  '/_root/profile/change-password': typeof RootProfileChangePasswordRoute
   '/_root/configuration/': typeof RootConfigurationIndexRoute
   '/_root/dashboard/': typeof RootDashboardIndexRoute
   '/_root/profile/': typeof RootProfileIndexRoute
@@ -696,6 +715,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/dashboard/data-analysis'
     | '/dashboard/map'
+    | '/profile/change-password'
     | '/configuration/'
     | '/dashboard/'
     | '/profile/'
@@ -716,6 +736,7 @@ export interface FileRouteTypes {
     | '/not-authorized'
     | '/dashboard/data-analysis'
     | '/dashboard/map'
+    | '/profile/change-password'
     | '/configuration'
     | '/dashboard'
     | '/profile'
@@ -746,6 +767,7 @@ export interface FileRouteTypes {
     | '/_root/_superadmin/users'
     | '/_root/dashboard/data-analysis'
     | '/_root/dashboard/map'
+    | '/_root/profile/change-password'
     | '/_root/configuration/'
     | '/_root/dashboard/'
     | '/_root/profile/'
@@ -839,6 +861,7 @@ export const routeTree = rootRoute
       "filePath": "_root/profile/route.tsx",
       "parent": "/_root",
       "children": [
+        "/_root/profile/change-password",
         "/_root/profile/"
       ]
     },
@@ -895,6 +918,10 @@ export const routeTree = rootRoute
     "/_root/dashboard/map": {
       "filePath": "_root/dashboard/map.tsx",
       "parent": "/_root/dashboard"
+    },
+    "/_root/profile/change-password": {
+      "filePath": "_root/profile/change-password.tsx",
+      "parent": "/_root/profile"
     },
     "/_root/configuration/": {
       "filePath": "_root/configuration/index.tsx",
