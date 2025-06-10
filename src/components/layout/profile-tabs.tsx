@@ -3,7 +3,7 @@ import { Link, useMatchRoute, useLocation } from "@tanstack/react-router";
 
 const tabs = [
   { name: "Profile", url: "/profile" as const },
-  { name: "Change Password", url: "/profile/password-change" },
+  { name: "Edit Profile", url: "/profile/edit-profile" },
 ];
 
 const ProfileTabs = (): ReactNode => {
