@@ -24,6 +24,7 @@ import { Route as RootProfileIndexImport } from './routes/_root/profile/index'
 import { Route as RootDashboardIndexImport } from './routes/_root/dashboard/index'
 import { Route as RootConfigurationIndexImport } from './routes/_root/configuration/index'
 import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
+import { Route as RootDashboardHistoricalImport } from './routes/_root/dashboard/historical'
 import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
 import { Route as RootSuperadminUsersRouteImport } from './routes/_root/_superadmin/users/route'
 import { Route as RootSuperadminSystemRouteImport } from './routes/_root/_superadmin/system/route'
@@ -114,6 +115,12 @@ const RootConfigurationIndexRoute = RootConfigurationIndexImport.update({
 const RootDashboardMapRoute = RootDashboardMapImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => RootDashboardRouteRoute,
+} as any)
+
+const RootDashboardHistoricalRoute = RootDashboardHistoricalImport.update({
+  id: '/historical',
+  path: '/historical',
   getParentRoute: () => RootDashboardRouteRoute,
 } as any)
 
@@ -325,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/data-analysis'
       fullPath: '/dashboard/data-analysis'
       preLoaderRoute: typeof RootDashboardDataAnalysisImport
+      parentRoute: typeof RootDashboardRouteImport
+    }
+    '/_root/dashboard/historical': {
+      id: '/_root/dashboard/historical'
+      path: '/historical'
+      fullPath: '/dashboard/historical'
+      preLoaderRoute: typeof RootDashboardHistoricalImport
       parentRoute: typeof RootDashboardRouteImport
     }
     '/_root/dashboard/map': {
@@ -551,12 +565,14 @@ const RootConfigurationRouteRouteWithChildren =
 
 interface RootDashboardRouteRouteChildren {
   RootDashboardDataAnalysisRoute: typeof RootDashboardDataAnalysisRoute
+  RootDashboardHistoricalRoute: typeof RootDashboardHistoricalRoute
   RootDashboardMapRoute: typeof RootDashboardMapRoute
   RootDashboardIndexRoute: typeof RootDashboardIndexRoute
 }
 
 const RootDashboardRouteRouteChildren: RootDashboardRouteRouteChildren = {
   RootDashboardDataAnalysisRoute: RootDashboardDataAnalysisRoute,
+  RootDashboardHistoricalRoute: RootDashboardHistoricalRoute,
   RootDashboardMapRoute: RootDashboardMapRoute,
   RootDashboardIndexRoute: RootDashboardIndexRoute,
 }
@@ -611,6 +627,7 @@ export interface FileRoutesByFullPath {
   '/system': typeof RootSuperadminSystemRouteRouteWithChildren
   '/users': typeof RootSuperadminUsersRouteRouteWithChildren
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
+  '/dashboard/historical': typeof RootDashboardHistoricalRoute
   '/dashboard/map': typeof RootDashboardMapRoute
   '/configuration/': typeof RootConfigurationIndexRoute
   '/dashboard/': typeof RootDashboardIndexRoute
@@ -632,6 +649,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/not-authorized': typeof RootNotAuthorizedRoute
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
+  '/dashboard/historical': typeof RootDashboardHistoricalRoute
   '/dashboard/map': typeof RootDashboardMapRoute
   '/configuration': typeof RootConfigurationIndexRoute
   '/dashboard': typeof RootDashboardIndexRoute
@@ -664,6 +682,7 @@ export interface FileRoutesById {
   '/_root/_superadmin/system': typeof RootSuperadminSystemRouteRouteWithChildren
   '/_root/_superadmin/users': typeof RootSuperadminUsersRouteRouteWithChildren
   '/_root/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
+  '/_root/dashboard/historical': typeof RootDashboardHistoricalRoute
   '/_root/dashboard/map': typeof RootDashboardMapRoute
   '/_root/configuration/': typeof RootConfigurationIndexRoute
   '/_root/dashboard/': typeof RootDashboardIndexRoute
@@ -695,6 +714,7 @@ export interface FileRouteTypes {
     | '/system'
     | '/users'
     | '/dashboard/data-analysis'
+    | '/dashboard/historical'
     | '/dashboard/map'
     | '/configuration/'
     | '/dashboard/'
@@ -715,6 +735,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/not-authorized'
     | '/dashboard/data-analysis'
+    | '/dashboard/historical'
     | '/dashboard/map'
     | '/configuration'
     | '/dashboard'
@@ -745,6 +766,7 @@ export interface FileRouteTypes {
     | '/_root/_superadmin/system'
     | '/_root/_superadmin/users'
     | '/_root/dashboard/data-analysis'
+    | '/_root/dashboard/historical'
     | '/_root/dashboard/map'
     | '/_root/configuration/'
     | '/_root/dashboard/'
@@ -831,6 +853,7 @@ export const routeTree = rootRoute
       "parent": "/_root",
       "children": [
         "/_root/dashboard/data-analysis",
+        "/_root/dashboard/historical",
         "/_root/dashboard/map",
         "/_root/dashboard/"
       ]
@@ -892,32 +915,10 @@ export const routeTree = rootRoute
       "filePath": "_root/dashboard/data-analysis.tsx",
       "parent": "/_root/dashboard"
     },
-    "/_root/dashboard/map": {
-      "filePath": "_root/dashboard/map.tsx",
-      "parent": "/_root/dashboard"
-    },
-    "/_root/configuration/": {
-      "filePath": "_root/configuration/index.tsx",
-      "parent": "/_root/configuration"
-    },
-    "/_root/dashboard/": {
-      "filePath": "_root/dashboard/index.tsx",
-      "parent": "/_root/dashboard"
-    },
-    "/_root/profile/": {
-      "filePath": "_root/profile/index.tsx",
-      "parent": "/_root/profile"
-    },
-    "/_root/_superadmin/organizations/create": {
-      "filePath": "_root/_superadmin/organizations/create.tsx",
-      "parent": "/_root/_superadmin/organizations"
-    },
-    "/_root/_superadmin/stations/create": {
-      "filePath": "_root/_superadmin/stations/create.tsx",
-      "parent": "/_root/_superadmin/stations"
-    },
-    "/_root/_superadmin/stations/root-certificate": {
-      "filePath": "_root/_superadmin/stations/root-certificate.tsx",
+    "/_root/dashboard/historical": {
+      "filePath": "_root/dashboard/historical.tsx",
+oard/data-analysis.tsx",
+_superadmin/stations/root-certificate.tsx",
       "parent": "/_root/_superadmin/stations"
     },
     "/_root/_superadmin/users/create": {
