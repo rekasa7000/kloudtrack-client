@@ -6,9 +6,9 @@ type RouterContext = {
 };
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
-    <>
+    <div className="h-screen">
       <Outlet />
       {/* <TanStackRouterDevtools /> */}
-    </>
+    </div>
   ),
 });

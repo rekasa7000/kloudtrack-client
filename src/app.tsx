@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
 import { AuthProvider, useAuth } from "./hooks/use-auth";
+import PageNotFound from "./components/error/not-found";
 
 const queryClient = new QueryClient();
 
@@ -11,12 +12,7 @@ const router = createRouter({
   routeTree,
   defaultPreload: "intent",
   context: { authentication: undefined! },
-  defaultNotFoundComponent: () => (
-    <div>
-      <p>Not found!</p>
-      <Link to="/">Go home</Link>
-    </div>
-  ),
+  defaultNotFoundComponent: () => <PageNotFound />,
 });
 
 declare module "@tanstack/react-router" {

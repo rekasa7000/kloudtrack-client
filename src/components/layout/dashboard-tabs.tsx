@@ -1,0 +1,42 @@
+import { ReactNode } from "react";
+import { Link, useMatchRoute, useLocation } from "@tanstack/react-router";
+
+const tabs = [
+  { name: "Real-time", url: "/dashboard" as const },
+  { name: "Analysis", url: "/dashboard/data-analysis" as const },
+  { name: "Map", url: "/dashboard/map" as const },
+];
+
+const DashboardTabs = (): ReactNode => {
+  const matchRoute = useMatchRoute();
+  const location = useLocation();
+
+  return (
+    <div className="flex h-auto mt-5 w-full items-center bg-background justify-start gap-2 mb-2 border-b">
+      {tabs.map((tab, index) => {
+        let isActive = false;
+
+        if (tab.url === "/dashboard") {
+          isActive = matchRoute({ to: "/dashboard" }) && !location.pathname.startsWith("/stations/");
+        }
+
+        isActive = !!matchRoute({ to: tab.url });
+
+        return (
+          <div key={index} className="w-fit flex h-auto items-center">
+            <Link
+              to={tab.url}
+              className={`w-fit text-nowrap px-11 py-2 text-sm transition-all font-inter ease-in-out ${
+                isActive ? "font-semibold border-b-2 pb-1 border-main" : ""
+              }`}
+            >
+              {tab.name}
+            </Link>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default DashboardTabs;

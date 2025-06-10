@@ -13,21 +13,32 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as RootRouteImport } from './routes/_root/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as RootNotAuthorizedImport } from './routes/_root/not-authorized'
 import { Route as AuthLoginImport } from './routes/_auth/login'
-import { Route as RootTenantsRouteImport } from './routes/_root/tenants/route'
+import { Route as RootProfileRouteImport } from './routes/_root/profile/route'
 import { Route as RootDashboardRouteImport } from './routes/_root/dashboard/route'
-import { Route as RootUsersIndexImport } from './routes/_root/users/index'
-import { Route as RootTenantsIndexImport } from './routes/_root/tenants/index'
-import { Route as RootStationsIndexImport } from './routes/_root/stations/index'
+import { Route as RootConfigurationRouteImport } from './routes/_root/configuration/route'
+import { Route as RootSuperadminRouteImport } from './routes/_root/_superadmin/route'
+import { Route as RootAdminRouteImport } from './routes/_root/_admin/route'
 import { Route as RootProfileIndexImport } from './routes/_root/profile/index'
-import { Route as RootOrganizationIndexImport } from './routes/_root/organization/index'
-import { Route as RootMonitoringIndexImport } from './routes/_root/monitoring/index'
 import { Route as RootDashboardIndexImport } from './routes/_root/dashboard/index'
 import { Route as RootConfigurationIndexImport } from './routes/_root/configuration/index'
-import { Route as RootAuditLogsIndexImport } from './routes/_root/audit-logs/index'
-import { Route as RootTenantsAddTenantImport } from './routes/_root/tenants/add-tenant'
 import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
 import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
+import { Route as RootSuperadminUsersRouteImport } from './routes/_root/_superadmin/users/route'
+import { Route as RootSuperadminSystemRouteImport } from './routes/_root/_superadmin/system/route'
+import { Route as RootSuperadminStationsRouteImport } from './routes/_root/_superadmin/stations/route'
+import { Route as RootSuperadminOrganizationsRouteImport } from './routes/_root/_superadmin/organizations/route'
+import { Route as RootAdminOrganizationRouteImport } from './routes/_root/_admin/organization/route'
+import { Route as RootSuperadminUsersIndexImport } from './routes/_root/_superadmin/users/index'
+import { Route as RootSuperadminSystemIndexImport } from './routes/_root/_superadmin/system/index'
+import { Route as RootSuperadminStationsIndexImport } from './routes/_root/_superadmin/stations/index'
+import { Route as RootSuperadminOrganizationsIndexImport } from './routes/_root/_superadmin/organizations/index'
+import { Route as RootAdminOrganizationIndexImport } from './routes/_root/_admin/organization/index'
+import { Route as RootSuperadminUsersCreateImport } from './routes/_root/_superadmin/users/create'
+import { Route as RootSuperadminStationsRootCertificateImport } from './routes/_root/_superadmin/stations/root-certificate'
+import { Route as RootSuperadminStationsCreateImport } from './routes/_root/_superadmin/stations/create'
+import { Route as RootSuperadminOrganizationsCreateImport } from './routes/_root/_superadmin/organizations/create'
 
 // Create/Update Routes
 
@@ -42,15 +53,21 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const RootNotAuthorizedRoute = RootNotAuthorizedImport.update({
+  id: '/not-authorized',
+  path: '/not-authorized',
+  getParentRoute: () => RootRouteRoute,
+} as any)
+
 const AuthLoginRoute = AuthLoginImport.update({
   id: '/_auth/login',
   path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
-const RootTenantsRouteRoute = RootTenantsRouteImport.update({
-  id: '/tenants',
-  path: '/tenants',
+const RootProfileRouteRoute = RootProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => RootRouteRoute,
 } as any)
 
@@ -60,40 +77,26 @@ const RootDashboardRouteRoute = RootDashboardRouteImport.update({
   getParentRoute: () => RootRouteRoute,
 } as any)
 
-const RootUsersIndexRoute = RootUsersIndexImport.update({
-  id: '/users/',
-  path: '/users/',
+const RootConfigurationRouteRoute = RootConfigurationRouteImport.update({
+  id: '/configuration',
+  path: '/configuration',
   getParentRoute: () => RootRouteRoute,
 } as any)
 
-const RootTenantsIndexRoute = RootTenantsIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => RootTenantsRouteRoute,
+const RootSuperadminRouteRoute = RootSuperadminRouteImport.update({
+  id: '/_superadmin',
+  getParentRoute: () => RootRouteRoute,
 } as any)
 
-const RootStationsIndexRoute = RootStationsIndexImport.update({
-  id: '/stations/',
-  path: '/stations/',
+const RootAdminRouteRoute = RootAdminRouteImport.update({
+  id: '/_admin',
   getParentRoute: () => RootRouteRoute,
 } as any)
 
 const RootProfileIndexRoute = RootProfileIndexImport.update({
-  id: '/profile/',
-  path: '/profile/',
-  getParentRoute: () => RootRouteRoute,
-} as any)
-
-const RootOrganizationIndexRoute = RootOrganizationIndexImport.update({
-  id: '/organization/',
-  path: '/organization/',
-  getParentRoute: () => RootRouteRoute,
-} as any)
-
-const RootMonitoringIndexRoute = RootMonitoringIndexImport.update({
-  id: '/monitoring/',
-  path: '/monitoring/',
-  getParentRoute: () => RootRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => RootProfileRouteRoute,
 } as any)
 
 const RootDashboardIndexRoute = RootDashboardIndexImport.update({
@@ -103,21 +106,9 @@ const RootDashboardIndexRoute = RootDashboardIndexImport.update({
 } as any)
 
 const RootConfigurationIndexRoute = RootConfigurationIndexImport.update({
-  id: '/configuration/',
-  path: '/configuration/',
-  getParentRoute: () => RootRouteRoute,
-} as any)
-
-const RootAuditLogsIndexRoute = RootAuditLogsIndexImport.update({
-  id: '/audit-logs/',
-  path: '/audit-logs/',
-  getParentRoute: () => RootRouteRoute,
-} as any)
-
-const RootTenantsAddTenantRoute = RootTenantsAddTenantImport.update({
-  id: '/add-tenant',
-  path: '/add-tenant',
-  getParentRoute: () => RootTenantsRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => RootConfigurationRouteRoute,
 } as any)
 
 const RootDashboardMapRoute = RootDashboardMapImport.update({
@@ -131,6 +122,101 @@ const RootDashboardDataAnalysisRoute = RootDashboardDataAnalysisImport.update({
   path: '/data-analysis',
   getParentRoute: () => RootDashboardRouteRoute,
 } as any)
+
+const RootSuperadminUsersRouteRoute = RootSuperadminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => RootSuperadminRouteRoute,
+} as any)
+
+const RootSuperadminSystemRouteRoute = RootSuperadminSystemRouteImport.update({
+  id: '/system',
+  path: '/system',
+  getParentRoute: () => RootSuperadminRouteRoute,
+} as any)
+
+const RootSuperadminStationsRouteRoute =
+  RootSuperadminStationsRouteImport.update({
+    id: '/stations',
+    path: '/stations',
+    getParentRoute: () => RootSuperadminRouteRoute,
+  } as any)
+
+const RootSuperadminOrganizationsRouteRoute =
+  RootSuperadminOrganizationsRouteImport.update({
+    id: '/organizations',
+    path: '/organizations',
+    getParentRoute: () => RootSuperadminRouteRoute,
+  } as any)
+
+const RootAdminOrganizationRouteRoute = RootAdminOrganizationRouteImport.update(
+  {
+    id: '/organization',
+    path: '/organization',
+    getParentRoute: () => RootAdminRouteRoute,
+  } as any,
+)
+
+const RootSuperadminUsersIndexRoute = RootSuperadminUsersIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RootSuperadminUsersRouteRoute,
+} as any)
+
+const RootSuperadminSystemIndexRoute = RootSuperadminSystemIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RootSuperadminSystemRouteRoute,
+} as any)
+
+const RootSuperadminStationsIndexRoute =
+  RootSuperadminStationsIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => RootSuperadminStationsRouteRoute,
+  } as any)
+
+const RootSuperadminOrganizationsIndexRoute =
+  RootSuperadminOrganizationsIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => RootSuperadminOrganizationsRouteRoute,
+  } as any)
+
+const RootAdminOrganizationIndexRoute = RootAdminOrganizationIndexImport.update(
+  {
+    id: '/',
+    path: '/',
+    getParentRoute: () => RootAdminOrganizationRouteRoute,
+  } as any,
+)
+
+const RootSuperadminUsersCreateRoute = RootSuperadminUsersCreateImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => RootSuperadminUsersRouteRoute,
+} as any)
+
+const RootSuperadminStationsRootCertificateRoute =
+  RootSuperadminStationsRootCertificateImport.update({
+    id: '/root-certificate',
+    path: '/root-certificate',
+    getParentRoute: () => RootSuperadminStationsRouteRoute,
+  } as any)
+
+const RootSuperadminStationsCreateRoute =
+  RootSuperadminStationsCreateImport.update({
+    id: '/create',
+    path: '/create',
+    getParentRoute: () => RootSuperadminStationsRouteRoute,
+  } as any)
+
+const RootSuperadminOrganizationsCreateRoute =
+  RootSuperadminOrganizationsCreateImport.update({
+    id: '/create',
+    path: '/create',
+    getParentRoute: () => RootSuperadminOrganizationsRouteRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -150,6 +236,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootRouteImport
       parentRoute: typeof rootRoute
     }
+    '/_root/_admin': {
+      id: '/_root/_admin'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof RootAdminRouteImport
+      parentRoute: typeof RootRouteImport
+    }
+    '/_root/_superadmin': {
+      id: '/_root/_superadmin'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof RootSuperadminRouteImport
+      parentRoute: typeof RootRouteImport
+    }
+    '/_root/configuration': {
+      id: '/_root/configuration'
+      path: '/configuration'
+      fullPath: '/configuration'
+      preLoaderRoute: typeof RootConfigurationRouteImport
+      parentRoute: typeof RootRouteImport
+    }
     '/_root/dashboard': {
       id: '/_root/dashboard'
       path: '/dashboard'
@@ -157,11 +264,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootDashboardRouteImport
       parentRoute: typeof RootRouteImport
     }
-    '/_root/tenants': {
-      id: '/_root/tenants'
-      path: '/tenants'
-      fullPath: '/tenants'
-      preLoaderRoute: typeof RootTenantsRouteImport
+    '/_root/profile': {
+      id: '/_root/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof RootProfileRouteImport
       parentRoute: typeof RootRouteImport
     }
     '/_auth/login': {
@@ -170,6 +277,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof rootRoute
+    }
+    '/_root/not-authorized': {
+      id: '/_root/not-authorized'
+      path: '/not-authorized'
+      fullPath: '/not-authorized'
+      preLoaderRoute: typeof RootNotAuthorizedImport
+      parentRoute: typeof RootRouteImport
+    }
+    '/_root/_admin/organization': {
+      id: '/_root/_admin/organization'
+      path: '/organization'
+      fullPath: '/organization'
+      preLoaderRoute: typeof RootAdminOrganizationRouteImport
+      parentRoute: typeof RootAdminRouteImport
+    }
+    '/_root/_superadmin/organizations': {
+      id: '/_root/_superadmin/organizations'
+      path: '/organizations'
+      fullPath: '/organizations'
+      preLoaderRoute: typeof RootSuperadminOrganizationsRouteImport
+      parentRoute: typeof RootSuperadminRouteImport
+    }
+    '/_root/_superadmin/stations': {
+      id: '/_root/_superadmin/stations'
+      path: '/stations'
+      fullPath: '/stations'
+      preLoaderRoute: typeof RootSuperadminStationsRouteImport
+      parentRoute: typeof RootSuperadminRouteImport
+    }
+    '/_root/_superadmin/system': {
+      id: '/_root/_superadmin/system'
+      path: '/system'
+      fullPath: '/system'
+      preLoaderRoute: typeof RootSuperadminSystemRouteImport
+      parentRoute: typeof RootSuperadminRouteImport
+    }
+    '/_root/_superadmin/users': {
+      id: '/_root/_superadmin/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof RootSuperadminUsersRouteImport
+      parentRoute: typeof RootSuperadminRouteImport
     }
     '/_root/dashboard/data-analysis': {
       id: '/_root/dashboard/data-analysis'
@@ -185,26 +334,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootDashboardMapImport
       parentRoute: typeof RootDashboardRouteImport
     }
-    '/_root/tenants/add-tenant': {
-      id: '/_root/tenants/add-tenant'
-      path: '/add-tenant'
-      fullPath: '/tenants/add-tenant'
-      preLoaderRoute: typeof RootTenantsAddTenantImport
-      parentRoute: typeof RootTenantsRouteImport
-    }
-    '/_root/audit-logs/': {
-      id: '/_root/audit-logs/'
-      path: '/audit-logs'
-      fullPath: '/audit-logs'
-      preLoaderRoute: typeof RootAuditLogsIndexImport
-      parentRoute: typeof RootRouteImport
-    }
     '/_root/configuration/': {
       id: '/_root/configuration/'
-      path: '/configuration'
-      fullPath: '/configuration'
+      path: '/'
+      fullPath: '/configuration/'
       preLoaderRoute: typeof RootConfigurationIndexImport
-      parentRoute: typeof RootRouteImport
+      parentRoute: typeof RootConfigurationRouteImport
     }
     '/_root/dashboard/': {
       id: '/_root/dashboard/'
@@ -213,52 +348,206 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootDashboardIndexImport
       parentRoute: typeof RootDashboardRouteImport
     }
-    '/_root/monitoring/': {
-      id: '/_root/monitoring/'
-      path: '/monitoring'
-      fullPath: '/monitoring'
-      preLoaderRoute: typeof RootMonitoringIndexImport
-      parentRoute: typeof RootRouteImport
-    }
-    '/_root/organization/': {
-      id: '/_root/organization/'
-      path: '/organization'
-      fullPath: '/organization'
-      preLoaderRoute: typeof RootOrganizationIndexImport
-      parentRoute: typeof RootRouteImport
-    }
     '/_root/profile/': {
       id: '/_root/profile/'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof RootProfileIndexImport
-      parentRoute: typeof RootRouteImport
-    }
-    '/_root/stations/': {
-      id: '/_root/stations/'
-      path: '/stations'
-      fullPath: '/stations'
-      preLoaderRoute: typeof RootStationsIndexImport
-      parentRoute: typeof RootRouteImport
-    }
-    '/_root/tenants/': {
-      id: '/_root/tenants/'
       path: '/'
-      fullPath: '/tenants/'
-      preLoaderRoute: typeof RootTenantsIndexImport
-      parentRoute: typeof RootTenantsRouteImport
+      fullPath: '/profile/'
+      preLoaderRoute: typeof RootProfileIndexImport
+      parentRoute: typeof RootProfileRouteImport
     }
-    '/_root/users/': {
-      id: '/_root/users/'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof RootUsersIndexImport
-      parentRoute: typeof RootRouteImport
+    '/_root/_superadmin/organizations/create': {
+      id: '/_root/_superadmin/organizations/create'
+      path: '/create'
+      fullPath: '/organizations/create'
+      preLoaderRoute: typeof RootSuperadminOrganizationsCreateImport
+      parentRoute: typeof RootSuperadminOrganizationsRouteImport
+    }
+    '/_root/_superadmin/stations/create': {
+      id: '/_root/_superadmin/stations/create'
+      path: '/create'
+      fullPath: '/stations/create'
+      preLoaderRoute: typeof RootSuperadminStationsCreateImport
+      parentRoute: typeof RootSuperadminStationsRouteImport
+    }
+    '/_root/_superadmin/stations/root-certificate': {
+      id: '/_root/_superadmin/stations/root-certificate'
+      path: '/root-certificate'
+      fullPath: '/stations/root-certificate'
+      preLoaderRoute: typeof RootSuperadminStationsRootCertificateImport
+      parentRoute: typeof RootSuperadminStationsRouteImport
+    }
+    '/_root/_superadmin/users/create': {
+      id: '/_root/_superadmin/users/create'
+      path: '/create'
+      fullPath: '/users/create'
+      preLoaderRoute: typeof RootSuperadminUsersCreateImport
+      parentRoute: typeof RootSuperadminUsersRouteImport
+    }
+    '/_root/_admin/organization/': {
+      id: '/_root/_admin/organization/'
+      path: '/'
+      fullPath: '/organization/'
+      preLoaderRoute: typeof RootAdminOrganizationIndexImport
+      parentRoute: typeof RootAdminOrganizationRouteImport
+    }
+    '/_root/_superadmin/organizations/': {
+      id: '/_root/_superadmin/organizations/'
+      path: '/'
+      fullPath: '/organizations/'
+      preLoaderRoute: typeof RootSuperadminOrganizationsIndexImport
+      parentRoute: typeof RootSuperadminOrganizationsRouteImport
+    }
+    '/_root/_superadmin/stations/': {
+      id: '/_root/_superadmin/stations/'
+      path: '/'
+      fullPath: '/stations/'
+      preLoaderRoute: typeof RootSuperadminStationsIndexImport
+      parentRoute: typeof RootSuperadminStationsRouteImport
+    }
+    '/_root/_superadmin/system/': {
+      id: '/_root/_superadmin/system/'
+      path: '/'
+      fullPath: '/system/'
+      preLoaderRoute: typeof RootSuperadminSystemIndexImport
+      parentRoute: typeof RootSuperadminSystemRouteImport
+    }
+    '/_root/_superadmin/users/': {
+      id: '/_root/_superadmin/users/'
+      path: '/'
+      fullPath: '/users/'
+      preLoaderRoute: typeof RootSuperadminUsersIndexImport
+      parentRoute: typeof RootSuperadminUsersRouteImport
     }
   }
 }
 
 // Create and export the route tree
+
+interface RootAdminOrganizationRouteRouteChildren {
+  RootAdminOrganizationIndexRoute: typeof RootAdminOrganizationIndexRoute
+}
+
+const RootAdminOrganizationRouteRouteChildren: RootAdminOrganizationRouteRouteChildren =
+  {
+    RootAdminOrganizationIndexRoute: RootAdminOrganizationIndexRoute,
+  }
+
+const RootAdminOrganizationRouteRouteWithChildren =
+  RootAdminOrganizationRouteRoute._addFileChildren(
+    RootAdminOrganizationRouteRouteChildren,
+  )
+
+interface RootAdminRouteRouteChildren {
+  RootAdminOrganizationRouteRoute: typeof RootAdminOrganizationRouteRouteWithChildren
+}
+
+const RootAdminRouteRouteChildren: RootAdminRouteRouteChildren = {
+  RootAdminOrganizationRouteRoute: RootAdminOrganizationRouteRouteWithChildren,
+}
+
+const RootAdminRouteRouteWithChildren = RootAdminRouteRoute._addFileChildren(
+  RootAdminRouteRouteChildren,
+)
+
+interface RootSuperadminOrganizationsRouteRouteChildren {
+  RootSuperadminOrganizationsCreateRoute: typeof RootSuperadminOrganizationsCreateRoute
+  RootSuperadminOrganizationsIndexRoute: typeof RootSuperadminOrganizationsIndexRoute
+}
+
+const RootSuperadminOrganizationsRouteRouteChildren: RootSuperadminOrganizationsRouteRouteChildren =
+  {
+    RootSuperadminOrganizationsCreateRoute:
+      RootSuperadminOrganizationsCreateRoute,
+    RootSuperadminOrganizationsIndexRoute:
+      RootSuperadminOrganizationsIndexRoute,
+  }
+
+const RootSuperadminOrganizationsRouteRouteWithChildren =
+  RootSuperadminOrganizationsRouteRoute._addFileChildren(
+    RootSuperadminOrganizationsRouteRouteChildren,
+  )
+
+interface RootSuperadminStationsRouteRouteChildren {
+  RootSuperadminStationsCreateRoute: typeof RootSuperadminStationsCreateRoute
+  RootSuperadminStationsRootCertificateRoute: typeof RootSuperadminStationsRootCertificateRoute
+  RootSuperadminStationsIndexRoute: typeof RootSuperadminStationsIndexRoute
+}
+
+const RootSuperadminStationsRouteRouteChildren: RootSuperadminStationsRouteRouteChildren =
+  {
+    RootSuperadminStationsCreateRoute: RootSuperadminStationsCreateRoute,
+    RootSuperadminStationsRootCertificateRoute:
+      RootSuperadminStationsRootCertificateRoute,
+    RootSuperadminStationsIndexRoute: RootSuperadminStationsIndexRoute,
+  }
+
+const RootSuperadminStationsRouteRouteWithChildren =
+  RootSuperadminStationsRouteRoute._addFileChildren(
+    RootSuperadminStationsRouteRouteChildren,
+  )
+
+interface RootSuperadminSystemRouteRouteChildren {
+  RootSuperadminSystemIndexRoute: typeof RootSuperadminSystemIndexRoute
+}
+
+const RootSuperadminSystemRouteRouteChildren: RootSuperadminSystemRouteRouteChildren =
+  {
+    RootSuperadminSystemIndexRoute: RootSuperadminSystemIndexRoute,
+  }
+
+const RootSuperadminSystemRouteRouteWithChildren =
+  RootSuperadminSystemRouteRoute._addFileChildren(
+    RootSuperadminSystemRouteRouteChildren,
+  )
+
+interface RootSuperadminUsersRouteRouteChildren {
+  RootSuperadminUsersCreateRoute: typeof RootSuperadminUsersCreateRoute
+  RootSuperadminUsersIndexRoute: typeof RootSuperadminUsersIndexRoute
+}
+
+const RootSuperadminUsersRouteRouteChildren: RootSuperadminUsersRouteRouteChildren =
+  {
+    RootSuperadminUsersCreateRoute: RootSuperadminUsersCreateRoute,
+    RootSuperadminUsersIndexRoute: RootSuperadminUsersIndexRoute,
+  }
+
+const RootSuperadminUsersRouteRouteWithChildren =
+  RootSuperadminUsersRouteRoute._addFileChildren(
+    RootSuperadminUsersRouteRouteChildren,
+  )
+
+interface RootSuperadminRouteRouteChildren {
+  RootSuperadminOrganizationsRouteRoute: typeof RootSuperadminOrganizationsRouteRouteWithChildren
+  RootSuperadminStationsRouteRoute: typeof RootSuperadminStationsRouteRouteWithChildren
+  RootSuperadminSystemRouteRoute: typeof RootSuperadminSystemRouteRouteWithChildren
+  RootSuperadminUsersRouteRoute: typeof RootSuperadminUsersRouteRouteWithChildren
+}
+
+const RootSuperadminRouteRouteChildren: RootSuperadminRouteRouteChildren = {
+  RootSuperadminOrganizationsRouteRoute:
+    RootSuperadminOrganizationsRouteRouteWithChildren,
+  RootSuperadminStationsRouteRoute:
+    RootSuperadminStationsRouteRouteWithChildren,
+  RootSuperadminSystemRouteRoute: RootSuperadminSystemRouteRouteWithChildren,
+  RootSuperadminUsersRouteRoute: RootSuperadminUsersRouteRouteWithChildren,
+}
+
+const RootSuperadminRouteRouteWithChildren =
+  RootSuperadminRouteRoute._addFileChildren(RootSuperadminRouteRouteChildren)
+
+interface RootConfigurationRouteRouteChildren {
+  RootConfigurationIndexRoute: typeof RootConfigurationIndexRoute
+}
+
+const RootConfigurationRouteRouteChildren: RootConfigurationRouteRouteChildren =
+  {
+    RootConfigurationIndexRoute: RootConfigurationIndexRoute,
+  }
+
+const RootConfigurationRouteRouteWithChildren =
+  RootConfigurationRouteRoute._addFileChildren(
+    RootConfigurationRouteRouteChildren,
+  )
 
 interface RootDashboardRouteRouteChildren {
   RootDashboardDataAnalysisRoute: typeof RootDashboardDataAnalysisRoute
@@ -275,41 +564,33 @@ const RootDashboardRouteRouteChildren: RootDashboardRouteRouteChildren = {
 const RootDashboardRouteRouteWithChildren =
   RootDashboardRouteRoute._addFileChildren(RootDashboardRouteRouteChildren)
 
-interface RootTenantsRouteRouteChildren {
-  RootTenantsAddTenantRoute: typeof RootTenantsAddTenantRoute
-  RootTenantsIndexRoute: typeof RootTenantsIndexRoute
+interface RootProfileRouteRouteChildren {
+  RootProfileIndexRoute: typeof RootProfileIndexRoute
 }
 
-const RootTenantsRouteRouteChildren: RootTenantsRouteRouteChildren = {
-  RootTenantsAddTenantRoute: RootTenantsAddTenantRoute,
-  RootTenantsIndexRoute: RootTenantsIndexRoute,
+const RootProfileRouteRouteChildren: RootProfileRouteRouteChildren = {
+  RootProfileIndexRoute: RootProfileIndexRoute,
 }
 
-const RootTenantsRouteRouteWithChildren =
-  RootTenantsRouteRoute._addFileChildren(RootTenantsRouteRouteChildren)
+const RootProfileRouteRouteWithChildren =
+  RootProfileRouteRoute._addFileChildren(RootProfileRouteRouteChildren)
 
 interface RootRouteRouteChildren {
+  RootAdminRouteRoute: typeof RootAdminRouteRouteWithChildren
+  RootSuperadminRouteRoute: typeof RootSuperadminRouteRouteWithChildren
+  RootConfigurationRouteRoute: typeof RootConfigurationRouteRouteWithChildren
   RootDashboardRouteRoute: typeof RootDashboardRouteRouteWithChildren
-  RootTenantsRouteRoute: typeof RootTenantsRouteRouteWithChildren
-  RootAuditLogsIndexRoute: typeof RootAuditLogsIndexRoute
-  RootConfigurationIndexRoute: typeof RootConfigurationIndexRoute
-  RootMonitoringIndexRoute: typeof RootMonitoringIndexRoute
-  RootOrganizationIndexRoute: typeof RootOrganizationIndexRoute
-  RootProfileIndexRoute: typeof RootProfileIndexRoute
-  RootStationsIndexRoute: typeof RootStationsIndexRoute
-  RootUsersIndexRoute: typeof RootUsersIndexRoute
+  RootProfileRouteRoute: typeof RootProfileRouteRouteWithChildren
+  RootNotAuthorizedRoute: typeof RootNotAuthorizedRoute
 }
 
 const RootRouteRouteChildren: RootRouteRouteChildren = {
+  RootAdminRouteRoute: RootAdminRouteRouteWithChildren,
+  RootSuperadminRouteRoute: RootSuperadminRouteRouteWithChildren,
+  RootConfigurationRouteRoute: RootConfigurationRouteRouteWithChildren,
   RootDashboardRouteRoute: RootDashboardRouteRouteWithChildren,
-  RootTenantsRouteRoute: RootTenantsRouteRouteWithChildren,
-  RootAuditLogsIndexRoute: RootAuditLogsIndexRoute,
-  RootConfigurationIndexRoute: RootConfigurationIndexRoute,
-  RootMonitoringIndexRoute: RootMonitoringIndexRoute,
-  RootOrganizationIndexRoute: RootOrganizationIndexRoute,
-  RootProfileIndexRoute: RootProfileIndexRoute,
-  RootStationsIndexRoute: RootStationsIndexRoute,
-  RootUsersIndexRoute: RootUsersIndexRoute,
+  RootProfileRouteRoute: RootProfileRouteRouteWithChildren,
+  RootNotAuthorizedRoute: RootNotAuthorizedRoute,
 }
 
 const RootRouteRouteWithChildren = RootRouteRoute._addFileChildren(
@@ -318,61 +599,84 @@ const RootRouteRouteWithChildren = RootRouteRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof RootRouteRouteWithChildren
+  '': typeof RootSuperadminRouteRouteWithChildren
+  '/configuration': typeof RootConfigurationRouteRouteWithChildren
   '/dashboard': typeof RootDashboardRouteRouteWithChildren
-  '/tenants': typeof RootTenantsRouteRouteWithChildren
+  '/profile': typeof RootProfileRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
+  '/not-authorized': typeof RootNotAuthorizedRoute
+  '/organization': typeof RootAdminOrganizationRouteRouteWithChildren
+  '/organizations': typeof RootSuperadminOrganizationsRouteRouteWithChildren
+  '/stations': typeof RootSuperadminStationsRouteRouteWithChildren
+  '/system': typeof RootSuperadminSystemRouteRouteWithChildren
+  '/users': typeof RootSuperadminUsersRouteRouteWithChildren
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
-  '/tenants/add-tenant': typeof RootTenantsAddTenantRoute
-  '/audit-logs': typeof RootAuditLogsIndexRoute
-  '/configuration': typeof RootConfigurationIndexRoute
+  '/configuration/': typeof RootConfigurationIndexRoute
   '/dashboard/': typeof RootDashboardIndexRoute
-  '/monitoring': typeof RootMonitoringIndexRoute
-  '/organization': typeof RootOrganizationIndexRoute
-  '/profile': typeof RootProfileIndexRoute
-  '/stations': typeof RootStationsIndexRoute
-  '/tenants/': typeof RootTenantsIndexRoute
-  '/users': typeof RootUsersIndexRoute
+  '/profile/': typeof RootProfileIndexRoute
+  '/organizations/create': typeof RootSuperadminOrganizationsCreateRoute
+  '/stations/create': typeof RootSuperadminStationsCreateRoute
+  '/stations/root-certificate': typeof RootSuperadminStationsRootCertificateRoute
+  '/users/create': typeof RootSuperadminUsersCreateRoute
+  '/organization/': typeof RootAdminOrganizationIndexRoute
+  '/organizations/': typeof RootSuperadminOrganizationsIndexRoute
+  '/stations/': typeof RootSuperadminStationsIndexRoute
+  '/system/': typeof RootSuperadminSystemIndexRoute
+  '/users/': typeof RootSuperadminUsersIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof RootRouteRouteWithChildren
+  '': typeof RootSuperadminRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
+  '/not-authorized': typeof RootNotAuthorizedRoute
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/map': typeof RootDashboardMapRoute
-  '/tenants/add-tenant': typeof RootTenantsAddTenantRoute
-  '/audit-logs': typeof RootAuditLogsIndexRoute
   '/configuration': typeof RootConfigurationIndexRoute
   '/dashboard': typeof RootDashboardIndexRoute
-  '/monitoring': typeof RootMonitoringIndexRoute
-  '/organization': typeof RootOrganizationIndexRoute
   '/profile': typeof RootProfileIndexRoute
-  '/stations': typeof RootStationsIndexRoute
-  '/tenants': typeof RootTenantsIndexRoute
-  '/users': typeof RootUsersIndexRoute
+  '/organizations/create': typeof RootSuperadminOrganizationsCreateRoute
+  '/stations/create': typeof RootSuperadminStationsCreateRoute
+  '/stations/root-certificate': typeof RootSuperadminStationsRootCertificateRoute
+  '/users/create': typeof RootSuperadminUsersCreateRoute
+  '/organization': typeof RootAdminOrganizationIndexRoute
+  '/organizations': typeof RootSuperadminOrganizationsIndexRoute
+  '/stations': typeof RootSuperadminStationsIndexRoute
+  '/system': typeof RootSuperadminSystemIndexRoute
+  '/users': typeof RootSuperadminUsersIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_root': typeof RootRouteRouteWithChildren
+  '/_root/_admin': typeof RootAdminRouteRouteWithChildren
+  '/_root/_superadmin': typeof RootSuperadminRouteRouteWithChildren
+  '/_root/configuration': typeof RootConfigurationRouteRouteWithChildren
   '/_root/dashboard': typeof RootDashboardRouteRouteWithChildren
-  '/_root/tenants': typeof RootTenantsRouteRouteWithChildren
+  '/_root/profile': typeof RootProfileRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
+  '/_root/not-authorized': typeof RootNotAuthorizedRoute
+  '/_root/_admin/organization': typeof RootAdminOrganizationRouteRouteWithChildren
+  '/_root/_superadmin/organizations': typeof RootSuperadminOrganizationsRouteRouteWithChildren
+  '/_root/_superadmin/stations': typeof RootSuperadminStationsRouteRouteWithChildren
+  '/_root/_superadmin/system': typeof RootSuperadminSystemRouteRouteWithChildren
+  '/_root/_superadmin/users': typeof RootSuperadminUsersRouteRouteWithChildren
   '/_root/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/_root/dashboard/map': typeof RootDashboardMapRoute
-  '/_root/tenants/add-tenant': typeof RootTenantsAddTenantRoute
-  '/_root/audit-logs/': typeof RootAuditLogsIndexRoute
   '/_root/configuration/': typeof RootConfigurationIndexRoute
   '/_root/dashboard/': typeof RootDashboardIndexRoute
-  '/_root/monitoring/': typeof RootMonitoringIndexRoute
-  '/_root/organization/': typeof RootOrganizationIndexRoute
   '/_root/profile/': typeof RootProfileIndexRoute
-  '/_root/stations/': typeof RootStationsIndexRoute
-  '/_root/tenants/': typeof RootTenantsIndexRoute
-  '/_root/users/': typeof RootUsersIndexRoute
+  '/_root/_superadmin/organizations/create': typeof RootSuperadminOrganizationsCreateRoute
+  '/_root/_superadmin/stations/create': typeof RootSuperadminStationsCreateRoute
+  '/_root/_superadmin/stations/root-certificate': typeof RootSuperadminStationsRootCertificateRoute
+  '/_root/_superadmin/users/create': typeof RootSuperadminUsersCreateRoute
+  '/_root/_admin/organization/': typeof RootAdminOrganizationIndexRoute
+  '/_root/_superadmin/organizations/': typeof RootSuperadminOrganizationsIndexRoute
+  '/_root/_superadmin/stations/': typeof RootSuperadminStationsIndexRoute
+  '/_root/_superadmin/system/': typeof RootSuperadminSystemIndexRoute
+  '/_root/_superadmin/users/': typeof RootSuperadminUsersIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -380,57 +684,80 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
+    | '/configuration'
     | '/dashboard'
-    | '/tenants'
+    | '/profile'
     | '/login'
+    | '/not-authorized'
+    | '/organization'
+    | '/organizations'
+    | '/stations'
+    | '/system'
+    | '/users'
     | '/dashboard/data-analysis'
     | '/dashboard/map'
-    | '/tenants/add-tenant'
-    | '/audit-logs'
-    | '/configuration'
+    | '/configuration/'
     | '/dashboard/'
-    | '/monitoring'
-    | '/organization'
-    | '/profile'
-    | '/stations'
-    | '/tenants/'
-    | '/users'
+    | '/profile/'
+    | '/organizations/create'
+    | '/stations/create'
+    | '/stations/root-certificate'
+    | '/users/create'
+    | '/organization/'
+    | '/organizations/'
+    | '/stations/'
+    | '/system/'
+    | '/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | ''
     | '/login'
+    | '/not-authorized'
     | '/dashboard/data-analysis'
     | '/dashboard/map'
-    | '/tenants/add-tenant'
-    | '/audit-logs'
     | '/configuration'
     | '/dashboard'
-    | '/monitoring'
-    | '/organization'
     | '/profile'
+    | '/organizations/create'
+    | '/stations/create'
+    | '/stations/root-certificate'
+    | '/users/create'
+    | '/organization'
+    | '/organizations'
     | '/stations'
-    | '/tenants'
+    | '/system'
     | '/users'
   id:
     | '__root__'
     | '/'
     | '/_root'
+    | '/_root/_admin'
+    | '/_root/_superadmin'
+    | '/_root/configuration'
     | '/_root/dashboard'
-    | '/_root/tenants'
+    | '/_root/profile'
     | '/_auth/login'
+    | '/_root/not-authorized'
+    | '/_root/_admin/organization'
+    | '/_root/_superadmin/organizations'
+    | '/_root/_superadmin/stations'
+    | '/_root/_superadmin/system'
+    | '/_root/_superadmin/users'
     | '/_root/dashboard/data-analysis'
     | '/_root/dashboard/map'
-    | '/_root/tenants/add-tenant'
-    | '/_root/audit-logs/'
     | '/_root/configuration/'
     | '/_root/dashboard/'
-    | '/_root/monitoring/'
-    | '/_root/organization/'
     | '/_root/profile/'
-    | '/_root/stations/'
-    | '/_root/tenants/'
-    | '/_root/users/'
+    | '/_root/_superadmin/organizations/create'
+    | '/_root/_superadmin/stations/create'
+    | '/_root/_superadmin/stations/root-certificate'
+    | '/_root/_superadmin/users/create'
+    | '/_root/_admin/organization/'
+    | '/_root/_superadmin/organizations/'
+    | '/_root/_superadmin/stations/'
+    | '/_root/_superadmin/system/'
+    | '/_root/_superadmin/users/'
   fileRoutesById: FileRoutesById
 }
 
@@ -467,15 +794,36 @@ export const routeTree = rootRoute
     "/_root": {
       "filePath": "_root/route.tsx",
       "children": [
+        "/_root/_admin",
+        "/_root/_superadmin",
+        "/_root/configuration",
         "/_root/dashboard",
-        "/_root/tenants",
-        "/_root/audit-logs/",
-        "/_root/configuration/",
-        "/_root/monitoring/",
-        "/_root/organization/",
-        "/_root/profile/",
-        "/_root/stations/",
-        "/_root/users/"
+        "/_root/profile",
+        "/_root/not-authorized"
+      ]
+    },
+    "/_root/_admin": {
+      "filePath": "_root/_admin/route.tsx",
+      "parent": "/_root",
+      "children": [
+        "/_root/_admin/organization"
+      ]
+    },
+    "/_root/_superadmin": {
+      "filePath": "_root/_superadmin/route.tsx",
+      "parent": "/_root",
+      "children": [
+        "/_root/_superadmin/organizations",
+        "/_root/_superadmin/stations",
+        "/_root/_superadmin/system",
+        "/_root/_superadmin/users"
+      ]
+    },
+    "/_root/configuration": {
+      "filePath": "_root/configuration/route.tsx",
+      "parent": "/_root",
+      "children": [
+        "/_root/configuration/"
       ]
     },
     "/_root/dashboard": {
@@ -487,16 +835,58 @@ export const routeTree = rootRoute
         "/_root/dashboard/"
       ]
     },
-    "/_root/tenants": {
-      "filePath": "_root/tenants/route.tsx",
+    "/_root/profile": {
+      "filePath": "_root/profile/route.tsx",
       "parent": "/_root",
       "children": [
-        "/_root/tenants/add-tenant",
-        "/_root/tenants/"
+        "/_root/profile/"
       ]
     },
     "/_auth/login": {
       "filePath": "_auth/login.tsx"
+    },
+    "/_root/not-authorized": {
+      "filePath": "_root/not-authorized.tsx",
+      "parent": "/_root"
+    },
+    "/_root/_admin/organization": {
+      "filePath": "_root/_admin/organization/route.tsx",
+      "parent": "/_root/_admin",
+      "children": [
+        "/_root/_admin/organization/"
+      ]
+    },
+    "/_root/_superadmin/organizations": {
+      "filePath": "_root/_superadmin/organizations/route.tsx",
+      "parent": "/_root/_superadmin",
+      "children": [
+        "/_root/_superadmin/organizations/create",
+        "/_root/_superadmin/organizations/"
+      ]
+    },
+    "/_root/_superadmin/stations": {
+      "filePath": "_root/_superadmin/stations/route.tsx",
+      "parent": "/_root/_superadmin",
+      "children": [
+        "/_root/_superadmin/stations/create",
+        "/_root/_superadmin/stations/root-certificate",
+        "/_root/_superadmin/stations/"
+      ]
+    },
+    "/_root/_superadmin/system": {
+      "filePath": "_root/_superadmin/system/route.tsx",
+      "parent": "/_root/_superadmin",
+      "children": [
+        "/_root/_superadmin/system/"
+      ]
+    },
+    "/_root/_superadmin/users": {
+      "filePath": "_root/_superadmin/users/route.tsx",
+      "parent": "/_root/_superadmin",
+      "children": [
+        "/_root/_superadmin/users/create",
+        "/_root/_superadmin/users/"
+      ]
     },
     "/_root/dashboard/data-analysis": {
       "filePath": "_root/dashboard/data-analysis.tsx",
@@ -506,45 +896,53 @@ export const routeTree = rootRoute
       "filePath": "_root/dashboard/map.tsx",
       "parent": "/_root/dashboard"
     },
-    "/_root/tenants/add-tenant": {
-      "filePath": "_root/tenants/add-tenant.tsx",
-      "parent": "/_root/tenants"
-    },
-    "/_root/audit-logs/": {
-      "filePath": "_root/audit-logs/index.tsx",
-      "parent": "/_root"
-    },
     "/_root/configuration/": {
       "filePath": "_root/configuration/index.tsx",
-      "parent": "/_root"
+      "parent": "/_root/configuration"
     },
     "/_root/dashboard/": {
       "filePath": "_root/dashboard/index.tsx",
       "parent": "/_root/dashboard"
     },
-    "/_root/monitoring/": {
-      "filePath": "_root/monitoring/index.tsx",
-      "parent": "/_root"
-    },
-    "/_root/organization/": {
-      "filePath": "_root/organization/index.tsx",
-      "parent": "/_root"
-    },
     "/_root/profile/": {
       "filePath": "_root/profile/index.tsx",
-      "parent": "/_root"
+      "parent": "/_root/profile"
     },
-    "/_root/stations/": {
-      "filePath": "_root/stations/index.tsx",
-      "parent": "/_root"
+    "/_root/_superadmin/organizations/create": {
+      "filePath": "_root/_superadmin/organizations/create.tsx",
+      "parent": "/_root/_superadmin/organizations"
     },
-    "/_root/tenants/": {
-      "filePath": "_root/tenants/index.tsx",
-      "parent": "/_root/tenants"
+    "/_root/_superadmin/stations/create": {
+      "filePath": "_root/_superadmin/stations/create.tsx",
+      "parent": "/_root/_superadmin/stations"
     },
-    "/_root/users/": {
-      "filePath": "_root/users/index.tsx",
-      "parent": "/_root"
+    "/_root/_superadmin/stations/root-certificate": {
+      "filePath": "_root/_superadmin/stations/root-certificate.tsx",
+      "parent": "/_root/_superadmin/stations"
+    },
+    "/_root/_superadmin/users/create": {
+      "filePath": "_root/_superadmin/users/create.tsx",
+      "parent": "/_root/_superadmin/users"
+    },
+    "/_root/_admin/organization/": {
+      "filePath": "_root/_admin/organization/index.tsx",
+      "parent": "/_root/_admin/organization"
+    },
+    "/_root/_superadmin/organizations/": {
+      "filePath": "_root/_superadmin/organizations/index.tsx",
+      "parent": "/_root/_superadmin/organizations"
+    },
+    "/_root/_superadmin/stations/": {
+      "filePath": "_root/_superadmin/stations/index.tsx",
+      "parent": "/_root/_superadmin/stations"
+    },
+    "/_root/_superadmin/system/": {
+      "filePath": "_root/_superadmin/system/index.tsx",
+      "parent": "/_root/_superadmin/system"
+    },
+    "/_root/_superadmin/users/": {
+      "filePath": "_root/_superadmin/users/index.tsx",
+      "parent": "/_root/_superadmin/users"
     }
   }
 }
