@@ -92,6 +92,12 @@ export const AppSidebar = (): ReactNode => {
         title: "System",
         url: "/system",
         icon: ShieldCheck,
+      },
+       {
+        key: 6,
+        title: "References",
+        url: "/references",
+        icon: ShieldCheck,
       }
     );
   }
