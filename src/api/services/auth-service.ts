@@ -2,7 +2,6 @@ import axiosInstance from "../client/axiosInstance";
 import { Login, LoginResponse, User } from "../client/types";
 
 export const loginService = async (user: Login): Promise<LoginResponse> => {
-<<<<<<< HEAD:src/api/services/authServices.ts
   // const response = await axiosInstance.post("auth/login", user);
   // console.log(response.data);
   // return response.data;
@@ -35,18 +34,3 @@ export const logoutService = async (): Promise<void> => {
   // console.log(response.data);
   // return response.data;
 };
-=======
-  const response = await axiosInstance.post("auth/login", user);
-  return response.data;
-};
-
-export const checkAuthService = async (): Promise<User> => {
-  const response = await axiosInstance.get("auth/check-auth");
-  return response.data;
-};
-
-export const logoutService = async (): Promise<void> => {
-  const response = await axiosInstance.post("auth/logout");
-  return response.data;
-};
->>>>>>> 08edcd658539b82fb58069b13e634854ad84d37e:src/api/services/auth-service.ts

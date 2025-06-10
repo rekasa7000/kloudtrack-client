@@ -917,8 +917,34 @@ export const routeTree = rootRoute
     },
     "/_root/dashboard/historical": {
       "filePath": "_root/dashboard/historical.tsx",
-oard/data-analysis.tsx",
-_superadmin/stations/root-certificate.tsx",
+      "parent": "/_root/dashboard"
+    },
+    "/_root/dashboard/map": {
+      "filePath": "_root/dashboard/map.tsx",
+      "parent": "/_root/dashboard"
+    },
+    "/_root/configuration/": {
+      "filePath": "_root/configuration/index.tsx",
+      "parent": "/_root/configuration"
+    },
+    "/_root/dashboard/": {
+      "filePath": "_root/dashboard/index.tsx",
+      "parent": "/_root/dashboard"
+    },
+    "/_root/profile/": {
+      "filePath": "_root/profile/index.tsx",
+      "parent": "/_root/profile"
+    },
+    "/_root/_superadmin/organizations/create": {
+      "filePath": "_root/_superadmin/organizations/create.tsx",
+      "parent": "/_root/_superadmin/organizations"
+    },
+    "/_root/_superadmin/stations/create": {
+      "filePath": "_root/_superadmin/stations/create.tsx",
+      "parent": "/_root/_superadmin/stations"
+    },
+    "/_root/_superadmin/stations/root-certificate": {
+      "filePath": "_root/_superadmin/stations/root-certificate.tsx",
       "parent": "/_root/_superadmin/stations"
     },
     "/_root/_superadmin/users/create": {
