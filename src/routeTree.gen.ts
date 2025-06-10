@@ -15,15 +15,17 @@ import { Route as RootRouteImport } from './routes/_root/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as RootNotAuthorizedImport } from './routes/_root/not-authorized'
 import { Route as AuthLoginImport } from './routes/_auth/login'
+import { Route as RootReferencesRouteImport } from './routes/_root/references/route'
 import { Route as RootProfileRouteImport } from './routes/_root/profile/route'
 import { Route as RootDashboardRouteImport } from './routes/_root/dashboard/route'
 import { Route as RootConfigurationRouteImport } from './routes/_root/configuration/route'
 import { Route as RootSuperadminRouteImport } from './routes/_root/_superadmin/route'
 import { Route as RootAdminRouteImport } from './routes/_root/_admin/route'
+import { Route as RootReferencesIndexImport } from './routes/_root/references/index'
 import { Route as RootProfileIndexImport } from './routes/_root/profile/index'
 import { Route as RootDashboardIndexImport } from './routes/_root/dashboard/index'
 import { Route as RootConfigurationIndexImport } from './routes/_root/configuration/index'
-import { Route as RootProfileEditProfileImport } from './r./routes/_root/profile/edit-profile
+import { Route as RootProfileEditProfileImport } from './routes/_root/profile/edit-profile'
 import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
 import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
 import { Route as RootSuperadminUsersRouteImport } from './routes/_root/_superadmin/users/route'
@@ -31,11 +33,15 @@ import { Route as RootSuperadminSystemRouteImport } from './routes/_root/_supera
 import { Route as RootSuperadminStationsRouteImport } from './routes/_root/_superadmin/stations/route'
 import { Route as RootSuperadminOrganizationsRouteImport } from './routes/_root/_superadmin/organizations/route'
 import { Route as RootAdminOrganizationRouteImport } from './routes/_root/_admin/organization/route'
+import { Route as RootReferencesTerminologyUvindexImport } from './routes/_root/references/terminology/uvindex'
+import { Route as RootReferencesTerminologyHeatindexImport } from './routes/_root/references/terminology/heatindex'
 import { Route as RootSuperadminUsersIndexImport } from './routes/_root/_superadmin/users/index'
 import { Route as RootSuperadminSystemIndexImport } from './routes/_root/_superadmin/system/index'
 import { Route as RootSuperadminStationsIndexImport } from './routes/_root/_superadmin/stations/index'
 import { Route as RootSuperadminOrganizationsIndexImport } from './routes/_root/_superadmin/organizations/index'
 import { Route as RootAdminOrganizationIndexImport } from './routes/_root/_admin/organization/index'
+import { Route as RootReferencesTerminologyWindspeedImport } from './routes/_root/references/terminology/windspeed'
+import { Route as RootReferencesTerminologyRainfallImport } from './routes/_root/references/terminology/rainfall'
 import { Route as RootSuperadminUsersCreateImport } from './routes/_root/_superadmin/users/create'
 import { Route as RootSuperadminStationsRootCertificateImport } from './routes/_root/_superadmin/stations/root-certificate'
 import { Route as RootSuperadminStationsCreateImport } from './routes/_root/_superadmin/stations/create'
@@ -66,6 +72,12 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const RootReferencesRouteRoute = RootReferencesRouteImport.update({
+  id: '/references',
+  path: '/references',
+  getParentRoute: () => RootRouteRoute,
+} as any)
+
 const RootProfileRouteRoute = RootProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -92,6 +104,12 @@ const RootSuperadminRouteRoute = RootSuperadminRouteImport.update({
 const RootAdminRouteRoute = RootAdminRouteImport.update({
   id: '/_admin',
   getParentRoute: () => RootRouteRoute,
+} as any)
+
+const RootReferencesIndexRoute = RootReferencesIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RootReferencesRouteRoute,
 } as any)
 
 const RootProfileIndexRoute = RootProfileIndexImport.update({
@@ -164,6 +182,20 @@ const RootAdminOrganizationRouteRoute = RootAdminOrganizationRouteImport.update(
   } as any,
 )
 
+const RootReferencesTerminologyUvindexRoute =
+  RootReferencesTerminologyUvindexImport.update({
+    id: '/terminology/uvindex',
+    path: '/terminology/uvindex',
+    getParentRoute: () => RootReferencesRouteRoute,
+  } as any)
+
+const RootReferencesTerminologyHeatindexRoute =
+  RootReferencesTerminologyHeatindexImport.update({
+    id: '/terminology/heatindex',
+    path: '/terminology/heatindex',
+    getParentRoute: () => RootReferencesRouteRoute,
+  } as any)
+
 const RootSuperadminUsersIndexRoute = RootSuperadminUsersIndexImport.update({
   id: '/',
   path: '/',
@@ -197,6 +229,20 @@ const RootAdminOrganizationIndexRoute = RootAdminOrganizationIndexImport.update(
     getParentRoute: () => RootAdminOrganizationRouteRoute,
   } as any,
 )
+
+const RootReferencesTerminologyWindspeedRoute =
+  RootReferencesTerminologyWindspeedImport.update({
+    id: '/terminology/windspeed',
+    path: '/terminology/windspeed',
+    getParentRoute: () => RootReferencesRouteRoute,
+  } as any)
+
+const RootReferencesTerminologyRainfallRoute =
+  RootReferencesTerminologyRainfallImport.update({
+    id: '/terminology/rainfall',
+    path: '/terminology/rainfall',
+    getParentRoute: () => RootReferencesRouteRoute,
+  } as any)
 
 const RootSuperadminUsersCreateRoute = RootSuperadminUsersCreateImport.update({
   id: '/create',
@@ -276,6 +322,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof RootProfileRouteImport
+      parentRoute: typeof RootRouteImport
+    }
+    '/_root/references': {
+      id: '/_root/references'
+      path: '/references'
+      fullPath: '/references'
+      preLoaderRoute: typeof RootReferencesRouteImport
       parentRoute: typeof RootRouteImport
     }
     '/_auth/login': {
@@ -369,6 +422,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootProfileIndexImport
       parentRoute: typeof RootProfileRouteImport
     }
+    '/_root/references/': {
+      id: '/_root/references/'
+      path: '/'
+      fullPath: '/references/'
+      preLoaderRoute: typeof RootReferencesIndexImport
+      parentRoute: typeof RootReferencesRouteImport
+    }
     '/_root/_superadmin/organizations/create': {
       id: '/_root/_superadmin/organizations/create'
       path: '/create'
@@ -396,6 +456,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/users/create'
       preLoaderRoute: typeof RootSuperadminUsersCreateImport
       parentRoute: typeof RootSuperadminUsersRouteImport
+    }
+    '/_root/references/terminology/heatindex': {
+      id: '/_root/references/terminology/heatindex'
+      path: '/terminology/heatindex'
+      fullPath: '/references/terminology/heatindex'
+      preLoaderRoute: typeof RootReferencesTerminologyHeatindexImport
+      parentRoute: typeof RootReferencesRouteImport
+    }
+    '/_root/references/terminology/rainfall': {
+      id: '/_root/references/terminology/rainfall'
+      path: '/terminology/rainfall'
+      fullPath: '/references/terminology/rainfall'
+      preLoaderRoute: typeof RootReferencesTerminologyRainfallImport
+      parentRoute: typeof RootReferencesRouteImport
+    }
+    '/_root/references/terminology/uvindex': {
+      id: '/_root/references/terminology/uvindex'
+      path: '/terminology/uvindex'
+      fullPath: '/references/terminology/uvindex'
+      preLoaderRoute: typeof RootReferencesTerminologyUvindexImport
+      parentRoute: typeof RootReferencesRouteImport
+    }
+    '/_root/references/terminology/windspeed': {
+      id: '/_root/references/terminology/windspeed'
+      path: '/terminology/windspeed'
+      fullPath: '/references/terminology/windspeed'
+      preLoaderRoute: typeof RootReferencesTerminologyWindspeedImport
+      parentRoute: typeof RootReferencesRouteImport
     }
     '/_root/_admin/organization/': {
       id: '/_root/_admin/organization/'
@@ -591,12 +679,35 @@ const RootProfileRouteRouteChildren: RootProfileRouteRouteChildren = {
 const RootProfileRouteRouteWithChildren =
   RootProfileRouteRoute._addFileChildren(RootProfileRouteRouteChildren)
 
+interface RootReferencesRouteRouteChildren {
+  RootReferencesIndexRoute: typeof RootReferencesIndexRoute
+  RootReferencesTerminologyHeatindexRoute: typeof RootReferencesTerminologyHeatindexRoute
+  RootReferencesTerminologyRainfallRoute: typeof RootReferencesTerminologyRainfallRoute
+  RootReferencesTerminologyUvindexRoute: typeof RootReferencesTerminologyUvindexRoute
+  RootReferencesTerminologyWindspeedRoute: typeof RootReferencesTerminologyWindspeedRoute
+}
+
+const RootReferencesRouteRouteChildren: RootReferencesRouteRouteChildren = {
+  RootReferencesIndexRoute: RootReferencesIndexRoute,
+  RootReferencesTerminologyHeatindexRoute:
+    RootReferencesTerminologyHeatindexRoute,
+  RootReferencesTerminologyRainfallRoute:
+    RootReferencesTerminologyRainfallRoute,
+  RootReferencesTerminologyUvindexRoute: RootReferencesTerminologyUvindexRoute,
+  RootReferencesTerminologyWindspeedRoute:
+    RootReferencesTerminologyWindspeedRoute,
+}
+
+const RootReferencesRouteRouteWithChildren =
+  RootReferencesRouteRoute._addFileChildren(RootReferencesRouteRouteChildren)
+
 interface RootRouteRouteChildren {
   RootAdminRouteRoute: typeof RootAdminRouteRouteWithChildren
   RootSuperadminRouteRoute: typeof RootSuperadminRouteRouteWithChildren
   RootConfigurationRouteRoute: typeof RootConfigurationRouteRouteWithChildren
   RootDashboardRouteRoute: typeof RootDashboardRouteRouteWithChildren
   RootProfileRouteRoute: typeof RootProfileRouteRouteWithChildren
+  RootReferencesRouteRoute: typeof RootReferencesRouteRouteWithChildren
   RootNotAuthorizedRoute: typeof RootNotAuthorizedRoute
 }
 
@@ -606,6 +717,7 @@ const RootRouteRouteChildren: RootRouteRouteChildren = {
   RootConfigurationRouteRoute: RootConfigurationRouteRouteWithChildren,
   RootDashboardRouteRoute: RootDashboardRouteRouteWithChildren,
   RootProfileRouteRoute: RootProfileRouteRouteWithChildren,
+  RootReferencesRouteRoute: RootReferencesRouteRouteWithChildren,
   RootNotAuthorizedRoute: RootNotAuthorizedRoute,
 }
 
@@ -619,6 +731,7 @@ export interface FileRoutesByFullPath {
   '/configuration': typeof RootConfigurationRouteRouteWithChildren
   '/dashboard': typeof RootDashboardRouteRouteWithChildren
   '/profile': typeof RootProfileRouteRouteWithChildren
+  '/references': typeof RootReferencesRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
   '/not-authorized': typeof RootNotAuthorizedRoute
   '/organization': typeof RootAdminOrganizationRouteRouteWithChildren
@@ -632,10 +745,15 @@ export interface FileRoutesByFullPath {
   '/configuration/': typeof RootConfigurationIndexRoute
   '/dashboard/': typeof RootDashboardIndexRoute
   '/profile/': typeof RootProfileIndexRoute
+  '/references/': typeof RootReferencesIndexRoute
   '/organizations/create': typeof RootSuperadminOrganizationsCreateRoute
   '/stations/create': typeof RootSuperadminStationsCreateRoute
   '/stations/root-certificate': typeof RootSuperadminStationsRootCertificateRoute
   '/users/create': typeof RootSuperadminUsersCreateRoute
+  '/references/terminology/heatindex': typeof RootReferencesTerminologyHeatindexRoute
+  '/references/terminology/rainfall': typeof RootReferencesTerminologyRainfallRoute
+  '/references/terminology/uvindex': typeof RootReferencesTerminologyUvindexRoute
+  '/references/terminology/windspeed': typeof RootReferencesTerminologyWindspeedRoute
   '/organization/': typeof RootAdminOrganizationIndexRoute
   '/organizations/': typeof RootSuperadminOrganizationsIndexRoute
   '/stations/': typeof RootSuperadminStationsIndexRoute
@@ -654,10 +772,15 @@ export interface FileRoutesByTo {
   '/configuration': typeof RootConfigurationIndexRoute
   '/dashboard': typeof RootDashboardIndexRoute
   '/profile': typeof RootProfileIndexRoute
+  '/references': typeof RootReferencesIndexRoute
   '/organizations/create': typeof RootSuperadminOrganizationsCreateRoute
   '/stations/create': typeof RootSuperadminStationsCreateRoute
   '/stations/root-certificate': typeof RootSuperadminStationsRootCertificateRoute
   '/users/create': typeof RootSuperadminUsersCreateRoute
+  '/references/terminology/heatindex': typeof RootReferencesTerminologyHeatindexRoute
+  '/references/terminology/rainfall': typeof RootReferencesTerminologyRainfallRoute
+  '/references/terminology/uvindex': typeof RootReferencesTerminologyUvindexRoute
+  '/references/terminology/windspeed': typeof RootReferencesTerminologyWindspeedRoute
   '/organization': typeof RootAdminOrganizationIndexRoute
   '/organizations': typeof RootSuperadminOrganizationsIndexRoute
   '/stations': typeof RootSuperadminStationsIndexRoute
@@ -674,6 +797,7 @@ export interface FileRoutesById {
   '/_root/configuration': typeof RootConfigurationRouteRouteWithChildren
   '/_root/dashboard': typeof RootDashboardRouteRouteWithChildren
   '/_root/profile': typeof RootProfileRouteRouteWithChildren
+  '/_root/references': typeof RootReferencesRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
   '/_root/not-authorized': typeof RootNotAuthorizedRoute
   '/_root/_admin/organization': typeof RootAdminOrganizationRouteRouteWithChildren
@@ -687,10 +811,15 @@ export interface FileRoutesById {
   '/_root/configuration/': typeof RootConfigurationIndexRoute
   '/_root/dashboard/': typeof RootDashboardIndexRoute
   '/_root/profile/': typeof RootProfileIndexRoute
+  '/_root/references/': typeof RootReferencesIndexRoute
   '/_root/_superadmin/organizations/create': typeof RootSuperadminOrganizationsCreateRoute
   '/_root/_superadmin/stations/create': typeof RootSuperadminStationsCreateRoute
   '/_root/_superadmin/stations/root-certificate': typeof RootSuperadminStationsRootCertificateRoute
   '/_root/_superadmin/users/create': typeof RootSuperadminUsersCreateRoute
+  '/_root/references/terminology/heatindex': typeof RootReferencesTerminologyHeatindexRoute
+  '/_root/references/terminology/rainfall': typeof RootReferencesTerminologyRainfallRoute
+  '/_root/references/terminology/uvindex': typeof RootReferencesTerminologyUvindexRoute
+  '/_root/references/terminology/windspeed': typeof RootReferencesTerminologyWindspeedRoute
   '/_root/_admin/organization/': typeof RootAdminOrganizationIndexRoute
   '/_root/_superadmin/organizations/': typeof RootSuperadminOrganizationsIndexRoute
   '/_root/_superadmin/stations/': typeof RootSuperadminStationsIndexRoute
@@ -706,6 +835,7 @@ export interface FileRouteTypes {
     | '/configuration'
     | '/dashboard'
     | '/profile'
+    | '/references'
     | '/login'
     | '/not-authorized'
     | '/organization'
@@ -719,10 +849,15 @@ export interface FileRouteTypes {
     | '/configuration/'
     | '/dashboard/'
     | '/profile/'
+    | '/references/'
     | '/organizations/create'
     | '/stations/create'
     | '/stations/root-certificate'
     | '/users/create'
+    | '/references/terminology/heatindex'
+    | '/references/terminology/rainfall'
+    | '/references/terminology/uvindex'
+    | '/references/terminology/windspeed'
     | '/organization/'
     | '/organizations/'
     | '/stations/'
@@ -740,10 +875,15 @@ export interface FileRouteTypes {
     | '/configuration'
     | '/dashboard'
     | '/profile'
+    | '/references'
     | '/organizations/create'
     | '/stations/create'
     | '/stations/root-certificate'
     | '/users/create'
+    | '/references/terminology/heatindex'
+    | '/references/terminology/rainfall'
+    | '/references/terminology/uvindex'
+    | '/references/terminology/windspeed'
     | '/organization'
     | '/organizations'
     | '/stations'
@@ -758,6 +898,7 @@ export interface FileRouteTypes {
     | '/_root/configuration'
     | '/_root/dashboard'
     | '/_root/profile'
+    | '/_root/references'
     | '/_auth/login'
     | '/_root/not-authorized'
     | '/_root/_admin/organization'
@@ -771,10 +912,15 @@ export interface FileRouteTypes {
     | '/_root/configuration/'
     | '/_root/dashboard/'
     | '/_root/profile/'
+    | '/_root/references/'
     | '/_root/_superadmin/organizations/create'
     | '/_root/_superadmin/stations/create'
     | '/_root/_superadmin/stations/root-certificate'
     | '/_root/_superadmin/users/create'
+    | '/_root/references/terminology/heatindex'
+    | '/_root/references/terminology/rainfall'
+    | '/_root/references/terminology/uvindex'
+    | '/_root/references/terminology/windspeed'
     | '/_root/_admin/organization/'
     | '/_root/_superadmin/organizations/'
     | '/_root/_superadmin/stations/'
@@ -821,6 +967,7 @@ export const routeTree = rootRoute
         "/_root/configuration",
         "/_root/dashboard",
         "/_root/profile",
+        "/_root/references",
         "/_root/not-authorized"
       ]
     },
@@ -863,6 +1010,17 @@ export const routeTree = rootRoute
       "children": [
         "/_root/profile/edit-profile",
         "/_root/profile/"
+      ]
+    },
+    "/_root/references": {
+      "filePath": "_root/references/route.tsx",
+      "parent": "/_root",
+      "children": [
+        "/_root/references/",
+        "/_root/references/terminology/heatindex",
+        "/_root/references/terminology/rainfall",
+        "/_root/references/terminology/uvindex",
+        "/_root/references/terminology/windspeed"
       ]
     },
     "/_auth/login": {
@@ -935,6 +1093,10 @@ export const routeTree = rootRoute
       "filePath": "_root/profile/index.tsx",
       "parent": "/_root/profile"
     },
+    "/_root/references/": {
+      "filePath": "_root/references/index.tsx",
+      "parent": "/_root/references"
+    },
     "/_root/_superadmin/organizations/create": {
       "filePath": "_root/_superadmin/organizations/create.tsx",
       "parent": "/_root/_superadmin/organizations"
@@ -950,6 +1112,22 @@ export const routeTree = rootRoute
     "/_root/_superadmin/users/create": {
       "filePath": "_root/_superadmin/users/create.tsx",
       "parent": "/_root/_superadmin/users"
+    },
+    "/_root/references/terminology/heatindex": {
+      "filePath": "_root/references/terminology/heatindex.tsx",
+      "parent": "/_root/references"
+    },
+    "/_root/references/terminology/rainfall": {
+      "filePath": "_root/references/terminology/rainfall.tsx",
+      "parent": "/_root/references"
+    },
+    "/_root/references/terminology/uvindex": {
+      "filePath": "_root/references/terminology/uvindex.tsx",
+      "parent": "/_root/references"
+    },
+    "/_root/references/terminology/windspeed": {
+      "filePath": "_root/references/terminology/windspeed.tsx",
+      "parent": "/_root/references"
     },
     "/_root/_admin/organization/": {
       "filePath": "_root/_admin/organization/index.tsx",
