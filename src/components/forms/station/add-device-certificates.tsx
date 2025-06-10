@@ -2,15 +2,23 @@ import DeviceCertificateUploader from "@/components/certificates/device-certific
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { CertificateFile } from "@/types/certificate";
 import { FieldInfo } from "@/utils/field-info";
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 
-const AddDeviceCertificates = () => {
+const AddDeviceCertificates = ({ stationID }: { stationID: number }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const route = useRouter();
 
   const form = useForm({
     defaultValues: {
@@ -42,17 +50,29 @@ const AddDeviceCertificates = () => {
 
       const formData = new FormData();
 
-      const certificateBlob = new Blob([value.certificate.content], { type: "application/x-pem-file" });
-      const certificateFile = new File([certificateBlob], value.certificate.name, {
+      const certificateBlob = new Blob([value.certificate.content], {
         type: "application/x-pem-file",
-        lastModified: Date.now(),
       });
+      const certificateFile = new File(
+        [certificateBlob],
+        value.certificate.name,
+        {
+          type: "application/x-pem-file",
+          lastModified: Date.now(),
+        }
+      );
 
-      const privateKeyBlob = new Blob([value.privateKey.content], { type: "application/x-pem-file" });
-      const privateKeyFile = new File([privateKeyBlob], value.certificate.name, {
+      const privateKeyBlob = new Blob([value.privateKey.content], {
         type: "application/x-pem-file",
-        lastModified: Date.now(),
       });
+      const privateKeyFile = new File(
+        [privateKeyBlob],
+        value.certificate.name,
+        {
+          type: "application/x-pem-file",
+          lastModified: Date.now(),
+        }
+      );
 
       formData.append("cert-file", certificateFile);
       formData.append("key-file", privateKeyFile);
@@ -92,13 +112,16 @@ const AddDeviceCertificates = () => {
         form.handleSubmit();
       }}
     >
-      <div className="bg-white flex flex-col lg:flex-row gap-5 rounded-lg space-y-4 py-2">
+      <div className="bg-white flex flex-col lg:flex-row gap-5 rounded-lg space-y-4 py-1">
         <div className="w-full flex flex-col space-y-2">
           <form.Field
             name="certificateId"
             children={(field) => (
               <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                <Label
+                  htmlFor={field.name}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Certificate ID
                 </Label>
                 <Input
@@ -108,7 +131,7 @@ const AddDeviceCertificates = () => {
                   onBlur={field.handleBlur}
                   placeholder="Input aws thing certificate id"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             )}
@@ -117,7 +140,10 @@ const AddDeviceCertificates = () => {
             name="certificateArn"
             children={(field) => (
               <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                <Label
+                  htmlFor={field.name}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Certificate ARN
                 </Label>
                 <Input
@@ -127,7 +153,7 @@ const AddDeviceCertificates = () => {
                   onBlur={field.handleBlur}
                   placeholder="Input aws thing certificate arn"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             )}
@@ -136,14 +162,21 @@ const AddDeviceCertificates = () => {
             name="version"
             children={(field) => (
               <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                <Label
+                  htmlFor={field.name}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Certificate Version
                 </Label>
-                <Select name={field.name} value={field.state.value} onValueChange={field.handleChange}>
-                  <SelectTrigger>
+                <Select
+                  name={field.name}
+                  value={field.state.value}
+                  onValueChange={field.handleChange}
+                >
+                  <SelectTrigger className="w-full px-3 py-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400">
                     <SelectValue placeholder="Select AWS Root Certificate Version" />
                   </SelectTrigger>
-                  <SelectContent className="w-full py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <SelectContent className="w-full py-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400">
                     <SelectItem value="CA1">CA1</SelectItem>
                     <SelectItem value="CA2">CA2</SelectItem>
                     <SelectItem value="CA3">CA3</SelectItem>
@@ -157,7 +190,10 @@ const AddDeviceCertificates = () => {
             name="region"
             children={(field) => (
               <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                <Label
+                  htmlFor={field.name}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Region
                 </Label>
                 <Input
@@ -167,7 +203,7 @@ const AddDeviceCertificates = () => {
                   onBlur={field.handleBlur}
                   placeholder="Input aws thing certificate validity until"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             )}
@@ -176,7 +212,10 @@ const AddDeviceCertificates = () => {
             name="subject"
             children={(field) => (
               <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                <Label
+                  htmlFor={field.name}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Subject
                 </Label>
                 <Input
@@ -186,7 +225,7 @@ const AddDeviceCertificates = () => {
                   onBlur={field.handleBlur}
                   placeholder="Input aws thing certificate subject"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             )}
@@ -196,7 +235,10 @@ const AddDeviceCertificates = () => {
             name="issuer"
             children={(field) => (
               <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                <Label
+                  htmlFor={field.name}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Issuer
                 </Label>
                 <Input
@@ -206,7 +248,7 @@ const AddDeviceCertificates = () => {
                   onBlur={field.handleBlur}
                   placeholder="Input aws thing certificate issuer"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             )}
@@ -215,7 +257,10 @@ const AddDeviceCertificates = () => {
             name="validUntil"
             children={(field) => (
               <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                <Label
+                  htmlFor={field.name}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Valid Until
                 </Label>
                 <Input
@@ -225,7 +270,7 @@ const AddDeviceCertificates = () => {
                   onBlur={field.handleBlur}
                   placeholder="Input aws thing certificate validity until"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             )}
@@ -234,7 +279,10 @@ const AddDeviceCertificates = () => {
             name="expiresAt"
             children={(field) => (
               <div>
-                <Label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+                <Label
+                  htmlFor={field.name}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Expires
                 </Label>
                 <Input
@@ -244,7 +292,7 @@ const AddDeviceCertificates = () => {
                   onBlur={field.handleBlur}
                   placeholder="Input aws thing certificate expiration"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             )}
@@ -278,12 +326,22 @@ const AddDeviceCertificates = () => {
           </div>
         )}
       </div>
-      <div className="w-full flex justify-end">
+      <div className="w-full flex justify-end gap-2">
+        <Button
+          onClick={() => {
+            route.history.back();
+          }}
+          className="w-fit py-6 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Cancel
+        </Button>
         <Button
           type="submit"
           disabled={isUploading}
-          className={`w-fit py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            isUploading ? "bg-gray-400 text-gray-200 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-700"
+          className={`w-fit py-6 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            isUploading
+              ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+              : "bg-green-600 text-white hover:bg-green-700"
           }`}
         >
           {isUploading ? "Uploading..." : "Upload Certificate"}

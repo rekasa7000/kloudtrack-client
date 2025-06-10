@@ -1,6 +1,19 @@
 import { useMemo } from "react";
-import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 import { Button } from "../ui/button";
 import {
   ChevronLeft,
@@ -14,6 +27,7 @@ import {
   Key,
   MapPin,
   XCircle,
+  MoreHorizontal,
 } from "lucide-react";
 import { Station } from "@/types/station";
 import {
@@ -27,7 +41,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Label } from "../ui/label";
@@ -37,6 +58,18 @@ import AddDeviceCertificates from "@/components/forms/station/add-device-certifi
 import StationDetails from "@/components/station/station-details";
 import { getStatusIcon } from "@/lib/status-icon";
 import { formatDate, formatRelativeTime, getStatusColor } from "@/lib/utils";
+import { truncateDescription } from "@/utils/truncate";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Link } from "@tanstack/react-router";
 
 interface StationTableProps {
   stations: Station[];
@@ -56,20 +89,24 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
           return (
             <div>
               <div className="text-sm font-medium">{station.name}</div>
-              {station.type && <div className="text-sm text-gray-500">{station.type}</div>}
+              {station.type && (
+                <div className="text-sm text-gray-500">{station.type}</div>
+              )}
             </div>
           );
         },
       },
       {
         accessorKey: "status",
-        header: "Status",
+        header: () => <div className="text-center">Status</div>,
         cell: (prop) => {
           const station = prop.row.original;
           return (
-            <div className="flex items-center gap-2">
-              {getStatusIcon(station.status)}
-              <span className={`px-2 py-1 text-xs rounded-full border capitalize ${getStatusColor(station.status)}`}>
+            <div className="flex items-center justify-center gap-2">
+              {/* {getStatusIcon(station.status)} */}
+              <span
+                className={`px-2 py-1 text-xs rounded-full border capitalize ${getStatusColor(station.status)}`}
+              >
                 {station.status}
               </span>
             </div>
@@ -78,23 +115,26 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
       },
       {
         accessorKey: "location",
-        header: "Location",
+        header: () => <div className="text-center">Location</div>,
         cell: (prop) => {
           const station = prop.row.original;
           return (
             <div className="flex items-center gap-1 text-sm text-gray-600">
               <MapPin className="w-4 h-4" />
-              {station.location || "Not set"}
+              {station.location
+                ? truncateDescription(station.location, 20)
+                : "Not set"}
             </div>
           );
         },
       },
       {
-        header: "Certificates",
+        accessorKey: "deviceCertificate",
+        header: () => <div className="text-center">Certification</div>,
         cell: (prop) => {
           const station = prop.row.original;
           return (
-            <div className="flex items-center gap-2">
+            <div className="flex  justify-center items-center gap-2">
               {station.deviceCertificate ? (
                 <Dialog>
                   <DialogTrigger asChild>
@@ -118,34 +158,65 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
                       <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
-                            <span className="font-medium text-gray-700">Filename:</span>
-                            <p className="text-gray-600">{station.deviceCertificate.name}</p>
+                            <span className="font-medium text-gray-700">
+                              Filename:
+                            </span>
+                            <p className="text-gray-600">
+                              {station.deviceCertificate.name}
+                            </p>
                           </div>
                           <div>
-                            <span className="font-medium text-gray-700">Size:</span>
-                            <p className="text-gray-600">{(station.deviceCertificate.size / 1024).toFixed(1)} KB</p>
+                            <span className="font-medium text-gray-700">
+                              Size:
+                            </span>
+                            <p className="text-gray-600">
+                              {(station.deviceCertificate.size / 1024).toFixed(
+                                1
+                              )}{" "}
+                              KB
+                            </p>
                           </div>
                           <div>
-                            <span className="font-medium text-gray-700">Uploaded:</span>
-                            <p className="text-gray-600">{formatDate(station.deviceCertificate.uploadedAt)}</p>
+                            <span className="font-medium text-gray-700">
+                              Uploaded:
+                            </span>
+                            <p className="text-gray-600">
+                              {formatDate(station.deviceCertificate.uploadedAt)}
+                            </p>
                           </div>
                           {station.deviceCertificate.expiresAt && (
                             <div>
-                              <span className="font-medium text-gray-700">Expires:</span>
-                              <p className="text-gray-600">{formatDate(station.deviceCertificate.expiresAt)}</p>
+                              <span className="font-medium text-gray-700">
+                                Expires:
+                              </span>
+                              <p className="text-gray-600">
+                                {formatDate(
+                                  station.deviceCertificate.expiresAt
+                                )}
+                              </p>
                             </div>
                           )}
                         </div>
                         {station.deviceCertificate.fingerprint && (
                           <div>
-                            <span className="font-medium text-gray-700">Fingerprint:</span>
-                            <p className="text-gray-600 font-mono text-sm">{station.deviceCertificate.fingerprint}</p>
+                            <span className="font-medium text-gray-700">
+                              Fingerprint:
+                            </span>
+                            <p className="text-gray-600 font-mono text-sm">
+                              {station.deviceCertificate.fingerprint}
+                            </p>
                           </div>
                         )}
                         <div>
-                          <span className="font-medium text-gray-700">Content Preview:</span>
+                          <span className="font-medium text-gray-700">
+                            Content Preview:
+                          </span>
                           <pre className="mt-2 p-3 bg-gray-100 rounded text-xs overflow-x-auto">
-                            {station.deviceCertificate.content.substring(0, 200)}...
+                            {station.deviceCertificate.content.substring(
+                              0,
+                              200
+                            )}
+                            ...
                           </pre>
                         </div>
                       </div>
@@ -153,10 +224,13 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
                   </DialogContent>
                 </Dialog>
               ) : (
-                <span className="flex items-center gap-1 text-xs px-2 py-1 rounded">
+                <Button
+                  disabled
+                  className="text-xs max-h-[32px] max-w-[108px] w-full h-full  text-black bg-gray-400 "
+                >
                   <XCircle className="w-3 h-3" />
                   No Cert
-                </span>
+                </Button>
               )}
               {station.privateKey ? (
                 <Dialog>
@@ -181,26 +255,44 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
                       <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
-                            <span className="font-medium text-gray-700">Filename:</span>
-                            <p className="text-gray-600">{station.privateKey.name}</p>
+                            <span className="font-medium text-gray-700">
+                              Filename:
+                            </span>
+                            <p className="text-gray-600">
+                              {station.privateKey.name}
+                            </p>
                           </div>
                           <div>
-                            <span className="font-medium text-gray-700">Size:</span>
-                            <p className="text-gray-600">{(station.privateKey.size / 1024).toFixed(1)} KB</p>
+                            <span className="font-medium text-gray-700">
+                              Size:
+                            </span>
+                            <p className="text-gray-600">
+                              {(station.privateKey.size / 1024).toFixed(1)} KB
+                            </p>
                           </div>
                           <div>
-                            <span className="font-medium text-gray-700">Uploaded:</span>
-                            <p className="text-gray-600">{formatDate(station.privateKey.uploadedAt)}</p>
+                            <span className="font-medium text-gray-700">
+                              Uploaded:
+                            </span>
+                            <p className="text-gray-600">
+                              {formatDate(station.privateKey.uploadedAt)}
+                            </p>
                           </div>
                         </div>
                         {station.privateKey.fingerprint && (
                           <div>
-                            <span className="font-medium text-gray-700">Fingerprint:</span>
-                            <p className="text-gray-600 font-mono text-sm">{station.privateKey.fingerprint}</p>
+                            <span className="font-medium text-gray-700">
+                              Fingerprint:
+                            </span>
+                            <p className="text-gray-600 font-mono text-sm">
+                              {station.privateKey.fingerprint}
+                            </p>
                           </div>
                         )}
                         <div>
-                          <span className="font-medium text-gray-700">Content Preview:</span>
+                          <span className="font-medium text-gray-700">
+                            Content Preview:
+                          </span>
                           <pre className="mt-2 p-3 rounded text-xs overflow-x-auto">
                             {station.privateKey.content.substring(0, 200)}...
                           </pre>
@@ -210,10 +302,13 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
                   </DialogContent>
                 </Dialog>
               ) : (
-                <span className="flex items-center gap-1 text-xs px-2 py-1 rounded">
+                <Button
+                  disabled
+                  className="text-xs max-h-[32px] max-w-[108px] w-full h-full  text-black bg-gray-400 "
+                >
                   <XCircle className="w-3 h-3" />
                   No Key
-                </span>
+                </Button>
               )}
             </div>
           );
@@ -226,144 +321,141 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
           const station = prop.row.original;
           return (
             <div className="text-sm text-gray-600">
-              {station.lastSeen ? formatRelativeTime(station.lastSeen) : "Never"}
+              {station.lastSeen
+                ? formatRelativeTime(station.lastSeen)
+                : "Never"}
             </div>
           );
         },
       },
       {
-        header: "Actions",
+        accessorKey: "actions",
+        header: () => <div className="text-center">Actions</div>,
         cell: (prop) => {
           const station = prop.row.original;
           return (
-            <div className="flex items-center">
-              <Dialog>
-                <DialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-blue-600 hover:text-blue-700 hover:bg-blue-50">
-                  <Eye className="w-4 h-4" />
-                </DialogTrigger>
-                <DialogContent className="w-full min-w-sm lg:min-w-5xl min-h-[50vh] overflow-hidden flex flex-col justify-start">
-                  <DialogHeader className="mb-0 pb-0">
-                    <DialogTitle>Station Details</DialogTitle>
-                    <DialogDescription>Station details and it's certificate metadata.</DialogDescription>
-                  </DialogHeader>
-                  <Separator className="h-1" />
-                  <StationDetails station={station} />
-                </DialogContent>
-              </Dialog>
-              <Dialog>
-                <DialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-600 hover:text-gray-700 hover">
-                  <FilePlus className="w-4 h-4 text-black dark:text-gray-400" />
-                </DialogTrigger>
-                <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
-                  <DialogTitle className="font-semibold">Device Certificate</DialogTitle>
-                  <DialogDescription>
-                    Add and save root certificate from AWS IoT Core. Input its metadata
-                  </DialogDescription>
-                  <Separator className="mb-2" />
-                  <AddDeviceCertificates />
-                </DialogContent>
-              </Dialog>
-              <Dialog>
-                <DialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-600 hover:text-gray-700 hover">
-                  <Edit className="w-4 h-4" />
-                </DialogTrigger>
-                <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
-                  <DialogHeader className="font-semibold">Update Station</DialogHeader>
-                  <DialogDescription>Update station metadata.</DialogDescription>
-                  <Separator className="mb-2" />
-                </DialogContent>
-              </Dialog>
-              <Dialog>
-                <DialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-gray-600 hover:text-gray-700 hover">
-                  <Command className="w-4 h-4 text-black" />
-                </DialogTrigger>
-                <DialogContent className="min-w-sm flex flex-col gap-4">
-                  <div className="flex flex-col gap-1">
-                    <DialogHeader className="font-semibold text-lg">Commands</DialogHeader>
-                    <DialogDescription className="text-sm text-gray-700">
-                      Send Command to specific weather station{" "}
-                    </DialogDescription>
-                  </div>
-                  <Tabs defaultValue="reset" className="flex flex-col gap-2">
-                    <TabsList className="border-gray-200 bg-transparent border-b-1 p-0 rounded-none">
-                      <TabsTrigger value="reset" className="shadow-none rounded-none w-24">
+            <div className="flex justify-center items-center">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="h-8 w-8 p-0 rounded-md text-gray-600 hover:text-gray-700"
+                  >
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <Dialog>
+                      <DialogTrigger className="w-full text-left px-2 py-1.5 text-sm">
+                        <Eye className="mr-2 h-4 w-4 inline" /> View Details
+                      </DialogTrigger>
+                      <DialogContent className="w-full min-w-sm lg:min-w-5xl min-h-[50vh] overflow-hidden flex flex-col justify-start">
+                        <DialogHeader className="mb-0 pb-0">
+                          <DialogTitle>Station Details</DialogTitle>
+                          <DialogDescription>
+                            Station details and it's certificate metadata.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <Separator className="h-1" />
+                        <StationDetails station={station} />
+                      </DialogContent>
+                    </Dialog>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      to="/stations/device-certification/$id"
+                      params={{ id: station.id }}
+                      className="w-full text-left px-2 py-1.5 text-sm"
+                    >
+                      <FilePlus className="mr-2 h-4 w-4 inline" /> Add
+                      Certificate
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Dialog>
+                      <DialogTrigger className="w-full text-left px-2 py-1.5 text-sm">
+                        <Edit className="mr-2 h-4 w-4 inline" /> Edit Station
+                      </DialogTrigger>
+                      <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
+                        <DialogHeader className="font-semibold">
+                          Update Station
+                        </DialogHeader>
+                        <DialogDescription>
+                          Update station metadata.
+                        </DialogDescription>
+                        <Separator className="mb-2" />
+                      </DialogContent>
+                    </Dialog>
+                  </DropdownMenuItem>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <Command className="mr-2 h-4 w-4 inline" /> Commands
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuItem
+                        onClick={() => toast("Reset successful!")}
+                        className="text-sm"
+                      >
                         Reset
-                      </TabsTrigger>
-                      <TabsTrigger value="status" className="shadow-none rounded-none w-24">
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => toast("Status successful!")}
+                        className="text-sm"
+                      >
                         Status
-                      </TabsTrigger>
-                      <TabsTrigger value="update" className="shadow-none rounded-none w-24">
-                        Update
-                      </TabsTrigger>
-                      <TabsTrigger value="sync" className="shadow-none rounded-none w-24">
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => toast("Updated firmware successful!")}
+                        className="text-sm"
+                      >
+                        Update Firmware
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => toast("Sync successful!")}
+                        className="text-sm"
+                      >
                         Sync
-                      </TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="reset">
-                      <div className="mb-5">
-                        <Label className="text-lg text-gray-700 font-semibold">Reset</Label>
-                        <h3 className="text-sm font-medium text-[#545454]">
-                          Resetting this station will refresh the state of it.
-                        </h3>
-                      </div>
-                      <Button onClick={() => toast("Reset successful!")}>Reset</Button>
-                    </TabsContent>
-                    <TabsContent value="status">
-                      <div className="mb-5">
-                        <Label className="text-lg text-gray-700 font-semibold">Status</Label>
-                        <h3 className="text-sm font-medium text-[#545454]">
-                          This command will collect the device status and health.
-                        </h3>
-                      </div>
-                      <Button onClick={() => toast("Status successful!")}>Status</Button>
-                    </TabsContent>
-                    <TabsContent value="update">
-                      <div className="mb-5">
-                        <Label className="text-lg text-gray-700 font-semibold">Update Firmware</Label>
-                        <h3 className="text-sm font-medium text-[#545454]">
-                          This will allow the station to update its firmware
-                        </h3>
-                      </div>
-                      <Button onClick={() => toast("Updated firmware successful!")}>Update</Button>
-                    </TabsContent>
-                    <TabsContent value="sync">
-                      <div className="mb-5">
-                        <Label className="text-lg text-gray-700 font-semibold">Sync</Label>
-                        <h3 className="text-sm font-medium text-[#545454]">
-                          This will collect the current data for sync in.
-                        </h3>
-                      </div>
-                      <Button onClick={() => toast("Sync successful!")}>Sync</Button>
-                    </TabsContent>
-                  </Tabs>
-                </DialogContent>
-              </Dialog>
-              <AlertDialog>
-                <AlertDialogTrigger className="inline-flex items-center justify-center h-8 w-8 rounded-md text-red-600 hover:text-red-700 hover:bg-red-50">
-                  <Trash2 className="w-4 h-4" />
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <div className="flex items-center gap-3">
-                      <div className="p-3 bg-red-100 rounded-lg">
-                        <AlertTriangle className="w-6 h-6 text-red-600" />
-                      </div>
-                      <div>
-                        <AlertDialogTitle>Delete Station</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Are you sure you want to delete "{station.name}"? This action cannot be undone.
-                        </AlertDialogDescription>
-                      </div>
-                    </div>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => onDelete(station.id)} className="bg-red-600 hover:bg-red-700">
-                      Delete Station
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                      </DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <AlertDialog>
+                      <AlertDialogTrigger className="w-full text-left px-2 py-1.5 text-sm text-red-600">
+                        <Trash2 className="mr-2 h-4 w-4 inline" /> Delete
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <div className="flex items-center gap-3">
+                            <div className="p-3 bg-red-100 rounded-lg">
+                              <AlertTriangle className="w-6 h-6 text-red-600" />
+                            </div>
+                            <div>
+                              <AlertDialogTitle>
+                                Delete Station
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Are you sure you want to delete "{station.name}
+                                "? This action cannot be undone.
+                              </AlertDialogDescription>
+                            </div>
+                          </div>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => onDelete(station.id)}
+                            className="bg-red-600 hover:bg-red-700"
+                          >
+                            Delete Station
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           );
         },
@@ -384,11 +476,22 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
       <Table className="w-full">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="bg-muted pointer-events-none">
+            <TableRow
+              key={headerGroup.id}
+              className="bg-muted pointer-events-none"
+            >
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className="text-left font-inter font-medium py-4">
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  <TableHead
+                    key={header.id}
+                    className="text-left font-inter font-medium py-4"
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </TableHead>
                 );
               })}
@@ -398,9 +501,16 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-muted">
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+                className="hover:bg-muted"
+              >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="text-left font-light py-4 font-montserrat">
+                  <TableCell
+                    key={cell.id}
+                    className="text-left font-light py-4 font-montserrat"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -440,7 +550,8 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
         </div>
         <div className="mr-1">
           <span className="font-medium font-montserrat text-sm">
-            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
           </span>
         </div>
       </div>
