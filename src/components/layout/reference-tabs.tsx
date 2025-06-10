@@ -2,11 +2,14 @@ import { ReactNode } from "react";
 import { Link, useMatchRoute, useLocation } from "@tanstack/react-router";
 
 const tabs = [
-  { name: "Profile", url: "/profile" as const },
-  { name: "Edit Profile", url: "/profile/edit-profile" },
+  { name: "All", url: "/references" as const },
+  { name: "Heat Index", url: "/references/terminology/heatindex" },
+   { name: "Wind Speed", url: "/references/terminology/windspeed"},
+  { name: "Rainfall", url: "/references/terminology/rainfall" },
+  { name: "UV Index", url: "/references/terminology/uvindex" },
 ];
 
-const ProfileTabs = (): ReactNode => {
+const ReferenceTabs = (): ReactNode => {
   const matchRoute = useMatchRoute();
   const location = useLocation();
 
@@ -15,8 +18,8 @@ const ProfileTabs = (): ReactNode => {
       {tabs.map((tab, index) => {
         let isActive = false;
 
-        if (tab.url === "/profile") {
-          isActive = matchRoute({ to: "/profile" }) && !location.pathname.startsWith("/profile/");
+        if (tab.url === "/references") {
+          isActive = matchRoute({ to: "/references" }) && !location.pathname.startsWith("/references/");
         }
         isActive = !!matchRoute({ to: tab.url });
 
@@ -37,4 +40,4 @@ const ProfileTabs = (): ReactNode => {
   );
 };
 
-export default ProfileTabs;
+export default ReferenceTabs;
