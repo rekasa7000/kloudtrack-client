@@ -9,4 +9,9 @@ export const SYSTEM_METRICS_KEYS = {
 
 export const ORGANIZATION = {
   ORGANIZATION_LIST: "organization_list",
+  ORGANIZATION_USERS: "organization_users",
+};
+
+export const USERS = {
+  USERS_BY_ORGANIZATION: "users_by_organization",
 };

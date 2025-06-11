@@ -6,6 +6,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+enum Role {
+  Admin = "ADMIN",
+  User = "User",
+  Superadmin = "SUPERADMIN",
+}
+
 export async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -68,4 +74,21 @@ export const formatRelativeTime = (date: Date) => {
   if (minutes < 60) return `${minutes}m ago`;
   if (hours < 24) return `${hours}h ago`;
   return `${days}d ago`;
+};
+
+export const getInitials = (firstName: string | null, lastName: string | null) => {
+  const first = firstName?.charAt(0)?.toUpperCase() || "";
+  const last = lastName?.charAt(0)?.toUpperCase() || "";
+  return first + last || "KT";
+};
+
+export const getRoleColor = (role: Role) => {
+  switch (role) {
+    case Role.Admin:
+      return "text-green-500";
+    case Role.Superadmin:
+      return "text-blue-500";
+    default:
+      return "text-red-500";
+  }
 };

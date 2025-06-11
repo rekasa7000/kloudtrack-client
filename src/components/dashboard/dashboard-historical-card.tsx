@@ -1,19 +1,7 @@
 import { Activity, TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Separator } from "../ui/separator";
 import SomethingWentWrong from "../error/something-went-wrong";
 import { ChartCard } from "../system-metrics/chart-card";
@@ -88,96 +76,90 @@ const DashboardHistoricalCard = () => {
 
   return (
     <>
-      <div className="w-full h-fit flex items-stretch gap-4">
-        <div className="w-full">
-          <CardHeader className="mb-2 p-0">
-            <CardTitle>Line Chart - Dots</CardTitle>
-            <CardDescription>January - June 2024</CardDescription>
-          </CardHeader>
-          <CardContent className="h-full px-0">
-            {chartData.length > 0 && (
-              <div className="flex flex-col w-full gap-6">
-                <ChartCard title="CPU & Memory Usage (2 Hours)">
+      <div className="w-full h-fit flex items-stretch gap-4 px-5">
+        <div className="w-full h-full">
+          {chartData.length > 0 && (
+            <div className="flex flex-col w-full gap-6">
+              <ChartCard title="CPU & Memory Usage (2 Hours)">
+                <div className="h-64">
+                  <ChartContainer config={chartConfig} className="h-[250px] w-full">
+                    <LineChart
+                      accessibilityLayer
+                      data={chartData}
+                      margin={{
+                        left: 12,
+                        right: 12,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <XAxis dataKey="time" tick={{ fontSize: 12 }} />
+                      <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Line type="monotone" dataKey="cpu" stroke="#4ade80" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="memory" stroke="#60a5fa" strokeWidth={2} dot={false} />
+                    </LineChart>
+                  </ChartContainer>
+                </div>
+              </ChartCard>
+
+              <ChartCard title="Storage & Temperature">
+                <div className="h-64">
+                  <ChartContainer config={chartConfig} className="h-[250px] w-full">
+                    <LineChart data={chartData} accessibilityLayer margin={{ left: 12, right: 12 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <XAxis dataKey="time" tick={{ fontSize: 12 }} />
+                      <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Line type="monotone" dataKey="disk" stroke="#facc15" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="temperature" stroke="#f87171" strokeWidth={2} dot={false} />
+                    </LineChart>
+                  </ChartContainer>
+                </div>
+              </ChartCard>
+
+              <Card className="col-span-full">
+                <CardHeader>
+                  <CardTitle className="text-sm font-medium text-gray-600">System Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
                   <div className="h-64">
                     <ChartContainer config={chartConfig} className="h-[250px] w-full">
-                      <LineChart
-                        accessibilityLayer
-                        data={chartData}
-                        margin={{
-                          left: 12,
-                          right: 12,
-                        }}
-                      >
+                      <AreaChart data={chartData} margin={{ left: 12, right: 12 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                         <XAxis dataKey="time" tick={{ fontSize: 12 }} />
                         <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Line type="monotone" dataKey="cpu" stroke="#4ade80" strokeWidth={2} dot={false} />
-                        <Line type="monotone" dataKey="memory" stroke="#60a5fa" strokeWidth={2} dot={false} />
-                      </LineChart>
+                        <Area
+                          type="monotone"
+                          dataKey="cpu"
+                          stackId="1"
+                          stroke="#4ade80"
+                          fill="#4ade80"
+                          fillOpacity={0.6}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="memory"
+                          stackId="2"
+                          stroke="#60a5fa"
+                          fill="#60a5fa"
+                          fillOpacity={0.6}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="disk"
+                          stackId="3"
+                          stroke="#facc15"
+                          fill="#facc15"
+                          fillOpacity={0.6}
+                        />
+                      </AreaChart>
                     </ChartContainer>
                   </div>
-                </ChartCard>
-
-                <ChartCard title="Storage & Temperature">
-                  <div className="h-64">
-                    <ChartContainer config={chartConfig} className="h-[250px] w-full">
-                      <LineChart data={chartData} accessibilityLayer margin={{ left: 12, right: 12 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                        <XAxis dataKey="time" tick={{ fontSize: 12 }} />
-                        <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Line type="monotone" dataKey="disk" stroke="#facc15" strokeWidth={2} dot={false} />
-                        <Line type="monotone" dataKey="temperature" stroke="#f87171" strokeWidth={2} dot={false} />
-                      </LineChart>
-                    </ChartContainer>
-                  </div>
-                </ChartCard>
-
-                <Card className="col-span-full">
-                  <CardHeader>
-                    <CardTitle className="text-sm font-medium text-gray-600">System Overview</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="h-64">
-                      <ChartContainer config={chartConfig} className="h-[250px] w-full">
-                        <AreaChart data={chartData} margin={{ left: 12, right: 12 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                          <XAxis dataKey="time" tick={{ fontSize: 12 }} />
-                          <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} />
-                          <ChartTooltip content={<ChartTooltipContent />} />
-                          <Area
-                            type="monotone"
-                            dataKey="cpu"
-                            stackId="1"
-                            stroke="#4ade80"
-                            fill="#4ade80"
-                            fillOpacity={0.6}
-                          />
-                          <Area
-                            type="monotone"
-                            dataKey="memory"
-                            stackId="2"
-                            stroke="#60a5fa"
-                            fill="#60a5fa"
-                            fillOpacity={0.6}
-                          />
-                          <Area
-                            type="monotone"
-                            dataKey="disk"
-                            stackId="3"
-                            stroke="#facc15"
-                            fill="#facc15"
-                            fillOpacity={0.6}
-                          />
-                        </AreaChart>
-                      </ChartContainer>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            )}
-          </CardContent>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
       <Separator className="my-5" />

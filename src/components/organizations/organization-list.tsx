@@ -1,15 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Tenant } from "@/types/tenant";
+import { Organization } from "@/types/organizations";
 import { ArrowRight } from "lucide-react";
 import React from "react";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { AvatarImage } from "@radix-ui/react-avatar";
 
-interface TenantListProps {
-  items?: Tenant[];
-  onSelect: (tenant: Tenant) => void;
+interface OrganizationListProps {
+  items?: Organization[];
+  onSelect: (organization: Organization) => void;
 }
 
-const OrgnizationList = ({ items, onSelect }: TenantListProps) => {
+const OrgnizationList = ({ items, onSelect }: OrganizationListProps) => {
   return (
     <section className="w-full">
       <div className="container px-0">
@@ -18,20 +20,23 @@ const OrgnizationList = ({ items, onSelect }: TenantListProps) => {
           {items?.map((item, index) => (
             <React.Fragment key={index}>
               <div className="flex w-full items-center gap-4 justify-between px-4 py-5">
-                <div className="order-2 flex items-center gap-2 md:order-none">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-muted ">
-                    {item.icon}
-                  </span>
+                <div className="order-2 flex items-center gap-4 md:order-none">
+                  <Avatar className="h-12 w-12">
+                    {item.displayPicture && <AvatarImage src={item.displayPicture} />}
+                    <AvatarImage src="https://github.com/shadcn.png" className="h-12 w-12" />
+                    <AvatarFallback>KT</AvatarFallback>
+                  </Avatar>
+
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-semibold font-inter">{item.tenantName}</h3>
+                    <h3 className="font-semibold font-inter">{item.organizationName}</h3>
                     <p className="text-sm inline-flex font-montserrat  items-center text-muted-foreground">
-                      {item.status === "Active" ? (
+                      {item.isActive ? (
                         <span className="flex w-3 h-3 me-1.5 bg-green-500 rounded-full"></span>
                       ) : (
                         <span className="flex w-3 h-3 me-1.5 bg-red-500 rounded-full"></span>
                       )}
 
-                      {item.status}
+                      {item.isActive ? "Active" : "Inactive"}
                     </p>
                   </div>
                 </div>

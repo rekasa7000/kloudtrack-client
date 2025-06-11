@@ -27,17 +27,17 @@ export interface PaginationResponse {
   hasPreviousPage: boolean;
   limit: number;
 }
-export interface Organizations {
+export interface Organization {
   id: number;
   organizationName: string;
   description: string | null;
   displayPicture: string | null;
+  isActive: boolean;
   createdAt: Date;
   updatedAt: Date | null;
 }
-[];
 
 export interface OrganizationsWithPaginations {
-  data: Organizations;
+  data: Organization[];
   pagination: PaginationResponse;
 }

@@ -9,3 +9,10 @@ interface ErrorResponse {
   error: string;
   message?: string;
 }
+
+interface Pagination {
+  total: number;
+  page: number | undefined;
+  limit: number | undefined;
+  pages: number;
+}
