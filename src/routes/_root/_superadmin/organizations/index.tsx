@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { organizationQueryOptions } from "@/hooks/queries/organization-query";
+import { getOrganizationQueryOptions } from "@/hooks/queries/organization-query";
 import { queryClient } from "@/lib/queryClient";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -18,12 +18,12 @@ import { useState } from "react";
 import { useGetUsersByOrganizationId } from "@/hooks/queries/user-queries";
 
 export const Route = createFileRoute("/_root/_superadmin/organizations/")({
-  loader: () => queryClient.ensureQueryData(organizationQueryOptions),
+  loader: () => queryClient.ensureQueryData(getOrganizationQueryOptions),
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { data: organizationData } = useSuspenseQuery(organizationQueryOptions);
+  const { data: organizationData } = useSuspenseQuery(getOrganizationQueryOptions);
   const [selectedTenant, setSelectedTenant] = useState(organizationData.data[0]);
   const { data: usersData } = useGetUsersByOrganizationId(selectedTenant.id);
 

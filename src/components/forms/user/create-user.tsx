@@ -1,13 +1,25 @@
 import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { Button } from "@/components/ui/button";
-import { DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { ChevronRight, ChevronLeft, AtSign, CircleCheck, LockKeyholeIcon, EyeClosed, Eye } from "lucide-react";
+import {
+  ChevronRight,
+  ChevronLeft,
+  AtSign,
+  CircleCheck,
+  LockKeyholeIcon,
+  EyeClosed,
+  Eye,
+  ChevronsUpDown,
+  Check,
+} from "lucide-react";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { cn } from "@/lib/utils";
 import { FieldInfo } from "@/utils/field-info";
+import { useGetAllOrganization } from "@/hooks/queries/organization-query";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 
 interface FormValues {
   firstName: string;
@@ -25,7 +37,7 @@ const CreateUser = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
-
+  const { data: organizations } = useGetAllOrganization();
   const totalSteps = 3;
 
   const form = useForm({
@@ -58,7 +70,6 @@ const CreateUser = () => {
   };
 
   const togglePasswordVisibility = () => setIsPasswordVisible((prev) => !prev);
-
   const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible((prev) => !prev);
 
   const getStepValidation = (step: number, formValues: FormValues): boolean => {
@@ -329,25 +340,60 @@ const CreateUser = () => {
               )}
             </form.Field>
 
-            <form.Field name="organization">
-              {(field) => (
-                <div className="space-y-2">
-                  <Label htmlFor="organization" className="text-sm font-medium">
-                    Organization
-                  </Label>
-                  <Input
-                    id="organization"
-                    type="text"
-                    value={field.state.value}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    onBlur={field.handleBlur}
-                    placeholder="Enter your organization"
-                    className={`w-full ${field.state.meta.errors.length ? "border-red-500" : ""}`}
-                  />
-                  <FieldInfo field={field} />
-                </div>
-              )}
-            </form.Field>
+            {!organizations ? (
+              <div>Loading</div>
+            ) : (
+              <form.Field name="organization">
+                {(field) => (
+                  <div className="space-y-2">
+                    <Label htmlFor="organization" className="text-sm font-medium">
+                      Organization
+                    </Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn("w-[200px] justify-between", !field.state.value && "text-muted-foreground")}
+                        >
+                          {field.state.value
+                            ? organizations.find((organization) => organization.id.toString() === field.state.value)
+                                ?.organizationName
+                            : "Select organization"}
+                          <ChevronsUpDown className="opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full p-0">
+                        <Command>
+                          <CommandInput placeholder="Search organization..." className="h-9" />
+                          <CommandList>
+                            <CommandEmpty>No organization found.</CommandEmpty>
+                            <CommandGroup>
+                              {organizations.map((organization) => (
+                                <CommandItem
+                                  value={organization.organizationName}
+                                  key={organization.id}
+                                  onSelect={() => field.handleChange(organization.id.toString())}
+                                >
+                                  {organization.organizationName}
+                                  <Check
+                                    className={cn(
+                                      "ml-auto",
+                                      organization.id.toString() === field.state.value ? "opacity-100" : "opacity-0"
+                                    )}
+                                  />
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FieldInfo field={field} />
+                  </div>
+                )}
+              </form.Field>
+            )}
           </div>
         );
 
