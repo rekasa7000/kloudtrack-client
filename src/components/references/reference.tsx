@@ -3,22 +3,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMatchRoute, useLocation } from "@tanstack/react-router";
 import { AiOutlineSun, AiOutlineCloud, AiOutlineWarning, AiOutlineDown } from 'react-icons/ai';
 
-// Define the shape of each reference item
+
 interface ReferenceItem {
   title: string;
   description: string;
   threshold: string;
   seeMore?: boolean;
-  icon?: React.ReactNode; // Optional icon for flexibility
-  category: string; // Added to track the category for "All" tab
+  icon?: React.ReactNode; 
+  category: string; 
 }
 
-// Define the shape of referenceData
+
 interface ReferenceData {
   [key: string]: ReferenceItem[];
 }
 
-// Data for different weather terminology references
+// Sample Data weather terminology references
 const referenceData: ReferenceData = {
   'UV Index': [
     { title: 'Minimal', description: 'Wear sunglasses on bright days. In winter, reflection off snow can nearly double UV strength. If you burn easily, cover up and use sunscreen.', threshold: '1-2', icon: <AiOutlineSun className="text-yellow-400" />, category: 'UV Index' },
@@ -54,12 +54,12 @@ const Reference: React.FC = () => {
     if (matchRoute({ to: "/references/terminology/windspeed" })) return 'Wind Speed';
     if (matchRoute({ to: "/references/terminology/rainfall" })) return 'Rainfall';
     if (matchRoute({ to: "/references/terminology/uvindex" })) return 'UV Index';
-    return 'All'; // Default fallback to "All"
+    return 'All'; 
   };
 
   const activeTab = getActiveTab();
 
-  // Function to determine progress bar style based on threshold and category
+  // Function to determine the progress bar style based on threshold and category
   const getProgressBarStyle = (threshold: string, category: string) => {
     let min = 0, max = 0;
     if (threshold.includes('-')) {
@@ -100,10 +100,10 @@ const Reference: React.FC = () => {
     return { background: `linear-gradient(to right, ${color}-200, ${color}-100)`, fill: `${color}-500`, width };
   };
 
-  // Get data based on active tab with reordered categories for "All"
+ 
   const getDisplayData = () => {
     if (activeTab === 'All') {
-      // Reorder categories to put Heat Index first
+     
       const reorderedData = [
         ...referenceData['Heat Index'],
         ...referenceData['UV Index'],
@@ -128,7 +128,7 @@ const Reference: React.FC = () => {
         </CardHeader>
         <CardContent className="space-y-8 py-6 px-6">
           {displayData.map((item, index) => {
-            // Add separator for "All" tab when category changes
+            // Add separator when All Tab
             const showSeparator = activeTab === 'All' && index > 0 && displayData[index - 1].category !== item.category;
             return (
               <React.Fragment key={index}>
@@ -159,7 +159,6 @@ const Reference: React.FC = () => {
           })}
         </CardContent>
       </Card>
-      <p className="text-sm text-gray-500 text-center mt-4">Last updated: {new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}</p>
     </div>
   );
 };
