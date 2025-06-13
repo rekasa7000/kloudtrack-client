@@ -1,10 +1,11 @@
-import OrganizationForm from "@/components/organizations/organization-form";
+import OrganizationForm from "@/components/forms/organizations/organizations-form";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
+  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ChevronsRight } from "lucide-react";
@@ -25,9 +26,9 @@ function RouteComponent() {
           <BreadcrumbSeparator>
             <ChevronsRight />
           </BreadcrumbSeparator>
-          <BreadcrumbItem>
+          <BreadcrumbPage>
             <BreadcrumbLink href="/organizations/create">Add Tenant</BreadcrumbLink>
-          </BreadcrumbItem>
+          </BreadcrumbPage>
         </BreadcrumbList>
       </Breadcrumb>
       <Card className="container mx-auto h-full max-w-5xl shadow-none">

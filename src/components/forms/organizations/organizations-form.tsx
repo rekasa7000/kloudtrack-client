@@ -1,16 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Stepper, StepperIndicator, StepperItem, StepperSeparator, StepperTrigger } from "@/components/ui/stepper";
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { ChevronLeft, ChevronRight, Minus, Plus, UserRound, XIcon } from "lucide-react";
 import { useState } from "react";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Textarea } from "../ui/textarea";
-import React from "react";
+import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
+import { Textarea } from "../../ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowRightIcon, SearchIcon } from "lucide-react";
 import { useForm } from "@tanstack/react-form";
 import { FieldInfo } from "@/utils/field-info";
+import { useCreateOrganization } from "@/hooks/mutations/organization-mutations";
 
 interface FormValues {
   name: string;
@@ -23,6 +22,7 @@ const OrganizationForm = () => {
   const [{ files }, { removeFile, openFileDialog, getInputProps }] = useFileUpload({
     accept: "image/*",
   });
+  const { mutateAsync: createOrganization } = useCreateOrganization();
 
   const previewUrl = files[0]?.preview || null;
   const fileName = files[0]?.file.name || null;
@@ -33,7 +33,18 @@ const OrganizationForm = () => {
       description: "",
     },
     onSubmit: async ({ value }) => {
-      console.log("Form Data:", value);
+      const formData = new FormData();
+      formData.append("organizationName", value.name);
+      formData.append("description", value.description);
+      if (files[0]) {
+        if (files[0].file instanceof File) {
+          formData.append("displayPicture", files[0].file);
+        } else {
+          formData.append("displayPictureId", files[0].file.id);
+          formData.append("displayPictureUrl", files[0].file.url);
+        }
+      }
+      await createOrganization(formData);
     },
   });
 
@@ -58,7 +69,7 @@ const OrganizationForm = () => {
         return false;
 
       case 2:
-        return false;
+        return true;
       default:
         return false;
     }

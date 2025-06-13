@@ -6,6 +6,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+enum Role {
+  Admin = "ADMIN",
+  User = "User",
+  Superadmin = "SUPERADMIN",
+}
+
 export async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -38,13 +44,13 @@ export const formatUptime = (uptimeStr: string): string => {
 export const getStatusColor = (status: Station["status"]) => {
   switch (status) {
     case "connected":
-      return "bg-green-100 text-green-800 border-green-200";
+      return "bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-200 dark:border-green-800";
     case "disconnected":
-      return "bg-gray-100 text-gray-800 border-gray-200";
+      return "bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-800";
     case "error":
-      return "bg-red-100 text-red-800 border-red-200";
+      return "bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-200 dark:border-red-800";
     case "pending":
-      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      return "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900 dark:text-yellow-200 dark:border-yellow-800";
   }
 };
 
@@ -68,4 +74,21 @@ export const formatRelativeTime = (date: Date) => {
   if (minutes < 60) return `${minutes}m ago`;
   if (hours < 24) return `${hours}h ago`;
   return `${days}d ago`;
+};
+
+export const getInitials = (firstName: string | null, lastName: string | null) => {
+  const first = firstName?.charAt(0)?.toUpperCase() || "";
+  const last = lastName?.charAt(0)?.toUpperCase() || "";
+  return first + last || "KT";
+};
+
+export const getRoleColor = (role: Role) => {
+  switch (role) {
+    case Role.Admin:
+      return "text-green-500";
+    case Role.Superadmin:
+      return "text-blue-500";
+    default:
+      return "text-red-500";
+  }
 };

@@ -13,6 +13,7 @@ const router = createRouter({
   defaultPreload: "intent",
   context: { authentication: undefined! },
   defaultNotFoundComponent: () => <PageNotFound />,
+  defaultErrorComponent: () => <PageNotFound />,
 });
 
 declare module "@tanstack/react-router" {

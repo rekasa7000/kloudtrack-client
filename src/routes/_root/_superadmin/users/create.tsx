@@ -27,7 +27,7 @@ function RouteComponent() {
             <ChevronsRight />
           </BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+            <BreadcrumbPage>Create User</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

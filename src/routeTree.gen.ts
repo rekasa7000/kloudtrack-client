@@ -47,6 +47,7 @@ import { Route as RootSuperadminUsersCreateImport } from './routes/_root/_supera
 import { Route as RootSuperadminStationsRootCertificateImport } from './routes/_root/_superadmin/stations/root-certificate'
 import { Route as RootSuperadminStationsCreateImport } from './routes/_root/_superadmin/stations/create'
 import { Route as RootSuperadminOrganizationsCreateImport } from './routes/_root/_superadmin/organizations/create'
+import { Route as RootSuperadminStationsDeviceCertificationIdImport } from './routes/_root/_superadmin/stations/device-certification/$id'
 
 // Create/Update Routes
 
@@ -276,6 +277,13 @@ const RootSuperadminOrganizationsCreateRoute =
     id: '/create',
     path: '/create',
     getParentRoute: () => RootSuperadminOrganizationsRouteRoute,
+  } as any)
+
+const RootSuperadminStationsDeviceCertificationIdRoute =
+  RootSuperadminStationsDeviceCertificationIdImport.update({
+    id: '/device-certification/$id',
+    path: '/device-certification/$id',
+    getParentRoute: () => RootSuperadminStationsRouteRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -534,6 +542,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RootSuperadminUsersIndexImport
       parentRoute: typeof RootSuperadminUsersRouteImport
     }
+    '/_root/_superadmin/stations/device-certification/$id': {
+      id: '/_root/_superadmin/stations/device-certification/$id'
+      path: '/device-certification/$id'
+      fullPath: '/stations/device-certification/$id'
+      preLoaderRoute: typeof RootSuperadminStationsDeviceCertificationIdImport
+      parentRoute: typeof RootSuperadminStationsRouteImport
+    }
   }
 }
 
@@ -587,6 +602,7 @@ interface RootSuperadminStationsRouteRouteChildren {
   RootSuperadminStationsCreateRoute: typeof RootSuperadminStationsCreateRoute
   RootSuperadminStationsRootCertificateRoute: typeof RootSuperadminStationsRootCertificateRoute
   RootSuperadminStationsIndexRoute: typeof RootSuperadminStationsIndexRoute
+  RootSuperadminStationsDeviceCertificationIdRoute: typeof RootSuperadminStationsDeviceCertificationIdRoute
 }
 
 const RootSuperadminStationsRouteRouteChildren: RootSuperadminStationsRouteRouteChildren =
@@ -595,6 +611,8 @@ const RootSuperadminStationsRouteRouteChildren: RootSuperadminStationsRouteRoute
     RootSuperadminStationsRootCertificateRoute:
       RootSuperadminStationsRootCertificateRoute,
     RootSuperadminStationsIndexRoute: RootSuperadminStationsIndexRoute,
+    RootSuperadminStationsDeviceCertificationIdRoute:
+      RootSuperadminStationsDeviceCertificationIdRoute,
   }
 
 const RootSuperadminStationsRouteRouteWithChildren =
@@ -776,6 +794,7 @@ export interface FileRoutesByFullPath {
   '/stations/': typeof RootSuperadminStationsIndexRoute
   '/system/': typeof RootSuperadminSystemIndexRoute
   '/users/': typeof RootSuperadminUsersIndexRoute
+  '/stations/device-certification/$id': typeof RootSuperadminStationsDeviceCertificationIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -804,6 +823,7 @@ export interface FileRoutesByTo {
   '/stations': typeof RootSuperadminStationsIndexRoute
   '/system': typeof RootSuperadminSystemIndexRoute
   '/users': typeof RootSuperadminUsersIndexRoute
+  '/stations/device-certification/$id': typeof RootSuperadminStationsDeviceCertificationIdRoute
 }
 
 export interface FileRoutesById {
@@ -844,6 +864,7 @@ export interface FileRoutesById {
   '/_root/_superadmin/stations/': typeof RootSuperadminStationsIndexRoute
   '/_root/_superadmin/system/': typeof RootSuperadminSystemIndexRoute
   '/_root/_superadmin/users/': typeof RootSuperadminUsersIndexRoute
+  '/_root/_superadmin/stations/device-certification/$id': typeof RootSuperadminStationsDeviceCertificationIdRoute
 }
 
 export interface FileRouteTypes {
@@ -883,6 +904,7 @@ export interface FileRouteTypes {
     | '/stations/'
     | '/system/'
     | '/users/'
+    | '/stations/device-certification/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -910,6 +932,7 @@ export interface FileRouteTypes {
     | '/stations'
     | '/system'
     | '/users'
+    | '/stations/device-certification/$id'
   id:
     | '__root__'
     | '/'
@@ -948,6 +971,7 @@ export interface FileRouteTypes {
     | '/_root/_superadmin/stations/'
     | '/_root/_superadmin/system/'
     | '/_root/_superadmin/users/'
+    | '/_root/_superadmin/stations/device-certification/$id'
   fileRoutesById: FileRoutesById
 }
 
@@ -1074,7 +1098,8 @@ export const routeTree = rootRoute
       "children": [
         "/_root/_superadmin/stations/create",
         "/_root/_superadmin/stations/root-certificate",
-        "/_root/_superadmin/stations/"
+        "/_root/_superadmin/stations/",
+        "/_root/_superadmin/stations/device-certification/$id"
       ]
     },
     "/_root/_superadmin/system": {
@@ -1175,6 +1200,10 @@ export const routeTree = rootRoute
     "/_root/_superadmin/users/": {
       "filePath": "_root/_superadmin/users/index.tsx",
       "parent": "/_root/_superadmin/users"
+    },
+    "/_root/_superadmin/stations/device-certification/$id": {
+      "filePath": "_root/_superadmin/stations/device-certification/$id.tsx",
+      "parent": "/_root/_superadmin/stations"
     }
   }
 }

@@ -147,56 +147,48 @@ function RouteComponent() {
 
   return (
     <div className="w-full h-full flex flex-col overflow-y-auto px-1">
-      <div className="w-full flex flex-col mb-5">
-        <Label className="text-xl font-semibold">Station List</Label>
-        <h3 className="text-sm font-medium text-[#545454] dark:text-gray-200">
-          Manage all stations across the platform.
-        </h3>
-      </div>
-      <div className="flex flex-col lg:flex-row gap-5 h-full">
-        <div className="flex flex-col w-full lg:w-1/3 gap-4 mb-8">
-          <div className="p-4 rounded-lg border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Total Stations</p>
-                <p className="text-2xl font-bold">{stations.length}</p>
-              </div>
-              <Shield className="w-8 h-8" />
-            </div>
+      <div className="w-full flex items-center mb-5">
+        <div className="flex w-full items-start justify-between flex-col gap-2">
+          <Label className="text-xl font-semibold">Station List</Label>
+          <h3 className="text-sm font-medium text-[#545454] dark:text-gray-200">
+            Manage all stations across the platform.
+          </h3>
+        </div>
+        <div className="flex items-center justify-end-safe me-3 w-full gap-6">
+          <div>
+            <p className="text-sm text-gray-600">Total Stations</p>
+            <p className="text-2xl font-bold">{stations.length}</p>
           </div>
-          <div className="p-4 rounded-lg border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Connected</p>
-                <p className="text-2xl font-bold">{stations.filter((s) => s.status === "connected").length}</p>
-              </div>
-              <Wifi className="w-8 h-8" />
-            </div>
+          <div>
+            <p className="text-sm text-gray-600">Connected</p>
+            <p className="text-2xl font-bold">
+              {stations.filter((s) => s.status === "connected").length}
+            </p>
           </div>
-          <div className="p-4 rounded-lg border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">With Certificates</p>
-                <p className="text-2xl font-bold">
-                  {stations.filter((s) => s.deviceCertificate && s.privateKey).length}
-                </p>
-              </div>
-              <FileText className="w-8 h-8" />
-            </div>
+          <div>
+            <p className="text-sm text-gray-600">With Certificates</p>
+            <p className="text-2xl font-bold">
+              {
+                stations.filter((s) => s.deviceCertificate && s.privateKey)
+                  .length
+              }
+            </p>
           </div>
-          <div className="p-4 rounded-lg border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Errors</p>
-                <p className="text-2xl font-bold">{stations.filter((s) => s.status === "error").length}</p>
-              </div>
-              <AlertTriangle className="w-8 h-8" />
-            </div>
+          <div>
+            <p className="text-sm text-gray-600">Errors</p>
+            <p className="text-2xl font-bold">
+              {stations.filter((s) => s.status === "error").length}
+            </p>
           </div>
         </div>
+      </div>
+      <div className="flex flex-col lg:flex-row gap-5 h-full">
         <div className="lg:col-span-2 rounded-lg border min-h-0 w-full">
           <div className="h-full overflow-y-auto">
-            <StationTable stations={mockStations} onDelete={handleDeleteStation} />
+            <StationTable
+              stations={mockStations}
+              onDelete={handleDeleteStation}
+            />
           </div>
         </div>
       </div>

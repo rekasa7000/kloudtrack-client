@@ -1,8 +1,8 @@
 import * as React from "react";
-import { User, Login, LoginResponse } from "@/api/client/types";
 import { Loader2 } from "lucide-react";
 import { checkAuth } from "@/hooks/queries/auth-queries";
 import { useLoginMutation, useLogoutMutation } from "./mutations/auth-mutations";
+import { Login, LoginResponse, User } from "@/types/auth";
 
 export interface AuthContext {
   isAuthenticated: boolean;
@@ -19,7 +19,6 @@ const AuthContext = React.createContext<AuthContext | null>(null);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { data: user, isLoading } = checkAuth();
   const isAuthenticated = !!user;
-
   const loginMutation = useLoginMutation();
   const logoutMutation = useLogoutMutation();
 

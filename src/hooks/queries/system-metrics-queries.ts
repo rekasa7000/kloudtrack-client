@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { SYSTEM_METRICS_KEYS } from "./query-keys";
-import { fetchCurrentMetrics, fetchHistoricalMetrics } from "../../api/services/system-metrics-service";
+import { fetchCurrentMetrics, fetchHistoricalMetrics } from "@/api/services/system-metrics-service";
 
 export const useCurrentHealth = (): UseQueryResult<HealthMetricsResponse> => {
   return useQuery({
