@@ -20,15 +20,16 @@ import { FieldInfo } from "@/utils/field-info";
 import { useGetAllOrganization } from "@/hooks/queries/organization-query";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { useCreateUser } from "@/hooks/mutations/user-mutations";
 
 interface FormValues {
   firstName: string;
   lastName: string;
   email: string;
-  username: string;
+  userName: string;
   phone: string;
   role: string;
-  organization: string;
+  organizationId: string; // Changed from string | undefined to string
   password: string;
   confirmPassword: string;
 }
@@ -38,6 +39,8 @@ const CreateUser = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
   const { data: organizations } = useGetAllOrganization();
+  const { mutateAsync: createUser } = useCreateUser();
+
   const totalSteps = 3;
 
   const form = useForm({
@@ -45,15 +48,20 @@ const CreateUser = () => {
       firstName: "",
       lastName: "",
       email: "",
-      username: "",
+      userName: "",
       phone: "",
       role: "USER",
-      organization: "",
+      organizationId: "",
       password: "",
       confirmPassword: "",
     },
     onSubmit: async ({ value }) => {
-      console.log("Form Data:", value);
+      const updatedValue = {
+        ...value,
+        organization: value.organizationId ? +value.organizationId : undefined,
+      };
+      console.log(updatedValue);
+      await createUser(updatedValue);
     },
   });
 
@@ -78,7 +86,7 @@ const CreateUser = () => {
         const firstNameValid = formValues.firstName && formValues.firstName.length >= 2;
         const lastNameValid = formValues.lastName && formValues.lastName.length >= 2;
         const emailValid = formValues.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formValues.email);
-        const usernameValid = formValues.username && formValues.username.length > 0;
+        const usernameValid = formValues.userName && formValues.userName.length > 0;
         const phoneValid = formValues.phone && formValues.phone.length >= 10;
 
         if (firstNameValid && lastNameValid && emailValid && usernameValid && phoneValid) return true;
@@ -212,7 +220,7 @@ const CreateUser = () => {
             </form.Field>
 
             <form.Field
-              name="username"
+              name="userName"
               validators={{
                 onChange: ({ value }) => {
                   if (!value) return "Username is required";
@@ -343,7 +351,7 @@ const CreateUser = () => {
             {!organizations ? (
               <div>Loading</div>
             ) : (
-              <form.Field name="organization">
+              <form.Field name="organizationId">
                 {(field) => (
                   <div className="space-y-2">
                     <Label htmlFor="organization" className="text-sm font-medium">

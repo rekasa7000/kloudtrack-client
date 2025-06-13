@@ -14,4 +14,5 @@ export const ORGANIZATION = {
 
 export const USERS = {
   USERS_BY_ORGANIZATION: "users_by_organization",
+  USERS_LIST: "user_list",
 };
