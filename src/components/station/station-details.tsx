@@ -14,7 +14,7 @@ const StationDetails = ({ station }: StationDetailsProps) => {
       <div className="space-y-4 w-full">
         <h4 className="font-medium text-gray-900">Basic Information</h4>
         <div className="space-y-2 text-sm">
-          <div className="flex gap-3 w-full justify-center">
+          <div className="flex gap-3 w-full justify-start">
             <Avatar className="size-20">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
@@ -25,7 +25,9 @@ const StationDetails = ({ station }: StationDetailsProps) => {
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
                   {getStatusIcon(station.status)}
-                  <span className={`px-2 py-1 text-xs rounded-full border ${getStatusColor(station.status)}`}>
+                  <span
+                    className={`px-2 py-1 text-xs rounded-full border ${getStatusColor(station.status)}`}
+                  >
                     {station.status}
                   </span>
                 </div>
@@ -56,7 +58,9 @@ const StationDetails = ({ station }: StationDetailsProps) => {
           {station.elevation && (
             <div className="flex justify-between">
               <span className="text-gray-600">Location:</span>
-              <span className="font-medium">{station.location || "Not set"}</span>
+              <span className="font-medium">
+                {station.location || "Not set"}
+              </span>
             </div>
           )}
           <div className="flex justify-between">
@@ -65,7 +69,9 @@ const StationDetails = ({ station }: StationDetailsProps) => {
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">Last Seen:</span>
-            <span className="font-medium">{station.lastSeen ? formatDate(station.lastSeen) : "Never"}</span>
+            <span className="font-medium">
+              {station.lastSeen ? formatDate(station.lastSeen) : "Never"}
+            </span>
           </div>
         </div>
       </div>
@@ -73,19 +79,27 @@ const StationDetails = ({ station }: StationDetailsProps) => {
         <h4 className="font-medium text-gray-900">Certificate Details:</h4>
         <div className="flex justify-between">
           <span className="text-gray-600">Certificate ARN:</span>
-          <span className="font-medium">{station.certificate.certificateArn || "Not set"}</span>
+          <span className="font-medium">
+            {station.certificate.certificateArn || "Not set"}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Certificate ID:</span>
-          <span className="font-medium">{station.certificate.certificateId || "Not set"}</span>
+          <span className="font-medium">
+            {station.certificate.certificateId || "Not set"}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Subject:</span>
-          <span className="font-medium">{station.certificate.subject || "Not set"}</span>
+          <span className="font-medium">
+            {station.certificate.subject || "Not set"}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Isuser:</span>
-          <span className="font-medium">{station.certificate.issuer || "Not set"}</span>
+          <span className="font-medium">
+            {station.certificate.issuer || "Not set"}
+          </span>
         </div>
         <div className="space-y-3">
           <div className="p-3 border rounded-lg">
@@ -100,7 +114,9 @@ const StationDetails = ({ station }: StationDetailsProps) => {
             {station.deviceCertificate ? (
               <div className="text-xs text-gray-600">
                 <p>{station.deviceCertificate.name}</p>
-                <p>Uploaded: {formatDate(station.deviceCertificate.uploadedAt)}</p>
+                <p>
+                  Uploaded: {formatDate(station.deviceCertificate.uploadedAt)}
+                </p>
                 <p>Uploaded: {formatDate(station.certificate.expiresAt)}</p>
               </div>
             ) : (

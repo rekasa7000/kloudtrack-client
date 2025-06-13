@@ -17,8 +17,8 @@ export const loginService = async (user: Login): Promise<LoginResponse> => {
 };
 
 export const checkAuthService = async (): Promise<User> => {
-  const response = await axiosInstance.get("auth/check-auth");
-  return response.data;
+  // const response = await axiosInstance.get("auth/check-auth");
+  // return response.data;
   return {
     createdAt: new Date("2025-05-27T05:59:08.489Z"),
     email: "superadmin@example.com",

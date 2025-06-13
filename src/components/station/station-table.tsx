@@ -348,7 +348,8 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
                   <DropdownMenuItem asChild>
                     <Dialog>
                       <DialogTrigger className="w-full text-left px-2 py-1.5 text-sm">
-                        <Eye className="mr-2 h-4 w-4 inline" /> View Details
+                        <Eye className="mr-2 h-4 w-4 inline text-blue-500" />{" "}
+                        View Details
                       </DialogTrigger>
                       <DialogContent className="w-full min-w-sm lg:min-w-5xl min-h-[50vh] overflow-hidden flex flex-col justify-start">
                         <DialogHeader className="mb-0 pb-0">
@@ -368,14 +369,15 @@ const StationTable = ({ stations, onDelete }: StationTableProps) => {
                       params={{ id: station.id }}
                       className="w-full text-left px-2 py-1.5 text-sm"
                     >
-                      <FilePlus className="mr-2 h-4 w-4 inline" /> Add
-                      Certificate
+                      <FilePlus className="mr-1 h-4 w-4 inline text-green-500" />{" "}
+                      Add Certificate
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Dialog>
                       <DialogTrigger className="w-full text-left px-2 py-1.5 text-sm">
-                        <Edit className="mr-2 h-4 w-4 inline" /> Edit Station
+                        <Edit className="mr-2 h-4 w-4 inline text-gray-500" />{" "}
+                        Edit Station
                       </DialogTrigger>
                       <DialogContent className="min-w-sm lg:min-w-[960px] flex flex-col gap-1">
                         <DialogHeader className="font-semibold">

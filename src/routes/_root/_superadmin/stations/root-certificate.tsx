@@ -15,7 +15,9 @@ import {
 import RootCertificateTable from "@/components/certificates/root-certificates-table";
 import AddRootCertificate from "@/components/forms/station/add-root-certificate";
 
-export const Route = createFileRoute("/_root/_superadmin/stations/root-certificate")({
+export const Route = createFileRoute(
+  "/_root/_superadmin/stations/root-certificate"
+)({
   component: RouteComponent,
 });
 
@@ -56,7 +58,11 @@ function RouteComponent() {
   ]);
 
   const toggleCertificateStatus = (id: string) => {
-    setCertificates((prev) => prev.map((cert) => (cert.id === id ? { ...cert, isActive: !cert.isActive } : cert)));
+    setCertificates((prev) =>
+      prev.map((cert) =>
+        cert.id === id ? { ...cert, isActive: !cert.isActive } : cert
+      )
+    );
   };
 
   const deleteCertificate = (id: string) => {
@@ -68,17 +74,20 @@ function RouteComponent() {
       <div className="mb-2 space-y-2 flex flex-row w-full">
         <div className="w-full flex flex-col">
           <Label className="text-xl font-semibold">Root Certificates</Label>
-          <h3 className="text-sm font-medium">Trusted CA cert for secure AWS IoT connections.</h3>
+          <h3 className="text-sm font-medium">
+            Trusted CA cert for secure AWS IoT connections.
+          </h3>
         </div>
         <Dialog>
           <DialogTrigger asChild>
             <Button variant={"outline"}>Add Root Certificate</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="sm:max-w-2xl max-h-[95%] h-full overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Add Root Certificate</DialogTitle>
               <DialogDescription>
-                Upload your Amazon Root CA from AWS IoT core and input the required fields.
+                Upload your Amazon Root CA from AWS IoT core and input the
+                required fields.
               </DialogDescription>
             </DialogHeader>
             <AddRootCertificate />
@@ -100,7 +109,9 @@ function RouteComponent() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm">Active</p>
-                <p className="text-2xl font-bold">{certificates.filter((c) => c.isActive).length}</p>
+                <p className="text-2xl font-bold">
+                  {certificates.filter((c) => c.isActive).length}
+                </p>
               </div>
               <CheckCircle className="w-8 h-8" />
             </div>
@@ -109,7 +120,9 @@ function RouteComponent() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm">Inactive</p>
-                <p className="text-2xl font-bold">{certificates.filter((c) => !c.isActive).length}</p>
+                <p className="text-2xl font-bold">
+                  {certificates.filter((c) => !c.isActive).length}
+                </p>
               </div>
               <ShieldAlert className="w-8 h-8" />
             </div>

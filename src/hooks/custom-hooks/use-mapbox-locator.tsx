@@ -21,7 +21,9 @@ export const useMapboxLocator = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const markerRef = useRef<mapboxgl.Marker | null>(null);
 
-  const [lngLat, setLngLat] = useState<{ lng: number; lat: number } | null>(null);
+  const [lngLat, setLngLat] = useState<{ lng: number; lat: number } | null>(
+    null
+  );
   const [mapLoaded, setMapLoaded] = useState(false);
   const [locationInfo, setLocationInfo] = useState<LocationInfo | null>(null);
   const [loadingLocation, setLoadingLocation] = useState(false);
@@ -48,13 +50,20 @@ export const useMapboxLocator = () => {
         const locationData: LocationInfo = {
           place_name: feature.place_name,
           text: feature.text,
-          country: context.find((c: any) => c.id.startsWith("country"))?.text || "",
-          region: context.find((c: any) => c.id.startsWith("region"))?.text || "",
-          district: context.find((c: any) => c.id.startsWith("district"))?.text || "",
+          country:
+            context.find((c: any) => c.id.startsWith("country"))?.text || "",
+          region:
+            context.find((c: any) => c.id.startsWith("region"))?.text || "",
+          district:
+            context.find((c: any) => c.id.startsWith("district"))?.text || "",
           place: context.find((c: any) => c.id.startsWith("place"))?.text || "",
-          locality: context.find((c: any) => c.id.startsWith("locality"))?.text || "",
-          neighborhood: context.find((c: any) => c.id.startsWith("neighborhood"))?.text || "",
-          postcode: context.find((c: any) => c.id.startsWith("postcode"))?.text || "",
+          locality:
+            context.find((c: any) => c.id.startsWith("locality"))?.text || "",
+          neighborhood:
+            context.find((c: any) => c.id.startsWith("neighborhood"))?.text ||
+            "",
+          postcode:
+            context.find((c: any) => c.id.startsWith("postcode"))?.text || "",
         };
 
         setLocationInfo(locationData);

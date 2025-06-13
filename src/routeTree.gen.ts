@@ -29,6 +29,7 @@ import { Route as RootProfileEditProfileImport } from './routes/_root/profile/ed
 import { Route as RootDashboardMapImport } from './routes/_root/dashboard/map'
 import { Route as RootDashboardHistoricalImport } from './routes/_root/dashboard/historical'
 import { Route as RootDashboardDataAnalysisImport } from './routes/_root/dashboard/data-analysis'
+import { Route as RootConfigurationApiDocumentationImport } from './routes/_root/configuration/api-documentation'
 import { Route as RootSuperadminUsersRouteImport } from './routes/_root/_superadmin/users/route'
 import { Route as RootSuperadminSystemRouteImport } from './routes/_root/_superadmin/system/route'
 import { Route as RootSuperadminStationsRouteImport } from './routes/_root/_superadmin/stations/route'
@@ -155,6 +156,13 @@ const RootDashboardDataAnalysisRoute = RootDashboardDataAnalysisImport.update({
   path: '/data-analysis',
   getParentRoute: () => RootDashboardRouteRoute,
 } as any)
+
+const RootConfigurationApiDocumentationRoute =
+  RootConfigurationApiDocumentationImport.update({
+    id: '/api-documentation',
+    path: '/api-documentation',
+    getParentRoute: () => RootConfigurationRouteRoute,
+  } as any)
 
 const RootSuperadminUsersRouteRoute = RootSuperadminUsersRouteImport.update({
   id: '/users',
@@ -394,6 +402,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/users'
       preLoaderRoute: typeof RootSuperadminUsersRouteImport
       parentRoute: typeof RootSuperadminRouteImport
+    }
+    '/_root/configuration/api-documentation': {
+      id: '/_root/configuration/api-documentation'
+      path: '/api-documentation'
+      fullPath: '/configuration/api-documentation'
+      preLoaderRoute: typeof RootConfigurationApiDocumentationImport
+      parentRoute: typeof RootConfigurationRouteImport
     }
     '/_root/dashboard/data-analysis': {
       id: '/_root/dashboard/data-analysis'
@@ -670,11 +685,14 @@ const RootSuperadminRouteRouteWithChildren =
   RootSuperadminRouteRoute._addFileChildren(RootSuperadminRouteRouteChildren)
 
 interface RootConfigurationRouteRouteChildren {
+  RootConfigurationApiDocumentationRoute: typeof RootConfigurationApiDocumentationRoute
   RootConfigurationIndexRoute: typeof RootConfigurationIndexRoute
 }
 
 const RootConfigurationRouteRouteChildren: RootConfigurationRouteRouteChildren =
   {
+    RootConfigurationApiDocumentationRoute:
+      RootConfigurationApiDocumentationRoute,
     RootConfigurationIndexRoute: RootConfigurationIndexRoute,
   }
 
@@ -773,6 +791,7 @@ export interface FileRoutesByFullPath {
   '/stations': typeof RootSuperadminStationsRouteRouteWithChildren
   '/system': typeof RootSuperadminSystemRouteRouteWithChildren
   '/users': typeof RootSuperadminUsersRouteRouteWithChildren
+  '/configuration/api-documentation': typeof RootConfigurationApiDocumentationRoute
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/historical': typeof RootDashboardHistoricalRoute
   '/dashboard/map': typeof RootDashboardMapRoute
@@ -802,6 +821,7 @@ export interface FileRoutesByTo {
   '': typeof RootSuperadminRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
   '/not-authorized': typeof RootNotAuthorizedRoute
+  '/configuration/api-documentation': typeof RootConfigurationApiDocumentationRoute
   '/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/dashboard/historical': typeof RootDashboardHistoricalRoute
   '/dashboard/map': typeof RootDashboardMapRoute
@@ -843,6 +863,7 @@ export interface FileRoutesById {
   '/_root/_superadmin/stations': typeof RootSuperadminStationsRouteRouteWithChildren
   '/_root/_superadmin/system': typeof RootSuperadminSystemRouteRouteWithChildren
   '/_root/_superadmin/users': typeof RootSuperadminUsersRouteRouteWithChildren
+  '/_root/configuration/api-documentation': typeof RootConfigurationApiDocumentationRoute
   '/_root/dashboard/data-analysis': typeof RootDashboardDataAnalysisRoute
   '/_root/dashboard/historical': typeof RootDashboardHistoricalRoute
   '/_root/dashboard/map': typeof RootDashboardMapRoute
@@ -883,6 +904,7 @@ export interface FileRouteTypes {
     | '/stations'
     | '/system'
     | '/users'
+    | '/configuration/api-documentation'
     | '/dashboard/data-analysis'
     | '/dashboard/historical'
     | '/dashboard/map'
@@ -911,6 +933,7 @@ export interface FileRouteTypes {
     | ''
     | '/login'
     | '/not-authorized'
+    | '/configuration/api-documentation'
     | '/dashboard/data-analysis'
     | '/dashboard/historical'
     | '/dashboard/map'
@@ -950,6 +973,7 @@ export interface FileRouteTypes {
     | '/_root/_superadmin/stations'
     | '/_root/_superadmin/system'
     | '/_root/_superadmin/users'
+    | '/_root/configuration/api-documentation'
     | '/_root/dashboard/data-analysis'
     | '/_root/dashboard/historical'
     | '/_root/dashboard/map'
@@ -1038,6 +1062,7 @@ export const routeTree = rootRoute
       "filePath": "_root/configuration/route.tsx",
       "parent": "/_root",
       "children": [
+        "/_root/configuration/api-documentation",
         "/_root/configuration/"
       ]
     },
@@ -1116,6 +1141,10 @@ export const routeTree = rootRoute
         "/_root/_superadmin/users/create",
         "/_root/_superadmin/users/"
       ]
+    },
+    "/_root/configuration/api-documentation": {
+      "filePath": "_root/configuration/api-documentation.tsx",
+      "parent": "/_root/configuration"
     },
     "/_root/dashboard/data-analysis": {
       "filePath": "_root/dashboard/data-analysis.tsx",

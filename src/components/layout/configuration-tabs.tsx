@@ -1,24 +1,27 @@
-import { ReactNode } from "react";
-import { Link, useMatchRoute, useLocation } from "@tanstack/react-router";
+import { useMatchRoute, useLocation, Link } from "@tanstack/react-router";
+import React, { ReactNode } from "react";
 
 const tabs = [
-  { name: "Real-time", url: "/dashboard" as const },
-  { name: "Analysis", url: "/dashboard/data-analysis" as const },
-  { name: "Map", url: "/dashboard/map" as const },
+  { name: "API Configuration", url: "/configuration" as const },
+  {
+    name: " Documentation",
+
+    url: "/configuration/api-documentation" as const,
+  },
 ];
 
-const DashboardTabs = (): ReactNode => {
+const ConfigurationTabs = (): ReactNode => {
   const matchRoute = useMatchRoute();
   const location = useLocation();
 
   return (
-    <div className="flex h-auto mt-5 w-full items-center bg-background justify-start gap-2 mb-2 border-b">
+    <div className="flex flex-col min-h-fit mt-5 w-fit items-start bg-background justify-start gap-2 mb-2 ">
       {tabs.map((tab, index) => {
         let isActive = false;
 
-        if (tab.url === "/dashboard") {
+        if (tab.url === "/configuration") {
           isActive =
-            matchRoute({ to: "/dashboard" }) &&
+            matchRoute({ to: "/configuration" }) &&
             !location.pathname.startsWith("/stations/");
         }
         isActive = !!matchRoute({ to: tab.url });
@@ -40,4 +43,4 @@ const DashboardTabs = (): ReactNode => {
   );
 };
 
-export default DashboardTabs;
+export default ConfigurationTabs;
