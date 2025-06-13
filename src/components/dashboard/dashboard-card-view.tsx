@@ -6,7 +6,7 @@ const DashboardCardView = () => {
   const navigate = useNavigate();
   const navigateToHistorical = () => {
     navigate({ to: "/dashboard/historical" });
-  }
+  };
   return (
     <main className="w-full min-h-svh mt-1">
       <div className="w-full min-h-[550px] h-full inline-flex flex-col justify-start items-start gap-2.5">
@@ -21,7 +21,10 @@ const DashboardCardView = () => {
               />
             </div>
 
-            <div className="w-full inline-flex  flex-col justify-start items-start gap-3.5 cursor-pointer" onClick={navigateToHistorical}>
+            <div
+              className="w-full inline-flex  flex-col justify-start items-start gap-3.5 cursor-pointer"
+              onClick={navigateToHistorical}
+            >
               {/* image */}
               <div className="w-full h-60 px-5 py-6 relative rounded-md inline-flex justify-start items-end gap-2.5 overflow-hidden">
                 <img
@@ -46,21 +49,25 @@ const DashboardCardView = () => {
                   </div>
                 </div>
                 <div className="right-10 bottom-10 z-10 absolute">
-                  <span className="text-white text-5xl font-bold font-montserrat">40 </span>
-                  <span className="text-white text-4xl font-medium font-montserrat">°C</span>
+                  <span className="text-white text-5xl font-bold font-montserrat">
+                    40{" "}
+                  </span>
+                  <span className="text-white text-4xl font-medium font-montserrat">
+                    °C
+                  </span>
                 </div>
               </div>
-
               {/* details */}
-              <div className="w-full grid grid-cols-4 grid-rows-2 items-start gap-3.5 flex-wrap content-start">
-                <div className="w-40 h-36 bg-zinc-300 rounded-[10px]" />
-                <div className="w-40 h-36 bg-zinc-300 rounded-[10px]" />
-                <div className="w-40 h-36 bg-zinc-300 rounded-[10px]" />
-                <div className="w-40 h-36 bg-zinc-300 rounded-[10px]" />
-                <div className="w-40 h-36 bg-zinc-300 rounded-[10px]" />
-                <div className="w-40 h-36 bg-zinc-300 rounded-[10px]" />
-                <div className="w-40 h-36 bg-zinc-300 rounded-[10px]" />
-                <div className="w-40 h-36 bg-zinc-300 rounded-[10px]" />
+
+              <div className="w-full grid grid-cols-4 grid-rows-2 gap-3.5">
+                <div className="bg-blue-300 rounded-[10px] aspect-square" />
+                <div className="bg-blue-300 rounded-[10px] aspect-square" />
+                <div className="bg-blue-300 rounded-[10px] aspect-square" />
+                <div className="bg-blue-300 rounded-[10px] aspect-square" />
+                <div className="bg-blue-300 rounded-[10px] aspect-square" />
+                <div className="bg-blue-300 rounded-[10px] aspect-square" />
+                <div className="bg-blue-300 rounded-[10px] aspect-square" />
+                <div className="bg-blue-300 rounded-[10px] aspect-square" />
               </div>
             </div>
           </div>

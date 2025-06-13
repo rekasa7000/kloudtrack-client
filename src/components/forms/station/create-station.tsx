@@ -141,7 +141,10 @@ export const CreateStation = () => {
               onChangeAsyncDebounceMs: 500,
               onChangeAsync: async ({ value }) => {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
-                return value.includes("error") && 'No "error" allowed in station name';
+                return (
+                  value.includes("error") &&
+                  'No "error" allowed in station name'
+                );
               },
             }}
             children={(field) => {
@@ -161,7 +164,7 @@ export const CreateStation = () => {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       placeholder="Enter station name"
-                      className="col-span-3"
+                      className="col-span-3 py-6"
                     />
                   </div>
                 </>
@@ -172,11 +175,15 @@ export const CreateStation = () => {
           <form.Field
             name="stationType"
             validators={{
-              onChange: ({ value }) => (!value ? "A Station Type is required" : undefined),
+              onChange: ({ value }) =>
+                !value ? "A Station Type is required" : undefined,
               onChangeAsyncDebounceMs: 500,
               onChangeAsync: async ({ value }) => {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
-                return value.includes("error") && 'No "error" allowed in station type';
+                return (
+                  value.includes("error") &&
+                  'No "error" allowed in station type'
+                );
               },
             }}
             children={(field) => {
@@ -189,8 +196,12 @@ export const CreateStation = () => {
                       </Label>
                       <FieldInfo field={field} />
                     </div>
-                    <Select name={field.name} value={field.state.value} onValueChange={field.handleChange}>
-                      <SelectTrigger>
+                    <Select
+                      name={field.name}
+                      value={field.state.value}
+                      onValueChange={field.handleChange}
+                    >
+                      <SelectTrigger className="py-6">
                         <SelectValue placeholder="Select station type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -228,7 +239,7 @@ export const CreateStation = () => {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       placeholder="Leave blank if unknown"
-                      className="col-span-3"
+                      className="col-span-3 py-6"
                     />
                   </div>
                   <FieldInfo field={field} />
@@ -240,11 +251,15 @@ export const CreateStation = () => {
           <form.Field
             name="firmwareId"
             validators={{
-              onChange: ({ value }) => (!value ? "A Firmware Version is required" : undefined),
+              onChange: ({ value }) =>
+                !value ? "A Firmware Version is required" : undefined,
               onChangeAsyncDebounceMs: 500,
               onChangeAsync: async ({ value }) => {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
-                return value.includes("error") && 'No "error" allowed in firmware version';
+                return (
+                  value.includes("error") &&
+                  'No "error" allowed in firmware version'
+                );
               },
             }}
             children={(field) => {
@@ -257,8 +272,12 @@ export const CreateStation = () => {
                       </Label>
                       <FieldInfo field={field} />
                     </div>
-                    <Select name={field.name} value={field.state.value} onValueChange={field.handleChange}>
-                      <SelectTrigger>
+                    <Select
+                      name={field.name}
+                      value={field.state.value}
+                      onValueChange={field.handleChange}
+                    >
+                      <SelectTrigger className="py-6">
                         <SelectValue placeholder="Select firmware version" />
                       </SelectTrigger>
                       <SelectContent className="h-63">
@@ -266,7 +285,10 @@ export const CreateStation = () => {
                           <SelectGroup key={group.label}>
                             <SelectLabel>{group.label}</SelectLabel>
                             {group.versions.map((version) => (
-                              <SelectItem key={version.id} value={version.id.toString()}>
+                              <SelectItem
+                                key={version.id}
+                                value={version.id.toString()}
+                              >
                                 Version {version.label.replace(/^v/, "")}
                               </SelectItem>
                             ))}
@@ -296,7 +318,7 @@ export const CreateStation = () => {
                         name={field.name}
                         value={field.state.value}
                         readOnly
-                        className="col-span-3 bg-gray-50"
+                        className="col-span-3 bg-gray-50 py-6 "
                       />
                       <FieldInfo field={field} />
                     </div>
@@ -316,7 +338,7 @@ export const CreateStation = () => {
                         name={field.name}
                         value={field.state.value}
                         readOnly
-                        className="col-span-3 bg-gray-50"
+                        className="col-span-3 bg-gray-50 py-6"
                       />
                       <FieldInfo field={field} />
                     </div>
@@ -341,7 +363,7 @@ export const CreateStation = () => {
                         name={field.name}
                         value={field.state.value}
                         readOnly
-                        className="col-span-3 bg-gray-50"
+                        className="col-span-3 bg-gray-50 py-6"
                       />
                       <FieldInfo field={field} />
                     </div>
@@ -362,7 +384,7 @@ export const CreateStation = () => {
                         name={field.name}
                         value={field.state.value}
                         readOnly
-                        className="col-span-3 bg-gray-50"
+                        className="col-span-3 bg-gray-50 py-6"
                       />
                       <FieldInfo field={field} />
                     </div>
@@ -383,7 +405,7 @@ export const CreateStation = () => {
                         name={field.name}
                         value={field.state.value}
                         readOnly
-                        className="col-span-3 bg-gray-50"
+                        className="col-span-3 bg-gray-50 py-6"
                       />
                       <FieldInfo field={field} />
                     </div>
@@ -404,7 +426,7 @@ export const CreateStation = () => {
                         name={field.name}
                         value={field.state.value}
                         readOnly
-                        className="col-span-3 bg-gray-50"
+                        className="col-span-3 bg-gray-50 py-6"
                       />
                       <FieldInfo field={field} />
                     </div>
@@ -415,11 +437,16 @@ export const CreateStation = () => {
           )}
         </div>
 
-        <div className="space-y-2 w-full col-span-3">
+        <div className="space-y-2 w-full col-span-3 ">
           <Label>Location</Label>
-          <p className="text-sm text-gray-600">Click on the map to select the station location</p>
+          <p className="text-sm text-gray-600">
+            Click on the map to select the station location
+          </p>
 
-          <div ref={mapContainer} className="h-[600px] w-full rounded-lg border-2 border-gray-300 bg-gray-100 relative">
+          <div
+            ref={mapContainer}
+            className="h-[600px]  w-full rounded-lg border-2 border-gray-300 bg-gray-100 relative"
+          >
             {!mapLoaded && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
                 <div className="text-center">
