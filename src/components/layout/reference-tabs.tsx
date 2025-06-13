@@ -4,12 +4,12 @@ import { Link, useMatchRoute, useLocation } from "@tanstack/react-router";
 const tabs = [
   { name: "All", url: "/references" as const },
   { name: "Heat Index", url: "/references/terminology/heatindex" },
-   { name: "Wind Speed", url: "/references/terminology/windspeed"},
+  { name: "Wind Speed", url: "/references/terminology/windspeed" },
   { name: "Rainfall", url: "/references/terminology/rainfall" },
   { name: "UV Index", url: "/references/terminology/uvindex" },
 ];
 
-const ReferenceTabs = (): ReactNode => {
+const ReferenceTabs: React.FC = () => {
   const matchRoute = useMatchRoute();
   const location = useLocation();
 
@@ -19,7 +19,7 @@ const ReferenceTabs = (): ReactNode => {
         let isActive = false;
 
         if (tab.url === "/references") {
-          isActive = matchRoute({ to: "/references" }) && !location.pathname.startsWith("/references/");
+          isActive = matchRoute({ to: "/references" }) && !location.pathname.startsWith("/references/terminology");
         }
         isActive = !!matchRoute({ to: tab.url });
 
