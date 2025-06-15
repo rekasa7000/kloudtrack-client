@@ -13,19 +13,33 @@ import { getOrganizationQueryOptions } from "@/hooks/queries/organization-query"
 import { queryClient } from "@/lib/queryClient";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { ListFilter, Search } from "lucide-react";
-import { useState } from "react";
+import { ListFilter, Loader2, Search } from "lucide-react";
+import { Suspense, useState } from "react";
 import { useGetUsersByOrganizationId } from "@/hooks/queries/user-queries";
 
+function LoadingSpinner() {
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <Loader2 className="animate-spin" />
+    </div>
+  );
+}
+
 export const Route = createFileRoute("/_root/_superadmin/organizations/")({
-  loader: () => queryClient.ensureQueryData(getOrganizationQueryOptions),
-  component: RouteComponent,
+  loader: async () => {
+    await queryClient.ensureQueryData(getOrganizationQueryOptions);
+  },
+  component: () => (
+    <Suspense fallback={<LoadingSpinner />}>
+      <RouteComponent />
+    </Suspense>
+  ),
 });
 
 function RouteComponent() {
   const { data: organizationData } = useSuspenseQuery(getOrganizationQueryOptions);
   const [selectedTenant, setSelectedTenant] = useState(organizationData.data[0]);
-  const { data: usersData } = useGetUsersByOrganizationId(selectedTenant.id);
+  const { data: usersData, isLoading } = useGetUsersByOrganizationId(selectedTenant.id);
 
   function handleSelectTenant(tenant: any) {
     setSelectedTenant(tenant);
@@ -73,8 +87,8 @@ function RouteComponent() {
       </div>
       <div className="grid w-full relative grid-cols-1 gap-4 mt-2 md:grid-cols-[40%_60%]">
         <OrganizationList items={organizations} onSelect={handleSelectTenant} />
-        {!usersData ? (
-          <div>No Users Data</div>
+        {isLoading || !usersData ? (
+          <LoadingSpinner />
         ) : (
           <OrganizationDetails
             users={usersData.users}

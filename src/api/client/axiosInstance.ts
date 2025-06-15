@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 export interface ApiResponse<T = any> {
   success: boolean;
@@ -20,6 +20,18 @@ const axiosInstance = axios.create({
   },
 });
 
+axiosInstance.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    if (config.data instanceof FormData) {
+      delete config.headers["Content-Type"];
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse<ApiResponse>) => {
     if (response.data && typeof response.data === "object" && "success" in response.data) {
@@ -37,10 +49,8 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401) {
       console.warn("Unauthorized. You might need to log in again.");
     }
-
     if (error.response?.data && typeof error.response.data === "object") {
       const errorData = error.response.data;
-
       const enhancedError = {
         ...error,
         message: errorData.message || error.message || "An error occurred",
@@ -48,10 +58,8 @@ axiosInstance.interceptors.response.use(
         statusCode: error.response.status,
         data: errorData.data || null,
       };
-
       return Promise.reject(enhancedError);
     }
-
     return Promise.reject(error);
   }
 );

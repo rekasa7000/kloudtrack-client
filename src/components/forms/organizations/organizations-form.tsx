@@ -33,16 +33,22 @@ const OrganizationForm = () => {
       description: "",
     },
     onSubmit: async ({ value }) => {
+      console.log("=== FRONTEND FORM SUBMISSION ===");
+      console.log("Form values:", value);
+      console.log("Files array:", files);
+
       const formData = new FormData();
-      formData.append("organizationName", value.name);
+      formData.append("name", value.name);
       formData.append("description", value.description);
       if (files[0]) {
         if (files[0].file instanceof File) {
+          console.log("Adding file to formData:", files[0].file);
           formData.append("displayPicture", files[0].file);
-        } else {
-          formData.append("displayPictureId", files[0].file.id);
-          formData.append("displayPictureUrl", files[0].file.url);
         }
+      }
+
+      for (const value of formData.values()) {
+        console.log(value);
       }
       await createOrganization(formData);
     },
@@ -132,24 +138,24 @@ const OrganizationForm = () => {
               validators={{
                 onChange: ({ value }) =>
                   !value
-                    ? "First name is required"
+                    ? "Organization name is required"
                     : value.length < 2
-                      ? "First name must be at least 2 characters"
+                      ? "Organization name must be at least 2 characters"
                       : undefined,
               }}
             >
               {(field) => (
                 <div className="space-y-2">
-                  <Label htmlFor="firstName" className="text-sm font-medium">
-                    First Name
+                  <Label htmlFor={field.name} className="text-sm font-medium">
+                    Organization Name
                   </Label>
                   <Input
-                    id="firstName"
+                    id={field.name}
                     type="text"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
-                    placeholder="Enter your first name"
+                    placeholder="Enter organization name"
                     className={`w-full ${field.state.meta.errors.length ? "border-red-500" : ""}`}
                   />
                   <FieldInfo field={field} />
@@ -157,24 +163,14 @@ const OrganizationForm = () => {
               )}
             </form.Field>
 
-            <form.Field
-              name="description"
-              validators={{
-                onChange: ({ value }) =>
-                  !value
-                    ? "Last name is required"
-                    : value.length < 2
-                      ? "Last name must be at least 2 characters"
-                      : undefined,
-              }}
-            >
+            <form.Field name="description">
               {(field) => (
                 <div className="space-y-2">
-                  <Label htmlFor="lastName" className="text-sm font-medium">
-                    Last Name
+                  <Label htmlFor={field.name} className="text-sm font-medium">
+                    Description
                   </Label>
                   <Textarea
-                    id="lastName"
+                    id={field.name}
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                     onBlur={field.handleBlur}
